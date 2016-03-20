@@ -1,6 +1,6 @@
 # 考试报名
 
-![circle ci](https://circleci.com/gh/swumao/exam-enroll.svg?style=shield&circle-token=b14acf911433d315298235b0c2fbf7b2670a92a8)
+[![circle ci](https://circleci.com/gh/swumao/exam-enroll.svg?style=shield&circle-token=b14acf911433d315298235b0c2fbf7b2670a92a8)](https://circleci.com/gh/swumao/exam-enroll)
 现阶段还在开发，部署完成之后可以使用以下功能：
 
 - 上传excel文件并根据配置返回数组格式的文件。
