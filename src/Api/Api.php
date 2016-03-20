@@ -14,8 +14,10 @@ class Api {
     const UNPROCESABLE_ENTITY = 422;    // POST/PUT/PATCH 当创建一个对象时，发生一个验证错误
     const INTERNAL_SERVER_ERROR = 500;  // * 服务器发生错误，用户将无法判断发出的请求是否成功。
 
-    public function sendJson($data){
-        echo json_encode($data);
+    protected $result = array();
+
+    public function sendJson(){
+        echo json_encode($this->result);
     }
 }
 ?>

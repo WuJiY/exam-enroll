@@ -9,15 +9,15 @@
                 "rules" : {
                     "id" : "A",
                     "student_number" : "B",
-                    "name" : 3,
-                    "sex" : 4,
-                    "nation" : 5,
-                    "id_card_number" : 6,
-                    "telephone_number" : 7,
-                    "college" : 8,
-                    "grade" : 9,
-                    "major" : 10,
-                    "class" : 11
+                    "name" : "C",
+                    "sex" : "D",
+                    "nation" : "E",
+                    "id_card_number" : "F",
+                    "telephone_number" : "G",
+                    "college" : "H",
+                    "grade" : "I",
+                    "major" : "J",
+                    "class" : "K"
                 },
                 "exts" : {
                     "xls" : true
@@ -25,38 +25,38 @@
             },
             "import_payment_condition" : {
                 "rules" : {
-                    "id" : 1,
-                    "student_number" : 2,
-                    "name" : 3,
-                    "sex" : 4,
-                    "nation" : 5,
-                    "id_card_number" : 6,
-                    "telephone_number" : 7,
-                    "college" : 8,
-                    "grade" : 9,
-                    "major" : 10,
-                    "class" : 11,
-                    "chalk" : 12,
-                    "pen" : 13,
-                    "writing_brush" : 14
+                    "id" : "A",
+                    "student_number" : "B",
+                    "name" : "C",
+                    "sex" : "D",
+                    "nation" : "E",
+                    "id_card_number" : "F",
+                    "telephone_number" : "G",
+                    "college" : "H",
+                    "grade" : "I",
+                    "major" : "J",
+                    "class" : "K",
+                    "chalk" : "L",
+                    "pen" : "M",
+                    "writing_brush" : "N"
                 }
             },
             "import_score_information" : {
                 "rules" : {
-                    "id" : 1,
-                    "student_number" : 2,
-                    "name" : 3,
-                    "sex" : 4,
-                    "nation" : 5,
-                    "id_card_number" : 6,
-                    "telephone_number" : 7,
-                    "college" : 8,
-                    "grade" : 9,
-                    "major" : 10,
-                    "class" : 11,
-                    "chalk" : 12,
-                    "pen" : 13,
-                    "writing_brush" : 14
+                    "id" : "A",
+                    "student_number" : "B",
+                    "name" : "C",
+                    "sex" : "D",
+                    "nation" : "E",
+                    "id_card_number" : "F",
+                    "telephone_number" : "G",
+                    "college" : "H",
+                    "grade" : "I",
+                    "major" : "J",
+                    "class" : "K",
+                    "chalk" : "L",
+                    "pen" : "M",
+                    "writing_brush" : "N"
                 }
             }
         }

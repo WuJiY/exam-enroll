@@ -45,7 +45,7 @@ class ExcelImport {
                     return \PHPExcel_IOFactory::createReader('Excel2007');
                     break;
                 default:
-                    throw new \Exception('暂时不支持 ' . $ext_name . ' 的扩展名称');
+                    throw new \Exception('暂时不支持 ' . $ext_name . ' 的扩展名称', 406);
             }
         }
         // 默认返回Excel5，按照xls格式操作
@@ -63,13 +63,13 @@ class ExcelImport {
         try{
             $phpexcel_reader = $this->getInstance($file);
             if(is_null($phpexcel_reader)){
-                throw new \Exception('获取reader实例失败');
+                throw new \Exception('获取reader实例失败', 500);
             }
         }catch(\Exception $e){
-            throw $e;
+            throw new \Exception($e->getMessage(), 500);
         }
         if(!file_exists($file)){
-            throw new \Exception('文件不存在，无法读取');
+            throw new \Exception('文件不存在，无法读取', 500);
         }
         $this->phpexcel = $phpexcel_reader->load($file);
         return $this;
@@ -116,7 +116,7 @@ class ExcelImport {
     public function getValue(){
         $result = array();
         if(is_null($this->phpexcel)){
-            throw new \Exception('未检测到成功导入的有效文件');
+            throw new \Exception('未检测到成功导入的有效文件', 500);
         }
         if(is_null($this->worksheet_index)){
             foreach($this->phpexcel->getWorksheetIterator() as $key=>$worksheet){

@@ -33,7 +33,7 @@ class Upload {
             $data = $this->getData($file);
             return $data;
         }catch(\Exception $e){
-            throw $e;
+            throw new \Exception($e->getMessage(), 500);
         }
     }
 
