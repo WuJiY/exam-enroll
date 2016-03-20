@@ -1,0 +1,64 @@
+{
+    "import_excel" : {
+        "exts" : {
+            "xls" : true,
+            "xlsx" : true
+        },
+        "rules" : {
+            "import_user_account" : {
+                "rules" : {
+                    "id" : "A",
+                    "student_number" : "B",
+                    "name" : 3,
+                    "sex" : 4,
+                    "nation" : 5,
+                    "id_card_number" : 6,
+                    "telephone_number" : 7,
+                    "college" : 8,
+                    "grade" : 9,
+                    "major" : 10,
+                    "class" : 11
+                },
+                "exts" : {
+                    "xls" : true
+                }
+            },
+            "import_payment_condition" : {
+                "rules" : {
+                    "id" : 1,
+                    "student_number" : 2,
+                    "name" : 3,
+                    "sex" : 4,
+                    "nation" : 5,
+                    "id_card_number" : 6,
+                    "telephone_number" : 7,
+                    "college" : 8,
+                    "grade" : 9,
+                    "major" : 10,
+                    "class" : 11,
+                    "chalk" : 12,
+                    "pen" : 13,
+                    "writing_brush" : 14
+                }
+            },
+            "import_score_information" : {
+                "rules" : {
+                    "id" : 1,
+                    "student_number" : 2,
+                    "name" : 3,
+                    "sex" : 4,
+                    "nation" : 5,
+                    "id_card_number" : 6,
+                    "telephone_number" : 7,
+                    "college" : 8,
+                    "grade" : 9,
+                    "major" : 10,
+                    "class" : 11,
+                    "chalk" : 12,
+                    "pen" : 13,
+                    "writing_brush" : 14
+                }
+            }
+        }
+    }
+}
