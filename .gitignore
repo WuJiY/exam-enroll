@@ -1,4 +1,8 @@
 # composer download path
 /vendor/
-# upload file path 
+# upload file path
 /uploads/
+# smarty compile path
+/web/templates_c/
+# smarty cache path
+/web/cache
