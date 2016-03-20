@@ -1,6 +1,6 @@
 <?php
-include_once '../../src/Lib/ExcelImport.php';
-require '../../vendor/autoload.php';
+include_once __DIR__ . '/../../src/Lib/ExcelImport.php';
+require __DIR__ . '/../../vendor/autoload.php';
 use Kezhi\Lib;
 class ExcelImportTest extends PHPUnit_Framework_TestCase{
     /**
@@ -10,13 +10,7 @@ class ExcelImportTest extends PHPUnit_Framework_TestCase{
         $file = dirname(__DIR__) . '/files/import_user_account.xls';
         $excel_importer = new Kezhi\Lib\ExcelImport($rules, $exts);
         $excel = $excel_importer->import($file);
-        if(empty($excel)){
-            print '.......';
-        }else{
-            $excel->worksheet(0)
-            ->getValue();
-            print_r($result);
-        }
+        $this->assertInstanceOf('\Kezhi\Lib\ExcelImport', $excel);
     }
 
     public function importTypeProvider(){
@@ -26,6 +20,48 @@ class ExcelImportTest extends PHPUnit_Framework_TestCase{
             "etxs_null" =>  [["id"=>1], null],
             "both_exist"    =>  [['id'=>1], ['xls'=>true]]
         );
+    }
+
+    /**
+     * @dataProvider importTypeProvider
+     * @expectedException Exception
+     * @expectedExceptionCode 500
+    */
+    public function testNoFile($rules, $exts){
+        $file = '/files/no_this_file.xls';
+        $excel_importer = new Kezhi\Lib\ExcelImport($rules, $exts);
+        $excel = $excel_importer->import($file);
+    }
+
+    /**
+     * @dataProvider importTypeProvider
+    */
+    public function testWorksheet($rules, $exts){
+        $file = dirname(__DIR__) . '/files/import_user_account.xls';
+        $excel_importer = new Kezhi\Lib\ExcelImport($rules, $exts);
+        $excel = $excel_importer->import($file);
+        $this->assertInstanceOf('\Kezhi\Lib\ExcelImport', $excel->worksheet(0));
+    }
+
+    /**
+     * @dataProvider importTypeProvider
+    */
+    public function testArea($rules, $exts){
+        $file = dirname(__DIR__) . '/files/import_user_account.xls';
+        $excel_importer = new Kezhi\Lib\ExcelImport($rules, $exts);
+        $excel = $excel_importer->import($file);
+        $this->assertInstanceOf('\Kezhi\Lib\ExcelImport', $excel->worksheet(0)->area(0, 5));
+    }
+
+    /**
+     * @dataProvider importTypeProvider
+    */
+    public function testGetValue($rules, $exts){
+        $file = dirname(__DIR__) . '/files/import_user_account.xls';
+        $excel_importer = new Kezhi\Lib\ExcelImport($rules, $exts);
+        $excel = $excel_importer->import($file);
+        $excel->worksheet(0)->area(0, 5);
+        $this->assertTrue(true, is_array($excel->getValue()));
     }
 }
 ?>

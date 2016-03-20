@@ -135,7 +135,7 @@ class ExcelImport {
      * @param PHPExcel $worksheet worksheet对象
      * @return Array 改工作表区域的数组
     */
-    private function getWorksheet($worksheet){
+    private function getWorksheet(&$worksheet){
         $result = array();
         if(empty($this->area)){
             foreach($worksheet->getRowIterator() as $row){
@@ -160,7 +160,7 @@ class ExcelImport {
      * @param Object $row PHPExcel的Row对象
      * @return Array 该行元素的数组
     */
-    private function getRow($row){
+    private function getRow(&$row){
         $result = [];
         if(is_null($this->rules)){
             foreach($row->getCellIterator() as $key=>$cell){

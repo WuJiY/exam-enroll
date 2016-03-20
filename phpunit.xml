@@ -1,0 +1,26 @@
+<phpunit>
+    <testsuites>
+        <testsuite name="excel">
+            <directory>tests</directory>
+            <file>tests/Lib/ExcelImportTest</file>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src/Lib</directory>
+            <directory suffix=".php">src/Common</directory>
+            <directory suffix=".php">src/Model</directory>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-html" target="/tmp/report" lowUpperBound="35" highLowerBound="70"/>
+        <log type="coverage-clover" target="/tmp/coverage.xml"/>
+        <log type="coverage-php" target="/tmp/coverage.serialized"/>
+        <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
+        <log type="json" target="/tmp/logfile.json"/>
+        <log type="tap" target="/tmp/logfile.tap"/>
+        <log type="junit" target="/tmp/logfile.xml" logIncompleteSkipped="false"/>
+        <log type="testdox-html" target="/tmp/testdox.html"/>
+        <log type="testdox-text" target="/tmp/testdox.txt"/>
+    </logging>
+</phpunit>
