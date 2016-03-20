@@ -1,5 +1,7 @@
 # 考试报名
 
+![](https://circleci.com/gh/:swumao/:exam-enroll.svg?style=shield&circle-token=:225c588b53c9fca13d451b7a2c4ef94bea2fc498)
+
 现阶段还在开发，部署完成之后可以使用以下功能：
 
 - 上传excel文件并根据配置返回数组格式的文件。
@@ -56,7 +58,7 @@ composer install # 如果没有安装composer需要先安装
                     "class" : "K"
                 },
                 "exts" : {
-                    "xls" : true //这里的配置将会覆盖上面的配置 
+                    "xls" : true //这里的配置将会覆盖上面的配置
                 }
             },
             "import_payment_condition" : {
