@@ -1,0 +1,4 @@
+# composer download path
+/vendor/
+# upload file path 
+/uploads/
