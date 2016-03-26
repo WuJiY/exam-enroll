@@ -21,5 +21,9 @@ class User extends Controller{
         $this->smarty->assign('name', $conf['common.name']);
         $this->smarty->display('index.tpl');
     }
+
+    public function index(){
+        echo 'Hello world';
+    }
 }
 ?>

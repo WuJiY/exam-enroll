@@ -3,6 +3,8 @@
 namespace Kezhi;
 use FastRoute;
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
+    $r->addRoute('GET', '/', 'User\\index');
+    $r->addRoute('GET', '/index.php', 'User\\index');
     $r->addRoute('GET', '/index.php/users', 'User\\get_all_users_handler');
     $r->addRoute('GET', '/index.php/user/{id:\d+}', 'get_users_handler');
     $r->addRoute('GET', '/index.php/import/student_account', 'Import\\student_account');
