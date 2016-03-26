@@ -5,7 +5,8 @@ use Kezhi\Model;
 /**
  * User Model
  * 封装一些对用户表的操作
- * ```CREATE TABLE user (
+ * ```
+ * CREATE TABLE user (
  * id INT(8) NOT NULL AUTO_INCREMENT COMMENT '用户id',
  * username VARCHAR(45) NOT NULL UNIQUE COMMENT '用户名',
  * password VARCHAR(255) NOT NULL COMMENT '密码',

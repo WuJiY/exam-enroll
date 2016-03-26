@@ -2,7 +2,7 @@
 <phpdoc>
     <title><![CDATA[科智 三字一话 代码手册]]></title>
     <parser>
-        <target>data/output</target>
+        <target>docs/cache</target>
     </parser>
     <transformer>
         <target>docs/</target>
