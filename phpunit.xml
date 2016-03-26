@@ -23,4 +23,10 @@
         <log type="testdox-html" target="/tmp/testdox.html"/>
         <log type="testdox-text" target="/tmp/testdox.txt"/>
     </logging>
+    <php>
+        <var name="DB_DSN" value="mysql:dbname=mao;host=localhost" />
+        <var name="DB_USER" value="user" />
+        <var name="DB_PASSWD" value="passwd" />
+        <var name="DB_DBNAME" value="mao" />
+    </php>
 </phpunit>

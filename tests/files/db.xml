@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<dataset>
+    <table name="mao">
+        <column>id</column>
+        <column>content</column>
+        <column>user</column>
+        <column>created</column>
+        <row>
+            <value>1</value>
+            <value>I like it!</value>
+            <value>joe</value>
+            <value>2010-04-24 17:15:23</value>
+        </row>
+    </table>
+</dataset>

@@ -1,7 +1,16 @@
 <?php
+/** 控制器 */
 namespace Kezhi\Controller;
 use Kezhi;
+/**
+ * User 控制器
+ * 处理用户的相关操作
+ * @author parallel(mao@malatoday.com)
+*/
 class User extends Controller{
+    /**
+     * 测试方法
+    */
     public function get_all_users_handler(){
         global $conf;
         try{

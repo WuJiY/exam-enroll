@@ -6,3 +6,5 @@
 /web/templates_c/
 # smarty cache path
 /web/cache
+# phpdoc path
+/docs

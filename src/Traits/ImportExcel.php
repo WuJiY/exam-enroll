@@ -1,7 +1,9 @@
 <?php
+/** 公共Traits */
 namespace Kezhi\Traits;
 /**
  * 导入表格公用函数
+ *
  * 导入表格公用函数
  */
 trait ImportExcel{

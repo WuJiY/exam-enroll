@@ -1,10 +1,19 @@
 <?php
+/** API */
 namespace Kezhi\Api;
 use Kezhi\Common;
 use Kezhi\Lib as Lib;
+/**
+ * ImportExcel Api
+ * 导入excel表格的api，包括导入用户，导入缴费信息，导入成绩信息
+*/
 class Import extends Api{
     use \Kezhi\Traits\ImportExcel;
-
+    /**
+     * 导入学生账号
+     * 上传excel文件，导入学生账号信息，将返回该excel解析后的数组
+     * @api
+    */
     public function student_account(){
         $upload = new \Kezhi\Common\Upload();
         if(isset($_FILES['student_account_file'])){

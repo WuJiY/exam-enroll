@@ -1,4 +1,5 @@
 <?php
+/** Kezhi */
 namespace Kezhi;
 use FastRoute;
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){

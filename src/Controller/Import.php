@@ -1,4 +1,5 @@
 <?php
+/** 控制器 */
 namespace Kezhi\Controller;
 use Kezhi\Lib as Lib;
 use Kezhi\Common;
@@ -8,10 +9,16 @@ use Kezhi\Common;
 */
 class Import extends Controller{
     use \Kezhi\Traits\ImportExcel;
+    /**
+     * 学生账号导入页面
+    */
     public function student_account(){
         $this->smarty->display('student_account.tpl');
     }
 
+    /**
+     * 学生账号导入操作
+    */
     public function student_account_handle(){
         $upload = new \Kezhi\Common\Upload();
         if(isset($_FILES['student_account_file'])){

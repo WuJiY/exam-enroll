@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+    <title><![CDATA[科智 三字一话 代码手册]]></title>
+    <parser>
+        <target>data/output</target>
+    </parser>
+    <transformer>
+        <target>docs/</target>
+    </transformer>
+    <files>
+        <directory>./src</directory>
+    </files>
+</phpdoc>

@@ -1,9 +1,10 @@
 <?php
+/** 库 */
+namespace Kezhi\Lib;
 /**
  * excel表格导入类库
  * 本类库用来操作excel表格的导入，可以通过设置import_excel_config_file配置项来动态调整导入规则。
 */
-namespace Kezhi\Lib;
 class ExcelImport {
     /** @var Array $rules 导入规则 */
     private $rules = array();
