@@ -1,9 +1,9 @@
 <?php
-use Kezhi\Model;
+require './TestCase.php';
 class UserTest extends TestCase{
 
     public function testAdd(){
-        
+
     }
 
     /**
