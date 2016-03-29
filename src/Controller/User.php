@@ -24,6 +24,7 @@ class User extends Controller{
 
     public function index(){
         echo 'Hello world';
+        echo '$S';
     }
 }
 ?>
