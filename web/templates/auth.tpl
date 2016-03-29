@@ -1,3 +1,6 @@
 {* Smarty *}
+{extends file='layouts/page.tpl'}
+{block name=main}
 
-Hello this is signin page!
+Hello
+{/block}
