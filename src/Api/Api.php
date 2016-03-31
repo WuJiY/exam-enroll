@@ -43,6 +43,16 @@ class Api {
     }
 
     /**
+     * 无效参数请求处理方法
+     * 
+    */
+    protected function invalid_request(){
+        $this->result['status'] = self::INVALID_REQUEST;
+        $this->result['data'] = '无效的参数';
+        $this->sendJson();
+    }
+
+    /**
      * 发送json数据
     */
     public function sendJson(){

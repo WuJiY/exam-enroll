@@ -9,6 +9,10 @@ use Kezhi\Model as Model;
 class Auth extends Api{
     /**
      * 认证用户身份的方法
+     *
+     * @api
+     * @param string username POST方式提交的用户名
+     * @param string password POST方式提交的密码
     */
     public function auth(){
         $username = isset($_POST['username']) ? $_POST['username'] : null;

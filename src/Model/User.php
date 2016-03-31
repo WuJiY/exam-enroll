@@ -50,7 +50,7 @@ class User extends Model{
         $this->validate_username($username);
         $this->validate_password($password);
         $this->encrypt($password);
-        $stmp = $this->db->prepare("UPDATE user SET username=:username password=:password WHERE id=:id");
+        $stmp = $this->db->prepare("UPDATE user SET username=:username , password=:password WHERE id=:id");
         $stmp->bindParam(':username', $username);
         $stmp->bindParam(':password', $password);
         $stmp->bindParam(':id', $id);
@@ -93,6 +93,7 @@ class User extends Model{
      * 根据id/username查询用户，$id值为0表示根据username删除数据
      * @param $id Integer user_id
      * @param $username String username,default is ''
+     * @return mixed 成功时返回查询结果，失败时返回false
     */
     public function query($id, $username = ''){
         if(!is_numeric($id) || $id < 0){
@@ -114,6 +115,13 @@ class User extends Model{
         }
     }
 
+    /**
+     * 查询密码操作
+     * 根据用户id或用户名查询用户密码
+     * @param integer $id 用户id
+     * @param string $username 用户名
+     * @return mixed 成功时返回查询结果，失败时返回false
+    */
     public function query_password($id, $username){
         if(!is_numeric($id) || $id < 0){
             return false;
@@ -133,6 +141,13 @@ class User extends Model{
         }
     }
 
+    /**
+     * 用户认证方法
+     * 根据传入的username和password在数据库中检索是否有对应的用户
+     * @param string $username 用户名
+     * @param string $password 密码
+     * @return mixed 成功时返回查询结果，失败时返回false
+    */
     public function auth($username, $password){
         try{
             $this->validate_username($username);
@@ -199,6 +214,12 @@ class User extends Model{
         $password = $hash;
     }
 
+    /**
+     * 检查用户输入的密码和数据库中存储的密码是否一致
+     * @param string $password 密码
+     * @param string $hash 数据库中存储着的加密后的密码
+     * @return bool 验证成功返回true，否则返回false
+    */
     private function check($password, $hash){
         if(PHP_VERSION < '5.5.0'){
             throw new \Exception('服务器PHP版本太低，至少需要5.5.0，请升级服务器后重新尝试', 500);
