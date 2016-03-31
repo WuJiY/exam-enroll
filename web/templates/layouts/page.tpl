@@ -12,6 +12,7 @@
 <script src="/vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 {/block}
 {block name=body}
+<body>
     {block name=header}
         {block name=navbar}
             {include '../components/navbar.tpl'}
@@ -50,5 +51,5 @@
 <script src="assets/scripts.js"></script>
 </body>
 {/block}
-
+</body>
 {/block}

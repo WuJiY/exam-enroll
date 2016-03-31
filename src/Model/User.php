@@ -1,7 +1,6 @@
 <?php
 /** 模型 */
 namespace Kezhi\Model;
-use Kezhi\Model;
 /**
  * User Model
  * 封装一些对用户表的操作
@@ -109,9 +108,50 @@ class User extends Model{
             $stmp->bindParam(':id', $id);
         }
         if($stmp->execute()){
-
+            return $stmp->fetch();
         }else{
             return false;
+        }
+    }
+
+    public function query_password($id, $username){
+        if(!is_numeric($id) || $id < 0){
+            return false;
+        }
+        $stmp = null;
+        if($id == 0){
+            $stmp = $this->db->prepare("SELECT password FROM user WHERE username=:username");
+            $stmp->bindParam(':username', $username, \PDO::PARAM_STR);
+        }else{
+            $stmp = $this->db->prepare("SELECT password FROM user WHERE id=:id");
+            $stmp->bindParam(':id', $id);
+        }
+        if($stmp->execute()){
+            return $stmp->fetch();
+        }else{
+            return false;
+        }
+    }
+
+    public function auth($username, $password){
+        try{
+            $this->validate_username($username);
+            $this->validate_password($password);
+        }catch(\Exception $e){
+            throw new \Exception($e->getMessage(), 400);
+        }
+        try{
+            $info = $this->query_password(0, $username);
+            if($info === false){
+                throw new \Exception('数据库访问出错', 500);
+            }
+            if($this->check($password, $info['password'])){
+                return true;
+            }else{
+                return false;
+            }
+        }catch(\Exception $e){
+            throw new \Exception($e->getMessage(), 500);
         }
     }
 
@@ -124,7 +164,7 @@ class User extends Model{
         $username = trim($username);
         $preg = "/^([a-z]|[A-Z])(\d|\w){5,15}/";
         if(!preg_match($preg, $username)){
-            throw new \Exception('用户名必须以字母开头，只能包含数字/字母/下划线，长度必须在6-16之间');
+            throw new \Exception('用户名必须以字母开头，只能包含数字/字母/下划线，长度必须在6-16之间', 400);
         }
     }
 
@@ -136,9 +176,9 @@ class User extends Model{
     */
     private function validate_password(&$password){
         $password = trim($password);
-        $preg = "/^(\d|\w)(\d|\w|@|!|#|\$|%|\^|&|*|\(|\)|){7,24}/";
+        $preg = "/^(\d|\w)(\d|\w|@|!|#|\$|%|\^|&|\*|\(|\)){7,23}/";
         if(!preg_match($preg, $password)){
-            throw new \Exception('密码必须是字母或数字开头，只能包含字母/数字/!@#$%^&*()，长度必须在8-24个字符');
+            throw new \Exception('密码必须是字母或数字开头，只能包含字母/数字/!@#$%^&*()，长度必须在8-24个字符', 400);
         }
     }
 
@@ -150,13 +190,23 @@ class User extends Model{
     */
     private function encrypt(&$password){
         if(PHP_VERSION < '5.5.0'){
-            throw new \Exception('服务器PHP版本太低，至少需要5.5.0,请升级服务器后重新尝试');
+            throw new \Exception('服务器PHP版本太低，至少需要5.5.0,请升级服务器后重新尝试', 500);
         }
         $hash = password_hash($password, PASSWORD_DEFAULT);
         if(!$hash){
-            throw new \Exception('加密密码时遇到问题，请稍后再试！');
+            throw new \Exception('加密密码时遇到问题，请稍后再试！', 500);
         }
         $password = $hash;
+    }
+
+    private function check($password, $hash){
+        if(PHP_VERSION < '5.5.0'){
+            throw new \Exception('服务器PHP版本太低，至少需要5.5.0，请升级服务器后重新尝试', 500);
+        }
+        if(password_verify($password, $hash)){
+            return true;
+        }
+        return false;
     }
 }
 ?>

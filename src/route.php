@@ -12,6 +12,8 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('POST', '/index.php/import/student_account', 'Import\\student_account_handle');
 
     $r->addRoute('POST', '/api.php/import/student_account', 'api\\Import\\student_account');
+    $r->addRoute('POST', '/api.php/auth', 'api\\Auth\\auth');
+    $r->addRoute('POST', '/api.php/user/add', 'api\\User\\add');
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];

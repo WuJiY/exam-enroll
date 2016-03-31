@@ -1,3 +1,6 @@
 {* Smarty *}
+{extends file='layouts/page.tpl'}
+{block name=main}
 
-Hello {$name}, welcome to Smarty!
+Hello
+{/block}

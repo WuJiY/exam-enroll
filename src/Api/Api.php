@@ -35,10 +35,22 @@ class Api {
     protected $result = array();
 
     /**
+     * API构造函数
+     * 打开输出缓冲控制，禁止API随意输出数据，只能返回json格式的数据
+    */
+    public function __construct(){
+        ob_start();
+    }
+
+    /**
      * 发送json数据
     */
     public function sendJson(){
+        ob_end_clean();
+        //ob_end_flush();
+        header('Content-type: text/json');
         echo json_encode($this->result);
+        exit;
     }
 }
 ?>

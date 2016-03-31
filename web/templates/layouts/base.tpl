@@ -5,7 +5,10 @@
         <title>{block name=title}默认页面标题{/block}</title>
         {block name=head}{/block}
     </head>
+
+    {block name=body}
     <body>
-        {block name=body}{/block}
     </body>
+    {/block}
+
 </html>
