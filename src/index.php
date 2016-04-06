@@ -3,7 +3,7 @@
  * 入口文件
  *
 */
-
+session_start();
 /** @var String __ROOT__ 项目根目录 */
 define('__ROOT__', __DIR__ . '/../');
 /** @var String __VENDOR__ composer库目录 */

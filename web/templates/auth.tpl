@@ -9,24 +9,28 @@
 <!--[if lt IE 9]>
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
-<script src="/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+<script src="/vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 {/block}
 {block name=body}
 <body id="login">
-<div class="container">
+   <div style="height:150px;width:100%;background-color:#0051CC;text-align:center"></div>
 
-  <form class="form-signin">
-    <h2 class="form-signin-heading">Please sign in</h2>
-    <input type="text" class="input-block-level" placeholder="Email address">
-    <input type="password" class="input-block-level" placeholder="Password">
-    <label class="checkbox">
-      <input type="checkbox" value="remember-me"> Remember me
-    </label>
-    <button class="btn btn-large btn-primary" type="submit">Sign in</button>
-  </form>
+  <div class="container" style="margin-top:50px" >
 
-</div> <!-- /container -->
-<script src="/vendors/jquery-1.9.1.min.js"></script>
-<script src="/bootstrap/js/bootstrap.min.js"></script>
+    <form class="form-signin" id="auth">
+      <h2 class="form-signin-heading">用户登录</h2>
+      <input type="text" class="input-block-level" name="username" placeholder="请在此输入您的用户名">
+      <input type="password" class="input-block-level" name="password" placeholder="请在此输入您的密码">
+      <label class="checkbox">
+        <input type="checkbox" id="rememberme" name="rememberme" value="remember-me">记住我
+      </label>
+      <button id="auth-btn" class="btn btn-large btn-primary" type="button">登陆</button>
+    </form>
+
+  </div> <!-- /container -->
+  <script src="/vendors/jquery-1.9.1.min.js"></script>
+  <script src="/vendors/carhartl-jquery-cookie/jquery.cookie.js"></script>
+  <script src="/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/js/request.js"></script>
 </body>
 {/block}

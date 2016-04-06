@@ -37,7 +37,7 @@ class Upload {
      * @return Array 上传后的文件属性
     */
     public function excel($key){
-        $this->storage = new \Upload\Storage\FileSystem($this->upload_dir);
+        $this->storage = new \Upload\Storage\FileSystem($this->upload_dir . 'temp/');
         $file = new \Upload\File($key, $this->storage);
         $file->setName($this->getName());
         $file->addValidations(array(
@@ -60,6 +60,26 @@ class Upload {
      * @param $key String 表单中的name属性值
     */
     public function image($key){
+        $this->storage = new \Upload\Storage\FileSystem($this->upload_dir . 'images/');
+        $file = new \Upload\File($key, $this->storage);
+        $file->setName($this->getName());
+        $file->addValidations(array(
+            new \Upload\Validation\Extension(array('xls', 'xlsx')),
+            new \Upload\Validation\Size('10M')
+        ));
+        try{
+            $file->upload();
+            $data = $this->getData($file);
+            return $data;
+        }catch(\Exception $e){
+            throw new \Exception($e->getMessage(), 500);
+        }
+    }
+
+    /**
+     *
+    */
+    public function zip($key){
 
     }
 

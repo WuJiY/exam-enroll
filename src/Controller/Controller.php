@@ -17,6 +17,7 @@ class Controller{
         $this->smarty->setCompileDir(__WEB__ . 'templates_c/');
         $this->smarty->setConfigDir(__WEB__ . 'configs/');
         $this->smarty->setCacheDir(__WEB__ . 'cache/');
+        session_id($_COOKIE['PHPSESSID']);
     }
 }
 ?>

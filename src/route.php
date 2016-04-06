@@ -6,8 +6,10 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('GET', '/', 'User\\index');
     $r->addRoute('GET', '/index.php', 'User\\index');
     $r->addRoute('GET', '/index.php/auth', 'Auth\\signIn');
+    $r->addRoute('GET', '/index.php/auth/out', 'Auth\\signOut');
     $r->addRoute('GET', '/index.php/users', 'User\\get_all_users_handler');
     $r->addRoute('GET', '/index.php/user/{id:\d+}', 'get_users_handler');
+    $r->addRoute('GET', '/index.php/user', 'User\\index');
     $r->addRoute('GET', '/index.php/import/student_account', 'Import\\student_account');
     $r->addRoute('POST', '/index.php/import/student_account', 'Import\\student_account_handle');
 

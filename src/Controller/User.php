@@ -23,8 +23,8 @@ class User extends Controller{
     }
 
     public function index(){
-        echo 'Hello world';
-        echo '$S';
+        $this->smarty->assign('username', $_SESSION['username']);
+        $this->smarty->display('user.tpl');
     }
 }
 ?>

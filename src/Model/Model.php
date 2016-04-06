@@ -8,7 +8,7 @@ namespace Kezhi\Model;
 */
 class Model {
     /** @var Object $db PDO实例 */
-    protected $db;
+    static protected $db;
     /** @var String $dsn 数据库源 */
     protected $dsn;
     /**
@@ -32,7 +32,7 @@ class Model {
      * 释放数据库连接
     */
     public function __destruct(){
-        $this->db = null;
+        // $this->db = null;
     }
 }
 ?>

@@ -25,7 +25,9 @@ class Auth extends Api{
         $user = new Model\User();
         try{
             if($user->auth($username, $password)){
-                session_id(md5($username));
+                $md5 = md5($username);
+                session_id($md5);;
+                setcookie('session_id', $md5);
                 $_SESSION['username'] = $username;
                 $this->result['status'] = parent::CREATED;
                 $this->result['data'] = [
