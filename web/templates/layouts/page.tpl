@@ -5,6 +5,7 @@
 <link href="/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
 <link href="/vendors/easypiechart/jquery.easy-pie-chart.css" rel="stylesheet" media="screen">
 <link href="/assets/styles.css" rel="stylesheet" media="screen">
+<link href="/css/validation.css" rel="stylesheet">
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -47,8 +48,13 @@
 <!--/.fluid-container-->
 <script src="/vendors/jquery-1.9.1.min.js"></script>
 <script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/vendors/layer2/layer.js"></script>
 <script src="/vendors/easypiechart/jquery.easy-pie-chart.js"></script>
+<script src="/vendors/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="/vendors/jquery-validation/localization/messages_zh.js"></script>
 <script src="/assets/scripts.js"></script>
+<script src="/js/validate.js"></script>
+<script src="/js/request.js"></script>
 </body>
 {/block}
 </body>

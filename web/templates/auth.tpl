@@ -29,6 +29,7 @@
 
   </div> <!-- /container -->
   <script src="/vendors/jquery-1.9.1.min.js"></script>
+  <script src="/vendors/layer2/layer.js"></script>
   <script src="/vendors/carhartl-jquery-cookie/jquery.cookie.js"></script>
   <script src="/bootstrap/js/bootstrap.min.js"></script>
   <script src="/js/request.js"></script>
