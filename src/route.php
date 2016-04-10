@@ -15,6 +15,9 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('GET', '/index.php/profile', 'User\\profile');
     $r->addRoute('GET', '/index.php/modify_photo', 'User\\modify_photo');
     $r->addRoute('GET', '/index.php/change_password', 'User\\change_password');
+    $r->addRoute('GET', '/index.php/enroll_info', 'Enroll\\index');
+    $r->addRoute('GET', '/index.php/enroll', 'Enroll\\enroll');
+    $r->addRoute('GET', '/index.php/score', 'Score\\index');
 
     $r->addRoute('POST', '/api.php/import/student_account', 'api\\Import\\student_account');
     $r->addRoute('POST', '/api.php/auth', 'api\\Auth\\auth');

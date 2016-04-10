@@ -32,25 +32,25 @@
                     </li>
                 </ul>
                 <ul class="nav">
-                    <li class="active">
+                    <li class="{if $navbar_active eq 'index'}active{/if}">
                         <a href="/index.php/user">首页</a>
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown {if $navbar_active eq 'enroll'}active{/if}">
                         <a href="#" data-toggle="dropdown" class="dropdown-toggle">考试报名<b class="caret"></b>
 
                         </a>
                         <ul class="dropdown-menu" id="menu1">
 
                             <li>
-                                <a href="#">报名</a>
+                                <a href="/index.php/enroll">报名</a>
                             </li>
                             <li>
-                                <a href="#">查看报名情况</a>
+                                <a href="/index.php/enroll_info">查看报名情况</a>
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="#">成绩查询</a>
+                    <li class="{if $navbar_active eq 'score'}active{/if}">
+                        <a href="/index.php/score">成绩查询</a>
                     </li>
                 </ul>
             </div>

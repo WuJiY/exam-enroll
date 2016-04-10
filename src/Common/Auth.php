@@ -16,7 +16,10 @@ class Auth {
             '/\/index.php\/profile/',
             '/\/index.php\/change_password/',
             '/\/index.php\/modify_photo/',
-            '/\/api.php\/user\/change_password/'
+            '/\/api.php\/user\/change_password/',
+            '/\/index.php\/enroll$/',
+            '/\/index.php\/enroll_info/',
+            '/\/index.php\/score/'
         ],
         'teacher'   =>  [
             '/\/index.php\/user/',
