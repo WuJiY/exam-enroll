@@ -64,7 +64,7 @@ class Upload {
         $file = new \Upload\File($key, $this->storage);
         $file->setName($this->getName());
         $file->addValidations(array(
-            new \Upload\Validation\Extension(array('xls', 'xlsx')),
+            new \Upload\Validation\Extension(array('jpg', 'png')),
             new \Upload\Validation\Size('10M')
         ));
         try{
@@ -80,7 +80,20 @@ class Upload {
      *
     */
     public function zip($key){
-
+        $this->storage = new \Upload\Storage\FileSystem($this->upload_dir . 'zips/');
+        $file = new \Upload\File($key, $this->storage);
+        $file->setName($this->getName());
+        $file->addValidations(array(
+            new \Upload\Validation\Extension(array('zip')),
+            new \Upload\Validation\Size('100M')
+        ));
+        try{
+            $file->upload();
+            $data = $this->getData($file);
+            return $data;
+        }catch(\Exception $e){
+            throw new \Exception($e->getMessage(), 500);
+        }
     }
 
     /**

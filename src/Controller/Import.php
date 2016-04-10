@@ -15,28 +15,4 @@ class Import extends Controller{
     public function student_account(){
         $this->smarty->display('student_account.tpl');
     }
-
-    /**
-     * 学生账号导入操作
-    */
-    public function student_account_handle(){
-        $upload = new \Kezhi\Common\Upload();
-        if(isset($_FILES['student_account_file'])){
-            try{
-                $file = $upload->excel('student_account_file');
-                $config = $this->getConfig('import_user_account');
-                $excel_importer = new Lib\ExcelImport($config['rules'], $config['exts']);
-                $excel = $excel_importer->import($file['dir'] . $file['name']);
-                $result = $excel
-                ->worksheet(0)
-                ->area(0,3)
-                ->getValue();
-                print_r($result);
-            }catch(\Exception $e){
-                echo $e->getMessage();
-            }
-        }else{
-            echo 'ghj';
-        }
-    }
 }

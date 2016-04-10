@@ -24,15 +24,29 @@ class Auth extends Api{
         }
         $user = new Model\User();
         try{
-            if($user->auth($username, $password)){
-                $md5 = md5($username);
-                session_id($md5);;
-                setcookie('session_id', $md5);
+            $info = $user->auth($username, $password);
+            if($info !== false){
+                $md5 = session_id();
                 $_SESSION['username'] = $username;
+                switch($info['role']){
+                    case Model\User::ADMIN:
+                        $_SESSION['role'] = 'admin';
+                        break;
+                    case Model\User::TEACHER:
+                        $_SESSION['role'] = 'teacher';
+                        break;
+                    case Model\User::STUDENT:
+                        $_SESSION['role'] = 'student';
+                        break;
+                    default:
+                        $_SESSION['role'] = 'student';
+                        break;
+                }
                 $this->result['status'] = parent::CREATED;
                 $this->result['data'] = [
                     'desc'  =>  '认证成功',
-                    'url'   =>  '/index.php/user'
+                    'url'   =>  '/index.php/user',
+                    'token' =>  $md5
                 ];
             }else{
                 $this->result['status'] = parent::NOT_FOUND;

@@ -11,7 +11,7 @@ function request(){
         var password = $('input[name=password]').val();
         var rememberme = $('input[name=rememberme]:checked').val();
         console.info('rememberme is ' + rememberme);
-        if(rememberme != 'undefined'){
+        if(rememberme == 'remember-me'){
             $.cookie('rememberme', true, {expires: 7});
             $.cookie('username', username, {expires : 7});
             $.cookie('password', password, {expires : 7});
@@ -27,7 +27,7 @@ function request(){
         }, function(data, state){
             if(state == 'success'){
                 if(data.status == 201){
-                    window.location = data.data.url;
+                    window.location = data.data.url + '?token=' + data.data.token;
                 }else{
                     alert(data.status + " : " + data.data);
                     $('input').removeAttr('disabled');

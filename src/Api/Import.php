@@ -24,7 +24,6 @@ class Import extends Api{
                 $excel = $excel_importer->import($file['dir'] . $file['name']);
                 $result = $excel
                 ->worksheet(0)
-                ->area(0,3)
                 ->getValue();
                 $this->result['status'] = 201;
                 $this->result['data'] = $result;

@@ -9,11 +9,15 @@ namespace Kezhi\Model;
  * id INT(8) NOT NULL AUTO_INCREMENT COMMENT '用户id',
  * username VARCHAR(45) NOT NULL UNIQUE COMMENT '用户名',
  * password VARCHAR(255) NOT NULL COMMENT '密码',
+ * role INT(8) NOT NULL DEFAULT 0 COMMENT '角色',
  * PRIMARY KEY(id)
  *)DEFAULT CHARSET=utf8 COMMENT='用户表';
  * ```
 */
 class User extends Model{
+    const ADMIN = 2;
+    const STUDENT = 0;
+    const TEACHER = 2;
     /**
      * 新增用户
      * 新增一条记录
@@ -21,13 +25,14 @@ class User extends Model{
      * @param $password String password
      * @return bool
     */
-    public function add($username, $password){
+    public function add($username, $password, $role = self::STUDENT){
         $this->validate_username($username);
         $this->validate_password($password);
         $this->encrypt($password);
-        $stmp = $this->db->prepare("INSERT INTO user (username, password) VALUES (:username, :password)");
+        $stmp = $this->db->prepare("INSERT INTO user (username, password, role) VALUES (:username, :password, :role)");
         $stmp->bindParam(':username', $username);
         $stmp->bindParam(':password', $password);
+        $stmp->bindParam(':role', $role);
         if($stmp->execute()){
             return true;
         }else{
@@ -43,16 +48,17 @@ class User extends Model{
      * @param $password String $password
      * @return bool
     */
-    public function update($id, $username, $password){
+    public function update($id, $username, $password, $role = self::STUDENT){
         if(!is_numeric($id) || $id <= 0){
             return false;
         }
         $this->validate_username($username);
         $this->validate_password($password);
         $this->encrypt($password);
-        $stmp = $this->db->prepare("UPDATE user SET username=:username , password=:password WHERE id=:id");
+        $stmp = $this->db->prepare("UPDATE user SET username=:username , password=:password, role=:role WHERE id=:id");
         $stmp->bindParam(':username', $username);
         $stmp->bindParam(':password', $password);
+        $stmp->bindParam(':role', $role);
         $stmp->bindParam(':id', $id);
         if($stmp->execute()){
             return true;
@@ -161,7 +167,7 @@ class User extends Model{
                 throw new \Exception('数据库访问出错', 500);
             }
             if($this->check($password, $info['password'])){
-                return true;
+                return $this->query(0, $username);
             }else{
                 return false;
             }
