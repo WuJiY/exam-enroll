@@ -20,6 +20,7 @@ class User extends Controller{
      * 用户个人信息页面
     */
     public function profile(){
+        $this->smarty->assign('left_nav_active', 'profile');
         $this->smarty->display('profile.tpl');
     }
 
@@ -27,6 +28,7 @@ class User extends Controller{
      * 修改照片页面
     */
     public function modify_photo(){
+        $this->smarty->assign('left_nav_active', 'modify_photo');
         $this->smarty->display('modify_photo.tpl');
     }
 
@@ -34,6 +36,7 @@ class User extends Controller{
      * 修改密码页面
     */
     public function change_password(){
+        $this->smarty->assign('left_nav_active', 'change_password');
         $this->smarty->display('change_password.tpl');
     }
 }

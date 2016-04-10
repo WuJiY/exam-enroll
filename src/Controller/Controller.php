@@ -22,15 +22,23 @@ class Controller{
         $this->checkAuth();
     }
 
+    /**
+     * 检查权限
+    */
     protected function checkAuth(){
         $auth = new \Kezhi\Common\Auth;
         if($auth->check() === false){
             $this->redirect('/index.php/auth');
         }else{
-            
+
         }
     }
 
+    /**
+     * 重定向操作
+     *
+     * @param string $url 重定向到哪里
+    */
     private function redirect($url){
         header('Location: ' . $url);
         exit;

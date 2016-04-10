@@ -19,7 +19,7 @@
                             </li>
                             <li class="divider"></li>
                             <li>
-                                <a tabindex="-1" href="/index.php/modify_photol">修改照片</a>
+                                <a tabindex="-1" href="/index.php/modify_photo">修改照片</a>
                             </li>
                             <li>
                                 <a tabindex="-1" href="/index.php/change_password">修改密码</a>
