@@ -28,6 +28,7 @@ class Auth extends Api{
             if($info !== false){
                 $md5 = session_id();
                 $_SESSION['username'] = $username;
+                $_SESSION['uid'] = $info['id'];
                 switch($info['role']){
                     case Model\User::ADMIN:
                         $_SESSION['role'] = 'admin';

@@ -15,7 +15,8 @@ class Auth {
             '/\/index.php$/',
             '/\/index.php\/profile/',
             '/\/index.php\/change_password/',
-            '/\/index.php\/modify_photo/'
+            '/\/index.php\/modify_photo/',
+            '/\/api.php\/user\/change_password/'
         ],
         'teacher'   =>  [
             '/\/index.php\/user/',

@@ -13,30 +13,27 @@
              <form class="form-horizontal">
               <fieldset>
                   <legend>修改密码</legend>
-
-
-
                 <div class="control-group">
                   <label class="control-label" for="focusedInput">输入原密码</label>
                   <div class="controls">
-                    <input class="input-xlarge focused" id="focusedInput" type="text" placeholder="当前密码">
+                    <input class="input-xlarge focused" id="focusedInput" type="password" placeholder="当前密码">
                   </div>
                 </div>
                 <div class="control-group">
                   <label class="control-label" for="focusedInput">输入新密码</label>
                   <div class="controls">
-                    <input class="input-xlarge focused" id="focusedInput" type="text" placeholder="新的密码">
+                    <input class="input-xlarge focused" id="focusedInput" type="password" placeholder="新的密码">
                   </div>
                 </div>
                 <div class="control-group">
                   <label class="control-label" for="focusedInput">再次输入</label>
                   <div class="controls">
-                    <input class="input-xlarge focused" id="focusedInput" type="text" placeholder="重复新密码">
+                    <input class="input-xlarge focused" id="focusedInput" type="password" placeholder="重复新密码">
                   </div>
                 </div>
                 <div class="form-actions" >
 
-               <button class="btn btn-primary"> &nbsp&nbsp&nbsp保存&nbsp&nbsp&nbsp </button>
+               <button class="btn btn-primary" type="button"> &nbsp&nbsp&nbsp保存&nbsp&nbsp&nbsp </button>
 
                 </div>
               </fieldset>

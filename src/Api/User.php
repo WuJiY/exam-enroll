@@ -96,5 +96,44 @@ class User extends Api {
         }
         $this->sendJson();
     }
+
+    /**
+     * 修改密码API
+     * 如果提交的旧密码是正确的则更新新密码
+     * @api
+     * @param string old POST 方式提交的旧密码
+     * @param string new POST方式提交的新密码
+    */
+    public function change_password(){
+        $old = isset($_POST['old_password']) ? $_POST['old_password'] : null;
+        $new = isset($_POST['new_password']) ? $_POST['new_password'] : null;
+        if(is_null($old) || is_null($new)){
+            $this->invalid_request();
+        }
+        $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
+        $id = isset($_SESSION['uid']) ? $_SESSION['uid'] : null;
+        if(is_null($username) || is_null($id)){
+            $this->forbidden_request();
+        }
+        $user = new Model\User();
+        try{
+            if($user->auth($username, $old) === false){
+                $this->result['status'] = parent::OK;
+                $this->result['data'] = '输入的原密码有误';
+            }else{
+                if($user->update($id, $username, $new) === false){
+                    $this->result['status'] = parent::INTERNAL_SERVER_ERROR;
+                    $this->result['data'] = '由未知原因导致的服务器错误';
+                }else{
+                    $this->result['status'] = parent::CREATED;
+                    $this->result['data'] = '修改密码成功';
+                }
+            }
+        }catch(\Exception $e){
+            $this->result['status'] = $e->getCode();
+            $this->result['data'] = $e->getMessage();
+        }
+        $this->sendJson();
+    }
 }
 ?>

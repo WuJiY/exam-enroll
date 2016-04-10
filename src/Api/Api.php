@@ -40,16 +40,37 @@ class Api {
     */
     public function __construct(){
         ob_start();
+        $this->checkAuth();
     }
 
     /**
      * 无效参数请求处理方法
-     * 
+     *
     */
     protected function invalid_request(){
         $this->result['status'] = self::INVALID_REQUEST;
         $this->result['data'] = '无效的参数';
         $this->sendJson();
+    }
+
+    protected function forbidden_request(){
+        $this->result['status'] = self::FORBIDDEN;
+        $this->result['data'] = '访问被禁止，请刷新页面后重试';
+        $this->sendJson();
+    }
+
+    /**
+     * 检查权限
+    */
+    protected function checkAuth(){
+        $auth = new \Kezhi\Common\Auth;
+        if($auth->check() === false){
+            $this->result['status'] = self::UNAUTHORIZED;
+            $this->result['data'] = '你没有权限进行此操作';
+            $this->sendJson();
+        }else{
+
+        }
     }
 
     /**
