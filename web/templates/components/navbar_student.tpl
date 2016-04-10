@@ -6,7 +6,7 @@
              <span class="icon-bar"></span>
              <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="/index.php">Logo</a>
+            <a class="brand" href="/index.php">“三字一话”</a>
             <div class="nav-collapse collapse">
                 <ul class="nav pull-right">
                     <li class="dropdown">
@@ -15,14 +15,14 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a tabindex="-1" href="#">个人信息</a>
+                                <a tabindex="-1" href="/index.php/profile">个人信息</a>
                             </li>
                             <li class="divider"></li>
                             <li>
-                                <a tabindex="-1" href="login.html">修改照片</a>
+                                <a tabindex="-1" href="/index.php/modify_photol">修改照片</a>
                             </li>
                             <li>
-                                <a tabindex="-1" href="login.html">修改密码</a>
+                                <a tabindex="-1" href="/index.php/change_password">修改密码</a>
                             </li>
                             <li class="divider"></li>
                             <li>
@@ -33,7 +33,7 @@
                 </ul>
                 <ul class="nav">
                     <li class="active">
-                        <a href="#">首页</a>
+                        <a href="/index.php/user">首页</a>
                     </li>
                     <li class="dropdown">
                         <a href="#" data-toggle="dropdown" class="dropdown-toggle">考试报名<b class="caret"></b>

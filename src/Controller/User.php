@@ -9,23 +9,32 @@ use Kezhi;
 */
 class User extends Controller{
     /**
-     * 测试方法
+     * 用户首页
     */
-    public function get_all_users_handler(){
-        global $conf;
-        try{
-            $Model = new Kezhi\Model\Model();
-        }catch(\PDOException $e){
-            echo $e->getMessage();
-        }
-        $this->smarty->assign('name', $conf['common.name']);
-        $this->smarty->display('index.tpl');
-    }
-
     public function index(){
-        var_dump($_SESSION);
         $this->smarty->assign('username', $_SESSION['username']);
         $this->smarty->display('user.tpl');
+    }
+
+    /**
+     * 用户个人信息页面
+    */
+    public function profile(){
+        $this->smarty->display('profile.tpl');
+    }
+
+    /**
+     * 修改照片页面
+    */
+    public function modify_photo(){
+        $this->smarty->display('modify_photo.tpl');
+    }
+
+    /**
+     * 修改密码页面
+    */
+    public function change_password(){
+        $this->smarty->display('change_password.tpl');
     }
 }
 ?>

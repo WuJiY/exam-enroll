@@ -4,6 +4,6 @@
     {include '../components/navbar_student.tpl'}
 {/block}
 
-{block name='nav'}
+{block name=nav}
     {include '../components/student/nav_user.tpl'}
 {/block}

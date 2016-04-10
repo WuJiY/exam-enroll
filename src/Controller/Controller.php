@@ -26,6 +26,8 @@ class Controller{
         $auth = new \Kezhi\Common\Auth;
         if($auth->check() === false){
             $this->redirect('/index.php/auth');
+        }else{
+            
         }
     }
 

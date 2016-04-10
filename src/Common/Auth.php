@@ -4,19 +4,22 @@ class Auth {
     protected $rules = [
         'admin' =>  [
             '/\/index.php\/user/',
-            '/\/index.php/'
+            '/\/index.php$/'
         ],
         'student'   =>  [
             '/\/index.php\/user/',
-            '/\/index.php/'
+            '/\/index.php$/',
+            '/\/index.php\/profile/',
+            '/\/index.php\/change_password/',
+            '/\/index.php\/modify_photo/'
         ],
         'teacher'   =>  [
             '/\/index.php\/user/',
-            '/\/index.php/'
+            '/\/index.php$/'
         ],
         'auth'  =>  [
             '/\/index.php\/auth/',
-            '/\/api.php\/auth/'
+            '/\/api.php\/auth$/'
         ]
     ];
 
@@ -40,7 +43,7 @@ class Auth {
     private function match($uri, $rules){
         foreach($rules as $rule){
             if(preg_match($rule, $uri) == 0){
-                //
+
             }else{
                 return true;
             }

@@ -18,7 +18,8 @@ class Auth extends Controller{
      * 注销登录
     */
     public function signOut(){
-
+        session_destroy();
+        $this->smarty->display('auth.tpl');
     }
 }
 ?>
