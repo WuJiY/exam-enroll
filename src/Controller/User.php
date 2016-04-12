@@ -13,7 +13,8 @@ class User extends Controller{
     */
     public function index(){
         $this->smarty->assign('username', $_SESSION['username']);
-        $this->smarty->display('user.tpl');
+        $this->smarty->assign('navbar_active', 'user');
+        $this->display('user.tpl');
     }
 
     /**
@@ -37,7 +38,7 @@ class User extends Controller{
     */
     public function change_password(){
         $this->smarty->assign('left_nav_active', 'change_password');
-        $this->smarty->display('change_password.tpl');
+        $this->display('change_password.tpl');
     }
 }
 ?>

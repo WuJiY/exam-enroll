@@ -23,7 +23,22 @@ class Auth {
         ],
         'teacher'   =>  [
             '/\/index.php\/user/',
-            '/\/index.php$/'
+            '/\/index.php$/',
+            '/\/index.php\/exam/',
+            '/\/index.php\/diploma/',
+            '/\/index.php\/room$/',
+            '/\/index.php\/room\/add/',
+            '/\/index.php\/room\/allot/',
+            '/\/index.php\/change_password/',
+            '/\/api.php\/user\/change_password/',
+            '/\index.php\/import\/student_account/',
+            '/\/index.php\/import\/pay_info/',
+            '/\/index.php\/import\/photos/',
+            '/\/index.php\/import\/score/',
+            '/\/index.php\/student_info/',
+            '/\/index.php\/photos/',
+            '/\/index.php\/score/',
+            '/\/index.php\/pay_info/'
         ],
         'auth'  =>  [
             '/\/index.php\/auth/',

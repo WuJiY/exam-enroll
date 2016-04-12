@@ -18,6 +18,7 @@ class Controller{
         $this->smarty->setCompileDir(__WEB__ . 'templates_c/');
         $this->smarty->setConfigDir(__WEB__ . 'configs/');
         $this->smarty->setCacheDir(__WEB__ . 'cache/');
+        $this->smarty->assign('role', isset($_SESSION['role']) ? $_SESSION['role'] : 'guest');
         // isset($_GET['token']) ? session_id($_GET['token']) : $_SERVER['QUERY_STRING'] == '/index.php/auth' ? $this->redirect('/index.php/auth') : print( 'I don\'t know to do what ');
         $this->checkAuth();
     }
@@ -42,6 +43,17 @@ class Controller{
     private function redirect($url){
         header('Location: ' . $url);
         exit;
+    }
+
+    protected function display($template){
+        $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'guest';
+        switch($role){
+            case 'teacher':
+                $this->smarty->display('teacher/' . $template);
+                break;
+            default:
+                $this->smarty->display($template);
+        }
     }
 }
 ?>

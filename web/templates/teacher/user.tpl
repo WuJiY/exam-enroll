@@ -1,5 +1,5 @@
 {* Smarty *}
-{extends file='layouts/student.tpl'}
+{extends file='../layouts/teacher.tpl'}
 {block name='main'}
 <div class="block">
     <div class="navbar navbar-inner block-header">

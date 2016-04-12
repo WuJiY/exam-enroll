@@ -17,7 +17,7 @@ namespace Kezhi\Model;
 class User extends Model{
     const ADMIN = 2;
     const STUDENT = 0;
-    const TEACHER = 2;
+    const TEACHER = 1;
     /**
      * 新增用户
      * 新增一条记录

@@ -14,7 +14,7 @@ class Score extends Controller{
     */
     public function index(){
         $this->smarty->assign('left_nav_active', 'score');
-        $this->smarty->display('score.tpl');
+        $this->display('score.tpl');
     }
 
 

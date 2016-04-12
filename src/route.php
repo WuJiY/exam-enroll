@@ -11,13 +11,23 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('GET', '/index.php/user/{id:\d+}', 'User\\index');
     $r->addRoute('GET', '/index.php/user', 'User\\index');
     $r->addRoute('GET', '/index.php/import/student_account', 'Import\\student_account');
-    $r->addRoute('POST', '/index.php/import/student_account', 'Import\\student_account_handle');
+    $r->addRoute('GET', '/index.php/import/pay_info', 'Import\\pay_info');
+    $r->addRoute('GET', '/index.php/import/photos', 'Import\\photos');
+    $r->addRoute('GET', '/index.php/import/score', 'Import\\score');
     $r->addRoute('GET', '/index.php/profile', 'User\\profile');
     $r->addRoute('GET', '/index.php/modify_photo', 'User\\modify_photo');
     $r->addRoute('GET', '/index.php/change_password', 'User\\change_password');
     $r->addRoute('GET', '/index.php/enroll_info', 'Enroll\\index');
     $r->addRoute('GET', '/index.php/enroll', 'Enroll\\enroll');
     $r->addRoute('GET', '/index.php/score', 'Score\\index');
+    $r->addRoute('GET', '/index.php/exam', 'Exam\\index');
+    $r->addRoute('GET', '/index.php/diploma', 'Diploma\\index');
+    $r->addRoute('GET', '/index.php/room', 'Room\\index');
+    $r->addRoute('GET', '/index.php/room/add', 'Room\\add');
+    $r->addRoute('GET', '/index.php/room/allot', 'Room\\allot');
+    $r->addRoute('GET', '/index.php/student_info', 'Student\\student_info');
+    $r->addRoute('GET', '/index.php/pay_info', 'Student\\pay_info');
+    $r->addRoute('GET', '/index.php/photos', 'Student\\photos');
 
     $r->addRoute('POST', '/api.php/import/student_account', 'api\\Import\\student_account');
     $r->addRoute('POST', '/api.php/auth', 'api\\Auth\\auth');
