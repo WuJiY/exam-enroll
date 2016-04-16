@@ -13,5 +13,13 @@ class Exam extends Controller{
     public function index(){
         $this->display('exam.tpl');
     }
+
+    public function add(){
+        $this->display('exam_add.tpl');
+    }
+
+    public function edit(){
+        $this->display('exam_edit.tpl');
+    }
 }
  ?>

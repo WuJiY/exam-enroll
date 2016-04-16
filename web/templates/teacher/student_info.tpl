@@ -8,94 +8,65 @@
     <div class="navbar navbar-inner block-header">
     </div>
     <div class="block-content collapse in">
-    <legend>个人信息</legend>
+         <div class="span6" align="left" style="width="100%""></div>
+       <div class="span6" align="right" style="width="100%""><div id="example2_filter" class="dataTables_filter"><label>Search: <input aria-controls="example2" type="text"></label></div></div>
+
         <div class="span12">
-             <form class="form-horizontal">
-              <fieldset>
-                 <div class="control-group"></div>
-
-                 <div class="control-group">
-                  <label class="control-label">照片</label>
-                    <div class="span3" style="width:150px;height:180px;">
-                        <a href="#" class="thumbnail">
-                            <img  style="width: 150px; height: 180px;" src="images/photo.jpeg">
-                        </a>
-                    </div>
-                </div>
-
-
-                <div class="control-group">
-                  <label class="control-label">学号</label>
-                  <div class="controls">
-                    <span class="input-xlarge uneditable-input">Some value here</span>
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label">姓名</label>
-                  <div class="controls">
-                    <span class="input-xlarge uneditable-input">Some value here</span>
-                  </div>
-                </div>
-                 <div class="control-group">
-                  <label class="control-label">学院</label>
-                  <div class="controls">
-                    <span class="input-xlarge uneditable-input">Some value here</span>
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label">专业</label>
-                  <div class="controls">
-                    <span class="input-xlarge uneditable-input">Some value here</span>
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label">年级</label>
-                  <div class="controls">
-                    <span class="input-xlarge uneditable-input">Some value here</span>
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label">班级</label>
-                  <div class="controls">
-                    <span class="input-xlarge uneditable-input">Some value here</span>
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label">性别</label>
-                  <div class="controls">
-                    <span class="input-xlarge uneditable-input">Some value here</span>
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label">民族</label>
-                  <div class="controls">
-                    <span class="input-xlarge uneditable-input">Some value here</span>
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label">身份证号码</label>
-                  <div class="controls">
-                    <span class="input-xlarge uneditable-input">Some value here</span>
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label">电话号码</label>
-                  <div class="controls">
-                    <span class="input-xlarge uneditable-input">Some value here</span>
-                  </div>
-                </div>
-
-                 <div class="form-actions" >
-
-                <button class="btn btn-primary"> &nbsp&nbsp&nbsp修改&nbsp&nbsp&nbsp </button>
-                <button class="btn"> &nbsp&nbsp&nbsp返回&nbsp&nbsp&nbsp </button>
-
-                </div>
-
-              </fieldset>
-            </form>
-
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>学号</th>
+                  <th>姓名</th>
+                  <th>学院</th>
+                  <th>专业</th>
+                  <th>年级</th>
+                  <th>班级</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>Otto</td>
+                  <td>Otto</td>
+                  <td>Otto</td>
+                  <td>Otto</td>
+                  <td><button class="btn btn-primary btn-mini">修改</button>
+                  <button class="btn btn-danger btn-mini">删除</button>
+                  <button class="btn btn-primary btn-mini">查看</button></td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>Otto</td>
+                  <td>Otto</td>
+                  <td>Otto</td>
+                  <td>Otto</td>
+                  <td><button class="btn btn-primary btn-mini">修改</button>
+                  <button class="btn btn-danger btn-mini">删除</button>
+                  <button class="btn btn-primary btn-mini">查看</button></td>
+                </tr>
+                <tr>
+                   <td>3</td>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>Otto</td>
+                  <td>Otto</td>
+                  <td>Otto</td>
+                  <td>Otto</td>
+                  <td><button class="btn btn-primary btn-mini">修改</button>
+                  <button class="btn btn-danger btn-mini">删除</button>
+                  <button class="btn btn-primary btn-mini">查看</button></td>
+                </tr>
+              </tbody>
+            </table>
         </div>
+        <button type="button" class="btn btn-large btn-block ">新增学生信息</button>
+
     </div>
 </div>
 {/block}
