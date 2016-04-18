@@ -3,6 +3,7 @@
 namespace Kezhi\Api;
 use Kezhi\Common;
 use Kezhi\Lib as Lib;
+use Kezhi\Model as Model;
 /**
  * ImportExcel Api
  * 导入excel表格的api，包括导入用户，导入缴费信息，导入成绩信息
@@ -15,6 +16,7 @@ class Import extends Api{
      * @api
     */
     public function student_account(){
+        // var_dump($_FILES);exit;
         $upload = new \Kezhi\Common\Upload();
         if(isset($_FILES['student_account_file'])){
             try{
@@ -24,9 +26,11 @@ class Import extends Api{
                 $excel = $excel_importer->import($file['dir'] . $file['name']);
                 $result = $excel
                 ->worksheet(0)
+                ->area(1)
                 ->getValue();
+                $user = new Model\User;
                 $this->result['status'] = 201;
-                $this->result['data'] = $result;
+                $this->result['data'] = $user->query(0, 'parallel1');
             }catch(\Exception $e){
                 $this->result['status'] = $e->getCode();
                 $this->result['data'] = $e->getMessage();

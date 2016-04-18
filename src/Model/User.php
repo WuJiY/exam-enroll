@@ -183,9 +183,9 @@ class User extends Model{
     */
     private function validate_username(&$username){
         $username = trim($username);
-        $preg = "/^([a-z]|[A-Z])(\d|\w){5,15}/";
+        $preg = "/^([a-z]|[A-Z])(\d|\w){5,17}/";
         if(!preg_match($preg, $username)){
-            throw new \Exception('用户名必须以字母开头，只能包含数字/字母/下划线，长度必须在6-16之间', 400);
+            throw new \Exception('用户名必须以字母开头，只能包含数字/字母/下划线，长度必须在6-17之间', 400);
         }
     }
 

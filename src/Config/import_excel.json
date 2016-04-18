@@ -20,7 +20,8 @@
                     "class" : "K"
                 },
                 "exts" : {
-                    "xls" : true
+                    "xls" : true,
+                    "xlsx" : true
                 }
             },
             "import_payment_condition" : {

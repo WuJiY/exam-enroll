@@ -70,7 +70,7 @@ class ExcelImport {
             throw new \Exception($e->getMessage(), 500);
         }
         if(!file_exists($file)){
-            throw new \Exception('文件不存在，无法读取', 500);
+            throw new \Exception('文件' . $file . '不存在，无法读取', 500);
         }
         $this->phpexcel = $phpexcel_reader->load($file);
         return $this;
@@ -94,10 +94,10 @@ class ExcelImport {
      * 设置数据区域
      * 设置需要读取的数据区域，需要先设置worksheet索引
      * @param int $from_line_no 开始的行号
-     * @param int $to_line_no 结束的行号
+     * @param int $to_line_no 结束的行号,默认值为0，表示不限制
      * @param Object $this
     */
-    public function area($from_line_no, $to_line_no){
+    public function area($from_line_no, $to_line_no = 0){
         if(is_null($this->worksheet_index)){
             $this->worksheet_index = 0;
         }
@@ -145,7 +145,8 @@ class ExcelImport {
             return $result;
         }
         foreach($worksheet->getRowIterator() as $row){
-            if(($row->getRowIndex() < $this->area['from']) || $row->getRowIndex() > $this->area['to']){
+            if(($row->getRowIndex() <= $this->area['from'])
+             || ($row->getRowIndex() >= $this->area['to'] && $this->area['to'] != 0)){
                 // 不在限定的范围内,doNothing
 
             }else{

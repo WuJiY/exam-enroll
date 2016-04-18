@@ -9,14 +9,14 @@
     </div>
     <div class="block-content collapse in">
         <div class="span12">
-             <form class="form-horizontal">
+             <form class="form-horizontal" method="post" action="/api.php/import/student_account">
               <fieldset>
                   <legend>导入缴费情况</legend>
 
                 <div class="control-group">
                   <label class="control-label" for="fileInput">选择文件</label>
                   <div class="controls">
-                    <input class="input-file uniform_on" id="fileInput" type="file">
+                    <input name="student_account_file" class="input-file uniform_on" id="fileInput" type="file">
                   </div>
                 </div>
                 <div class="form-actions" >

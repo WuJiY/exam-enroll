@@ -37,7 +37,8 @@ class Upload {
      * @return Array 上传后的文件属性
     */
     public function excel($key){
-        $this->storage = new \Upload\Storage\FileSystem($this->upload_dir . 'temp/');
+        $this->upload_sub_dir = 'temp/';
+        $this->storage = new \Upload\Storage\FileSystem($this->upload_dir . $this->upload_sub_dir);
         $file = new \Upload\File($key, $this->storage);
         $file->setName($this->getName());
         $file->addValidations(array(
@@ -51,7 +52,8 @@ class Upload {
             $data = $this->getData($file);
             return $data;
         }catch(\Exception $e){
-            throw new \Exception($e->getMessage(), 500);
+            throw new \Exception($e->getMessage() . implode(',', $file->getErrors()), 500);
+
         }
     }
 
@@ -60,7 +62,8 @@ class Upload {
      * @param $key String 表单中的name属性值
     */
     public function image($key){
-        $this->storage = new \Upload\Storage\FileSystem($this->upload_dir . 'images/');
+        $this->upload_sub_dir = 'images/';
+        $this->storage = new \Upload\Storage\FileSystem($this->upload_dir . $this->upload_sub_dir);
         $file = new \Upload\File($key, $this->storage);
         $file->setName($this->getName());
         $file->addValidations(array(
@@ -80,7 +83,8 @@ class Upload {
      *
     */
     public function zip($key){
-        $this->storage = new \Upload\Storage\FileSystem($this->upload_dir . 'zips/');
+        $this->upload_sub_dir = 'zips/';
+        $this->storage = new \Upload\Storage\FileSystem($this->upload_dir . $this->upload_sub_dir);
         $file = new \Upload\File($key, $this->storage);
         $file->setName($this->getName());
         $file->addValidations(array(
@@ -109,7 +113,7 @@ class Upload {
             'size'  =>  $file->getSize(),
             'md5'   =>  $file->getMd5(),
             'dimensions'    =>  $file->getDimensions(),
-            'dir'   =>  $this->upload_dir
+            'dir'   =>  $this->upload_dir . $this->upload_sub_dir
         ];
     }
 }
