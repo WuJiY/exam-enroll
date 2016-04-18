@@ -8,7 +8,7 @@ namespace Kezhi\Model;
 */
 class Model {
     /** @var Object $db PDO实例 */
-    static protected $db;
+    protected $db;
     /** @var String $dsn 数据库源 */
     protected $dsn;
     /**
@@ -25,6 +25,8 @@ class Model {
         }catch(\PDOException $e){
             throw $e;
         }
+        // $this->db->exec('set names \'UTF-8\'');
+        $this->db->exec("set names utf8");
     }
 
     /**

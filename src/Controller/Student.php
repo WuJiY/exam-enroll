@@ -1,5 +1,6 @@
 <?php
 namespace Kezhi\Controller;
+use Kezhi\Model as Model;
 class Student extends Controller{
     public function __construct(){
         parent::__construct();
@@ -7,6 +8,7 @@ class Student extends Controller{
     }
 
     public function student_info(){
+        $userinfo = new Model\UserInfo();
         $this->smarty->assign('left_nav_active', 'student_info');
         $this->display('student_info.tpl');
     }

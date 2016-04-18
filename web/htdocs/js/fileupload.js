@@ -90,13 +90,18 @@ $(function () {
         //             .append(error);
         //     }
         // });
+
         $.each(data.files, function (index) {
             var error = $('<span class="text-success"/>').text('文件上传成功。');
             $(data.context.children()[index])
                 .append('<br>')
                 .append(error);
         });
-        
+        $.each(data.result.data[0], function(index, result){
+            console.log(result);
+            $('#results').append('<p>' + result.name + ":" +  result.operater_status +'</p>');
+        });
+
     }).on('fileuploadfail', function (e, data) {
         $.each(data.files, function (index) {
             var error = $('<span class="text-error"/>').text('文件上传失败。');

@@ -168,6 +168,7 @@ class ExcelImport {
             foreach($row->getCellIterator() as $key=>$cell){
                 if(!is_null($cell)){
                     $result[$key] = $cell->getValue();
+                    //$result[$key] = iconv('GBK', 'UTF-8', $result[$key]);
                 }
             }
         }else{
@@ -175,6 +176,8 @@ class ExcelImport {
                 $keyword = array_search($key, $this->rules);
                 if($keyword !== false){
                     $result[$keyword] = $cell->getValue();
+                    //$result[$keyword] = iconv('GBK', 'UTF-8' ,$cell->getValue());
+                    // $result[$key] = iconv('GBK', 'UTF-8', $result[$key]);
                 }
             }
         }

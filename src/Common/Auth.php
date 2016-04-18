@@ -39,7 +39,8 @@ class Auth {
             '/\/index.php\/photos/',
             '/\/index.php\/score/',
             '/\/index.php\/pay_info/',
-            '/\/api.php\/import\/student_account/'
+            '/\/api.php\/import\/student_account/',
+            '/\/index.php\/test/'
         ],
         'auth'  =>  [
             '/\/index.php\/auth/',

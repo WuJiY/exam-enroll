@@ -28,9 +28,10 @@ class Import extends Api{
                 ->worksheet(0)
                 ->area(1)
                 ->getValue();
-                $user = new Model\User;
+                $userinfo = new Model\UserInfo;
+                $userinfo->import($result[0]);
                 $this->result['status'] = 201;
-                $this->result['data'] = $user->query(0, 'parallel1');
+                $this->result['data'] = $result;
             }catch(\Exception $e){
                 $this->result['status'] = $e->getCode();
                 $this->result['data'] = $e->getMessage();
