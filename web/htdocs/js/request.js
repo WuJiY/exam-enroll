@@ -43,7 +43,7 @@ function request(){
             var new_password = $('#new_password').val();
             $('input').attr('disabled', 'disabled');
             var index = layer.load(1, {
-              shade: [0.1,'#fff'] //0.1透明度的白色背景
+                shade: [0.1,'#fff'] //0.1透明度的白色背景
             });
             $.post("/api.php/user/change_password", {
                 old_password : old,
@@ -51,7 +51,6 @@ function request(){
             }, function(data, state){
                 layer.close(index);
                 $('input').removeAttr('disabled');
-                console.log(data);
                 if(state == 'success'){
                     if(data.status == 201){
                         layer.alert(data.data);
@@ -63,5 +62,34 @@ function request(){
         }
     });
 
-
+    $('#exam-add-btn').click(function(){
+        if($('#exam-add').valid()){
+            var name = $('#name').val();
+            var type = $('#type').val();
+            var exam_time = $('#datetimepicker').val();
+            var title = $('#title').val();
+            $('input').attr('disabled', 'disabled');
+            var index = layer.load(1, {
+                shade: [0.1,'#fff'] //0.1透明度的白色背景
+            });
+            $.post("/api.php/exam/add", {
+                name : name,
+                type : type,
+                exam_time : exam_time,
+                title : title
+            }, function(data, status){
+                layer.close(index);
+                $('input').removeAttr('disabled');
+                if(status == 'success'){
+                    if(data.status == 201){
+                        layer.alert(data.data.desc, {}, function(){
+                            window.location.href=data.data.uri;
+                        });
+                    }else{
+                        layer.msg(data.status + " : " + data.data);
+                    }
+                }
+            });
+        }
+    });
 }

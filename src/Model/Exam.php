@@ -31,5 +31,34 @@ class Exam extends Model{
     public function getExamTypes(){
         return is_null($this->exam_types) ? [] : $this->exam_types;
     }
+
+    public function add($name, $type, $title, $exam_time){
+        $this->checkType($type);
+        $stmp = $this->db->prepare("INSERT INTO exam (name, type, title, update_time, exam_time, status) VALUES (:name, :type, :title, :update_time, :exam_time, :status)");
+        $stmp->bindParam(':name', $name);
+        $stmp->bindParam(':type', $type);
+        $stmp->bindParam(':title', $title);
+        $stmp->bindValue(':update_time', date('YmdHis', time()));
+        $stmp->bindParam(':exam_time', $exam_time);
+        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
+        if($stmp->execute()){
+            return true;
+        }else{
+            throw new \Exception('未知原因导致的新增考试失败', 500);
+        }
+
+    }
+
+    private function checkType($type){
+        if(is_null($this->exam_types)){
+            throw new \Exception('检测考试类型时发生错误', 500);
+        }
+        foreach($this->exam_types as $v){
+            if($v['id'] == $type){
+                return;
+            }
+        }
+        throw new \Exception('检测考试类型时发生错误', 422);
+    }
 }
 ?>

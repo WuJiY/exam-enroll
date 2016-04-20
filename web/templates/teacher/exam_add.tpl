@@ -12,7 +12,7 @@
     </div>
     <div class="block-content collapse in">
         <div class="span12">
-            <form class="form-horizontal">
+            <form class="form-horizontal" id="exam-add">
                 <fieldset>
                     <legend>新增考试项目</legend>
 
@@ -37,19 +37,18 @@
                     <div class="control-group">
                         <label class="control-label" for="date01">开始考试时间</label>
                         <div class="controls">
-                            <input type="text" class="input-xlarge datepicker" data-date-format="yyyy-mm-dd hh:ii" id="datetimepicker">
+                            <input name="exam_time" type="text" class="input-xlarge datepicker" data-date-format="yyyy-mm-dd hh:ii" id="datetimepicker">
                         </div>
                     </div>
 
                     <div class="control-group">
                         <label class="control-label" for="textarea2">考试说明</label>
                         <div class="controls">
-                            <textarea class="input-xlarge textarea" placeholder="Enter text ..." style="width: 810px; height: 200px"></textarea>
+                            <textarea name="title" id="title" class="input-xlarge textarea" placeholder="Enter text ..." style="width: 810px; height: 200px"></textarea>
                         </div>
                     </div>
                     <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">&nbsp&nbsp&nbsp保存&nbsp&nbsp&nbsp </button>
-                        <button type="reset" class="btn">&nbsp取消&nbsp&nbsp </button>
+                        <input id="exam-add-btn" type="button" class="btn btn-primary" value="保存"> </input>
                     </div>
                 </fieldset>
             </form>
@@ -61,6 +60,5 @@
 {block name=footeraddtion}
 <script src="/vendors/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script src="/vendors/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
-
 <script src="/js/exam.js"></script>
 {/block}
