@@ -39,6 +39,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('POST', '/api.php/user/change_password', 'api\\User\\change_password');
     $r->addRoute('POST', '/api.php/student/info', 'api\\Student\\get_info');
     $r->addRoute('GET', '/api.php/student/info/{id:\d+}', 'api\\Student\\get_info');
+    $r->addRoute('POST', '/api.php/student/delete', 'api\\Student\\del');
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];

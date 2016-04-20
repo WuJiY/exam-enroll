@@ -14,6 +14,7 @@ namespace Kezhi\Model;
  * grade VARCHAR(45) default NULL,
  * major VARCHAR(45) default NULL,
  * class VARCHAR(45) default NULL,
+ * status TINYINT default 0 COMMENT '状态位',
  * FOREIGN KEY(uid) REFERENCES user(id) ON DELETE CASCADE ON UPDATE CASCADE
  * )default charset=utf8 COMMENT='学生信息表';
 */
@@ -22,6 +23,9 @@ class UserInfo extends Model{
     private $student_number;
     private $id_card_number;
     private $telephone_number;
+
+    const INUSE = 0;
+    const DELETED = 1;
 
     public function __construct(){
         parent::__construct();
@@ -40,7 +44,7 @@ class UserInfo extends Model{
             is_null($data['telephone_number']) ? "" : $this->validate_telephone_number($data['telephone_number']);
             $stmp = $this
             ->db
-            ->prepare("INSERT INTO user_info (uid, student_number, name, sex, nation, id_card_number, telephone_number, college, grade, major, class) VALUES (:id, :student_number, :name, :sex, :nation, :id_card_number, :telephone_number, :college, :grade, :major, :class)");
+            ->prepare("INSERT INTO user_info (uid, student_number, name, sex, nation, id_card_number, telephone_number, college, grade, major, class, status) VALUES (:id, :student_number, :name, :sex, :nation, :id_card_number, :telephone_number, :college, :grade, :major, :class, :status)");
             $stmp->bindParam(':id', $id);
             $stmp->bindParam(':student_number', $student_number);
             $stmp->bindParam(':name', $name);
@@ -52,6 +56,7 @@ class UserInfo extends Model{
             $stmp->bindParam(':grade', $grade);
             $stmp->bindParam(':major', $major);
             $stmp->bindParam(':class', $class);
+            $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
             $id = $id;
             $student_number = $data['student_number'];
             $name = $data['name'];
@@ -71,7 +76,31 @@ class UserInfo extends Model{
         }catch(\Exception $e){
             throw $e;
         }
+    }
 
+    /**
+     * 软删除用户信息
+     *
+     * @param integer $id 要删除的用户信息的id
+     * @return bool 成功返回true，失败返回false
+     * @throws \Exception 
+    */
+    public function delete($id = 0){
+        if($id == 0){
+            throw new \Exception('请求的数据不存在', 404);
+        }
+        try{
+            $stmp = $this->db->prepare("UPDATE user_info SET status = :status WHERE uid = :id");
+            $stmp->bindValue(':status', self::DELETED, \PDO::PARAM_INT);
+            $stmp->bindParam(':id', $id);
+            if($stmp->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }catch(\Exception $e){
+            throw $e;
+        }
     }
 
     public function query($uid = 0){
@@ -79,8 +108,9 @@ class UserInfo extends Model{
             throw new \Exception('请求的用户信息不存在', 404);
         }
         try{
-            $stmp = $this->db->prepare("SELECT * FROM user_info WHERE uid = :id");
-            $stmp->bindValue(':id', $uid);
+            $stmp = $this->db->prepare("SELECT * FROM user_info WHERE uid = :id AND status = :status");
+            $stmp->bindValue(':id', $uid, \PDO::PARAM_INT);
+            $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
             if($stmp->execute()){
                 $result = $stmp->fetch();
                 if($result != false){
@@ -101,7 +131,8 @@ class UserInfo extends Model{
     }
 
     public function queryAllLimit($start, $num){
-        $stmp = $this->db->prepare("SELECT * FROM user_info LIMIT :start,:num");
+        $stmp = $this->db->prepare("SELECT * FROM user_info WHERE status = :status LIMIT :start,:num");
+        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
         $stmp->bindValue(':start', $start, \PDO::PARAM_INT);
         $stmp->bindValue(':num', $num, \PDO::PARAM_INT);
         if($stmp->execute()){
@@ -125,7 +156,7 @@ class UserInfo extends Model{
     public function getCount(){
         $result = $this
         ->db
-        ->query("SELECT COUNT(*) FROM user_info");
+        ->query("SELECT COUNT(*) FROM user_info WHERE status = " . self::INUSE);
         if($result === false){
             throw new \Exception('数据库查询失败', 500);
         }
@@ -145,7 +176,7 @@ class UserInfo extends Model{
     public function import(Array &$data){
         $stmp = $this
         ->db
-        ->prepare("INSERT INTO user_info (uid, student_number, name, sex, nation, id_card_number, telephone_number, college, grade, major, class) VALUES (:id, :student_number, :name, :sex, :nation, :id_card_number, :telephone_number, :college, :grade, :major, :class)");
+        ->prepare("INSERT INTO user_info (uid, student_number, name, sex, nation, id_card_number, telephone_number, college, grade, major, class, status) VALUES (:id, :student_number, :name, :sex, :nation, :id_card_number, :telephone_number, :college, :grade, :major, :class, :status)");
         $stmp->bindParam(':id', $id);
         $stmp->bindParam(':student_number', $student_number);
         $stmp->bindParam(':name', $name);
@@ -157,6 +188,7 @@ class UserInfo extends Model{
         $stmp->bindParam(':grade', $grade);
         $stmp->bindParam(':major', $major);
         $stmp->bindParam(':class', $class);
+        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
         foreach($this->filter($data) as $v){
             try{
                 $id = $v['id'];
@@ -210,7 +242,7 @@ class UserInfo extends Model{
                         'id'    =>  $has_user['id'],
                         'student_number'    =>  $v['student_number'],
                         'name'  =>  empty($v['name']) ? "noname" : $v['name'],
-                        'sex'   =>  empty($v['sex']) ? 2 : $v['sex'] == '男' ? 0 : $v['sex'] == '女' ? 1 : 2,
+                        'sex'   =>  empty($v['sex']) ? 2 : ($v['sex'] == '男' ? 0 : ($v['sex'] == '女' ? 1 : 2)),
                         'nation'    =>  empty($v['nation']) ? "无" : $v['nation'],
                         'id_card_number'    =>  empty($v['id_card_number']) ? "" : $v['id_card_number'],
                         'telephone_number'  =>  empty($v['telephone_number']) ? "" : $v['telephone_number'],
