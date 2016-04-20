@@ -57,5 +57,6 @@
 <script src="/js/request.js"></script>
 </body>
 {/block}
+{block name=footeraddtion}{/block}
 </body>
 {/block}

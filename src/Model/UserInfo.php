@@ -84,8 +84,8 @@ class UserInfo extends Model{
             if($stmp->execute()){
                 $result = $stmp->fetch();
                 if($result != false){
-                    if(empty($result[0])){
-                        return $result[0];
+                    if(!empty($result)){
+                        return $result;
                     }else{
                         throw new \Exception('请求的用户信息不存在', 404);
                     }

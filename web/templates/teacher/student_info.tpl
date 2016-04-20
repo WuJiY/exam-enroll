@@ -40,9 +40,9 @@
                             <td>{$v['grade']}</td>
                             <td>{$v['class']}</td>
                             <td>
-                                <button class="btn btn-primary btn-mini" data-user-id="{$v['uid']}">修改</button>
-                                <button class="btn btn-danger btn-mini" data-user-id="{$v['uid']}">删除</button>
-                                <button class="btn btn-primary btn-mini" data-user-id="{$v['uid']}">查看</button>
+                                <button class="btn btn-primary btn-mini btn-edit" data-user-id="{$v['uid']}">修改</button>
+                                <button class="btn btn-danger btn-mini btn-delete" data-user-id="{$v['uid']}">删除</button>
+                                <button class="btn btn-primary btn-mini btn-show" data-user-id="{$v['uid']}">查看</button>
                             </td>
                         </tr>
                     {/foreach}
@@ -55,5 +55,7 @@
 
     </div>
 </div>
-
+{block name=footeraddtion}
+    <script src="/js/student_info.js"></script>
+{/block}
 {/block}
