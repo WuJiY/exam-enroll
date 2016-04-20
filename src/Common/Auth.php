@@ -24,7 +24,8 @@ class Auth {
         'teacher'   =>  [
             '/\/index.php\/user/',
             '/\/index.php$/',
-            '/\/index.php\/exam/',
+            '/\/index.php\/exam$/',
+            '/\/index.php\/exam\/add/',
             '/\/index.php\/diploma/',
             '/\/index.php\/room$/',
             '/\/index.php\/room\/add/',

@@ -1,0 +1,35 @@
+{
+    "exam_types" : [
+        {
+            "id" : 0,
+            "name" : "毛笔字考试",
+            "rules" : {
+                "enroll" : "required",
+                "query_score" : "required"
+            }
+        },
+        {
+            "id" : 1,
+            "name" : "钢笔字考试",
+            "rules" : {
+                "enroll" : "required",
+                "query_score" : "required"
+            }
+        },
+        {
+            "id" : 2,
+            "name" : "粉笔字考试",
+            "rules" : {
+                "enroll" : "required",
+                "query_score" : "required"
+            }
+        },
+        {
+            "id" : 3,
+            "name" : "普通话考试",
+            "rules" : {
+                "enroll" : "required"
+            }
+        }
+    ]
+}

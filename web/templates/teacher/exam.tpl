@@ -28,32 +28,52 @@
                   <td>Mark</td>
                   <td>Otto</td>
                   <td><a href="#">编辑</a></td>
-                  <td><button class="btn btn-primary btn-mini">开启</button></td>
-                  <td><button class="btn btn-danger btn-mini">关闭</button></td>
-                  <td><button class="btn btn-primary btn-mini">开启</button></td>
+                  <td>
+                      <button class="btn btn-primary btn-mini">开启</button>
+                  </td>
+                  <td>
+                      <button class="btn btn-danger btn-mini">关闭</button>
+                  </td>
+                  <td>
+                      <button class="btn btn-primary btn-mini">开启</button>
+                  </td>
                 </tr>
                 <tr>
                   <td>2</td>
                   <td>Jacob</td>
                   <td>Thornton</td>
                   <td><a href="#">编辑</a></td>
-                  <td><button class="btn btn-primary btn-mini">开启</button></td>
-                  <td><button class="btn btn-danger btn-mini">关闭</button></td>
-                  <td><button class="btn btn-primary btn-mini">开启</button></td>
+                  <td>
+                      <button class="btn btn-primary btn-mini">开启</button>
+                  </td>
+                  <td>
+                      <button class="btn btn-danger btn-mini">关闭</button>
+                  </td>
+                  <td>
+                      <button class="btn btn-primary btn-mini">开启</button>
+                  </td>
                 </tr>
                 <tr>
                   <td>3</td>
                   <td>Larry</td>
                   <td>the Bird</td>
                   <td><a href="#">编辑</a></td>
-                  <td><button class="btn btn-primary btn-mini">开启</button></td>
-                  <td><button class="btn btn-danger btn-mini">关闭</button></td>
-                  <td><button class="btn btn-primary btn-mini">开启</button></td>
+                  <td>
+                      <button class="btn btn-primary btn-mini">开启</button>
+                  </td>
+                  <td>
+                      <button class="btn btn-danger btn-mini">关闭</button>
+                  </td>
+                  <td>
+                      <button class="btn btn-primary btn-mini">开启</button>
+                  </td>
                 </tr>
               </tbody>
             </table>
         </div>
-        <button type="button" class="btn btn-large btn-block ">新增考试项目</button>
+        <div class="span12">
+            <a type="button" href="/index.php/exam/add" class="btn btn-large btn-block ">新增考试项目</a>
+        </div>
     </div>
 </div>
 {/block}
