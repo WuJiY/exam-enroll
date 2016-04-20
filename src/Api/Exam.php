@@ -25,5 +25,42 @@ class Exam extends Api{
         }
         $this->sendJson();
     }
+
+    public function info(){
+        $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+        try{
+            $exam = new Model\Exam();
+            $result = $exam->query($id);
+            $result['type_name'] = $exam->getExamTypeName($result['type']);
+            $this->result['status'] = parent::OK;
+            $this->result['data'] = $result;
+        }catch(\Exception $e){
+            $this->result['status'] = $e->getCode();
+            $this->result['data'] = $e->getMessage();
+        }
+        $this->sendJson();
+    }
+
+    public function edit(){
+
+    }
+
+    public function del(){
+        $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+        try{
+            $exam = new Model\Exam();
+            if($exam->delete($id)){
+                $this->result['status'] = parent::NO_CONTENT;
+                $this->result['data'] = '成功删除该考试';
+            }else{
+                $this->result['status'] = parent::INTERNAL_SERVER_ERROR;
+                $this->result['data'] = '未知原因导致的错误';
+            }
+        }catch(\Exception $e){
+            $this->result['status'] = $e->getCode();
+            $this->result['data'] = $e->getMessage();
+        }
+        $this->sendJson();
+    }
 }
 ?>

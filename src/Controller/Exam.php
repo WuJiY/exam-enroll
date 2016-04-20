@@ -3,6 +3,7 @@
 namespace Kezhi\Controller;
 
 use Kezhi\Model as Model;
+use Kezhi\Lib as Lib;
 /**
  * 考试控制器
 */
@@ -13,6 +14,19 @@ class Exam extends Controller{
     }
 
     public function index(){
+        $page_id = isset($_GET['page']) ?: 1;
+        try{
+            $exam = new Model\Exam();
+            $totle_num = $exam->getCount();
+            $page = new Lib\Page($totle_num, $page_id);
+            $data = $exam->queryAllLimit($page->getCurrentNum(), $page->getPerPageNum());
+            $this->smarty->assign('data', $data);
+            $this->smarty->assign('current_page', $page->getCurrentPage());
+            $this->smarty->assign('max_page_num', $page->getTotlePages());
+            $this->smarty->assign('pages', $page->getPages());
+        }catch(\Exception $e){
+            $this->error($e->getMessage(), $e->getCode());
+        }
         $this->display('exam.tpl');
     }
 

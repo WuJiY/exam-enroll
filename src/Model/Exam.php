@@ -32,6 +32,18 @@ class Exam extends Model{
         return is_null($this->exam_types) ? [] : $this->exam_types;
     }
 
+    public function getExamTypeName($id){
+        if(is_null($this->exam_types)){
+            return '无';
+        }
+        foreach($this->exam_types as $v){
+            if($v['id'] == $id){
+                return $v['name'];
+            }
+        }
+        return '无';
+    }
+
     public function add($name, $type, $title, $exam_time){
         $this->checkType($type);
         $stmp = $this->db->prepare("INSERT INTO exam (name, type, title, update_time, exam_time, status) VALUES (:name, :type, :title, :update_time, :exam_time, :status)");
@@ -47,6 +59,74 @@ class Exam extends Model{
             throw new \Exception('未知原因导致的新增考试失败', 500);
         }
 
+    }
+
+    public function getCount(){
+        $result = $this
+        ->db
+        ->query("SELECT COUNT(*) FROM exam WHERE status = " . self::INUSE);
+        if($result === false){
+            throw new \Exception('数据库查询失败', 500);
+        }
+        $result = $result->fetch();
+        if($result === false){
+            throw new \Exception('数据库查询失败', 500);
+        }else{
+            return intval($result[0]);
+        }
+    }
+
+    public function query($id = 0){
+        if($id == 0){
+            throw new \Exception('请求的考试信息不存在', 404);
+        }
+        $stmp = $this->db->prepare("SELECT * FROM exam WHERE id = :id");
+        $stmp->bindValue(':id', $id, \PDO::PARAM_INT);
+        if($stmp->execute()){
+            $result = $stmp->fetch();
+            if($result != false){
+                if(!empty($result)){
+                    return $result;
+                }else{
+                    throw new \Exception('请求的考试信息不存在', 404);
+                }
+            }else{
+                throw new \Exception('数据库查询失败', 500);
+            }
+        }else{
+            throw new \Exception('数据库查询失败', 500);
+        }
+    }
+
+    public function queryAllLimit($start, $num){
+        $stmp = $this->db->prepare("SELECT * FROM exam WHERE status = :status LIMIT :start,:num");
+        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
+        $stmp->bindValue(':start', $start, \PDO::PARAM_INT);
+        $stmp->bindValue(':num', $num, \PDO::PARAM_INT);
+        if($stmp->execute()){
+            $result = $stmp->fetchAll();
+            if($result !== false){
+                return $result;
+            }else{
+                return [];
+            }
+        }else{
+            throw new \Exception('数据库查询失败', 500);
+        }
+    }
+
+    public function delete($id = 0){
+        if($id == 0){
+            throw new \Exception('请求的数据不存在', 404);
+        }
+        $stmp = $this->db->prepare("UPDATE exam SET status = :status WHERE id = :id");
+        $stmp->bindValue(':status', self::DELETED, \PDO::PARAM_INT);
+        $stmp->bindParam(':id', $id);
+        if($stmp->execute()){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     private function checkType($type){

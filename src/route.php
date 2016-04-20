@@ -22,6 +22,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('GET', '/index.php/score', 'Score\\index');
     $r->addRoute('GET', '/index.php/exam', 'Exam\\index');
     $r->addRoute('GET', '/index.php/exam/add', 'Exam\\add');
+    $r->addRoute('GET', '/api.php/exam/edit', 'Exam\\edit');
     $r->addRoute('GET', '/index.php/diploma', 'Diploma\\index');
     $r->addRoute('GET', '/index.php/room', 'Room\\index');
     $r->addRoute('GET', '/index.php/room/add', 'Room\\add');
@@ -43,6 +44,10 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('GET', '/api.php/student/info/{id:\d+}', 'api\\Student\\get_info');
     $r->addRoute('POST', '/api.php/student/delete', 'api\\Student\\del');
     $r->addRoute('POST', '/api.php/exam/add', 'api\\Exam\\add');
+    $r->addRoute('POST', '/api.php/exam/info', 'api\\Exam\\info');
+    $r->addRoute('POST', '/api.php/exam/edit', 'api\\Exam\\edit');
+    $r->addRoute('POST', '/api.php/exam/delete', 'api\\Exam\\del');
+
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];
