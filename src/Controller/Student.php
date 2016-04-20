@@ -26,6 +26,18 @@ class Student extends Controller{
         $this->display('student_info.tpl');
     }
 
+    public function edit_student_info($id){
+        $id = intval($id);
+        $userinfo = new Model\UserInfo();
+        try{
+            $data = $userinfo->query($id);
+            $this->smarty->assign('data', $data);
+        }catch(\Exception $e){
+            $this->error($e->getMessage(), $e->getCode());
+        }
+        $this->display('edit_student_info.tpl');
+    }
+
     public function pay_info(){
         $this->smarty->assign('left_nav_active', 'pay_info');
         $this->display('pay_info.tpl');

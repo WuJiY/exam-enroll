@@ -123,6 +123,6 @@
 <script src="/assets/scripts.js"></script>
 <script src="/js/validate.js"></script>
 <script src="/js/request.js"></script>
-<script src="/js/fileupload.js"></script>
+<script src="/js/fileupload/import_student_account.js"></script>
 </body>
 {/block}

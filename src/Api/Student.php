@@ -13,7 +13,7 @@ class Student extends Api{
             $this->result['data'] = $result;
         }catch(\Exception $e){
             $this->result['status'] = $e->getCode();
-            $this->result['data'] = $e->getMessage();
+            $this->result['data'] = $e->getMessage().$user_id;
         }
         $this->sendJson();
     }

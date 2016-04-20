@@ -83,7 +83,7 @@ class UserInfo extends Model{
      *
      * @param integer $id 要删除的用户信息的id
      * @return bool 成功返回true，失败返回false
-     * @throws \Exception 
+     * @throws \Exception
     */
     public function delete($id = 0){
         if($id == 0){
@@ -108,9 +108,8 @@ class UserInfo extends Model{
             throw new \Exception('请求的用户信息不存在', 404);
         }
         try{
-            $stmp = $this->db->prepare("SELECT * FROM user_info WHERE uid = :id AND status = :status");
+            $stmp = $this->db->prepare("SELECT * FROM user_info WHERE uid = :id");
             $stmp->bindValue(':id', $uid, \PDO::PARAM_INT);
-            $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
             if($stmp->execute()){
                 $result = $stmp->fetch();
                 if($result != false){

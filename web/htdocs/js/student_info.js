@@ -63,4 +63,9 @@ window.onload = function(){
             return ;
         });
     });
+
+    $('.btn-edit').click(function(){
+        var uid = $(this).attr('data-user-id');
+        window.location = '/index.php/student/edit/student_info/' + uid;
+    });
 }

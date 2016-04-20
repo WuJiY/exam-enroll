@@ -26,10 +26,11 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('GET', '/index.php/room/add', 'Room\\add');
     $r->addRoute('GET', '/index.php/room/allot', 'Room\\allot');
     $r->addRoute('GET', '/index.php/student_info', 'Student\\student_info');
+    $r->addRoute('GET', '/index.php/student/edit/student_info/{id:\d+}', 'Student\\edit_student_info');
     $r->addRoute('GET', '/index.php/pay_info', 'Student\\pay_info');
     $r->addRoute('GET', '/index.php/photos', 'Student\\photos');
 
-    $r->addRoute('GET', '/index.php/test', 'Import\\test');
+    $r->addRoute('GET', '/index.php/test/{id:\d+}', 'Import\\test');
 
     $r->addRoute('POST', '/api.php/import/student_account', 'api\\Import\\student_account');
     $r->addRoute('POST', '/api.php/auth', 'api\\Auth\\auth');

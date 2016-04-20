@@ -42,7 +42,8 @@ class Auth {
             '/\/api.php\/import\/student_account/',
             '/\/index.php\/test/',
             '/\/api.php\/student\/info/',
-            '/\/api.php\/student\/delete/'
+            '/\/api.php\/student\/delete/',
+            '/\/index.php\/student\/edit\/student_info/'
         ],
         'auth'  =>  [
             '/\/index.php\/auth/',

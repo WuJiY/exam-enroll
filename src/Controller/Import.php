@@ -37,21 +37,22 @@ class Import extends Controller{
         $this->display('score_import.tpl');
     }
 
-    public function test(){
-        $userinfo = new Model\UserInfo();
-        $id = 3;
-        $data = [
-            'student_number'    =>  '20132121',
-            'name'  =>  '闫兴茂',
-            'sex'   =>  0,
-            'nation'    =>  '汉',
-            'id_card_number'    =>  '142431199738391829',
-            'telephone_number'  =>  '18827829332',
-            'college'   =>  '计算机学院',
-            'grade' =>  '2013级',
-            'major' =>  '计算机专业',
-            'class' =>  '1班',
-        ];
-        $userinfo->add($id, $data);
+    public function test($id){
+        // $userinfo = new Model\UserInfo();
+        // $id = 3;
+        // $data = [
+        //     'student_number'    =>  '20132121',
+        //     'name'  =>  '闫兴茂',
+        //     'sex'   =>  0,
+        //     'nation'    =>  '汉',
+        //     'id_card_number'    =>  '142431199738391829',
+        //     'telephone_number'  =>  '18827829332',
+        //     'college'   =>  '计算机学院',
+        //     'grade' =>  '2013级',
+        //     'major' =>  '计算机专业',
+        //     'class' =>  '1班',
+        // ];
+        // $userinfo->add($id, $data);
+        var_dump($id);
     }
 }
