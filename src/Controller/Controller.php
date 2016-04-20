@@ -55,5 +55,12 @@ class Controller{
                 $this->smarty->display($template);
         }
     }
+
+    protected function error($message, $code){
+        $this->smarty->assign('message', $message);
+        $this->smarty->assign('code', $code);
+        $this->smarty->display('error.tpl');
+        exit();
+    }
 }
 ?>

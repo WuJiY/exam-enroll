@@ -74,8 +74,67 @@ class UserInfo extends Model{
 
     }
 
-    public function query($uid){
-        $stmp = $this->db->prepare("SELECT * FROM ");
+    public function query($uid = 0){
+        if($uid == 0){
+            throw new \Exception('请求的用户信息不存在', 404);
+        }
+        try{
+            $stmp = $this->db->prepare("SELECT * FROM user_info WHERE uid = :id");
+            $stmp->bindValue(':id', $uid);
+            if($stmp->execute()){
+                $result = $stmp->fetch();
+                if($result != false){
+                    if(empty($result[0])){
+                        return $result[0];
+                    }else{
+                        throw new \Exception('请求的用户信息不存在', 404);
+                    }
+                }else{
+                    throw new \Exception('数据库查询失败', 500);
+                }
+            }else{
+                throw new \Exception('数据库查询失败', 500);
+            }
+        }catch(\Exception $e){
+            throw $e;
+        }
+    }
+
+    public function queryAllLimit($start, $num){
+        $stmp = $this->db->prepare("SELECT * FROM user_info LIMIT :start,:num");
+        $stmp->bindValue(':start', $start, \PDO::PARAM_INT);
+        $stmp->bindValue(':num', $num, \PDO::PARAM_INT);
+        if($stmp->execute()){
+            $result = $stmp->fetchAll();
+            if($result !== false){
+                return $result;
+            }else{
+                return [];
+            }
+        }else{
+            throw new \Exception('数据库查询失败', 500);
+        }
+    }
+
+    /**
+     * 获取记录总数
+     *
+     * @throws \Exception
+     * @return integer 记录数量
+    */
+    public function getCount(){
+        $result = $this
+        ->db
+        ->query("SELECT COUNT(*) FROM user_info");
+        if($result === false){
+            throw new \Exception('数据库查询失败', 500);
+        }
+        $result = $result->fetch();
+        if($result === false){
+            throw new \Exception('数据库查询失败', 500);
+        }else{
+            return intval($result[0]);
+        }
     }
 
     /**

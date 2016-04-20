@@ -1,0 +1,2 @@
+{* Smarty *}
+{$code}:{$message}
