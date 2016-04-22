@@ -42,7 +42,27 @@ class Exam extends Api{
     }
 
     public function edit(){
-
+        $id = isset($_POST['id']) ? intval($_POST['id']) : null;
+        $name = isset($_POST['name']) ? $_POST['name'] : null;
+        $title = isset($_POST['title']) ? $_POST['title'] : null;
+        $type = isset($_POST['type']) ? $_POST['type'] : null;
+        $exam_time = isset($_POST['exam_time']) ? $_POST['exam_time'] : null;
+        if(is_null($name) || is_null($title) || is_null($type) || is_null($exam_time) || is_null($id)){
+            $this->invalid_request();
+        }
+        try{
+            $exam = new Model\Exam();
+            $exam->update($id, $name, $type, $title, $exam_time);
+            $this->result['status'] = parent::CREATED;
+            $this->result['data'] = [
+                'desc'  =>  '修改考试项目成功',
+                'uri'   =>  '/index.php/exam'
+            ];
+        }catch(\Exception $e){
+            $this->result['status'] = $e->getCode();
+            $this->result['data'] = $e->getMessage();
+        }
+        $this->sendJson();
     }
 
     public function del(){

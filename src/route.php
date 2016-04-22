@@ -22,7 +22,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('GET', '/index.php/score', 'Score\\index');
     $r->addRoute('GET', '/index.php/exam', 'Exam\\index');
     $r->addRoute('GET', '/index.php/exam/add', 'Exam\\add');
-    $r->addRoute('GET', '/api.php/exam/edit', 'Exam\\edit');
+    $r->addRoute('GET', '/index.php/exam/edit/{id:\d+}', 'Exam\\edit');
     $r->addRoute('GET', '/index.php/diploma', 'Diploma\\index');
     $r->addRoute('GET', '/index.php/room', 'Room\\index');
     $r->addRoute('GET', '/index.php/room/add', 'Room\\add');

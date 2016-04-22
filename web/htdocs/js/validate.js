@@ -43,4 +43,19 @@ function validate(){
             title : "必须填写考试说明"
         }
     });
+
+    $('#exam-edit').validate({
+        rules : {
+            name : "required",
+            type : "required",
+            exam_time : "required",
+            title : "required"
+        },
+        messages : {
+            name : "必须为这个考试提供一个名称",
+            type : "必须选择一个考试的类型",
+            exam_time : "必须选择考试开始的时间",
+            title : "必须填写考试说明"
+        }
+    });
 }

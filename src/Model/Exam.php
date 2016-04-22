@@ -58,7 +58,22 @@ class Exam extends Model{
         }else{
             throw new \Exception('未知原因导致的新增考试失败', 500);
         }
+    }
 
+    public function update($id, $name, $type, $title, $exam_time){
+        $this->checkType($type);
+        $stmp = $this->db->prepare("UPDATE exam SET name = :name, type = :type, title = :title, update_time = :update_time, exam_time = :exam_time WHERE id = :id LIMIT 1");
+        $stmp->bindParam(':name', $name);
+        $stmp->bindParam(':type', $type);
+        $stmp->bindParam(':title', $title);
+        $stmp->bindValue(':update_time', date('YmdHis', time()));
+        $stmp->bindParam(':exam_time', $exam_time);
+        $stmp->bindValue(':id', $id, \PDO::PARAM_INT);
+        if($stmp->execute()){
+            return true;
+        }else{
+            throw new \Exception('未知原因导致的新增考试失败', 500);
+        }
     }
 
     public function getCount(){
@@ -80,7 +95,7 @@ class Exam extends Model{
         if($id == 0){
             throw new \Exception('请求的考试信息不存在', 404);
         }
-        $stmp = $this->db->prepare("SELECT * FROM exam WHERE id = :id");
+        $stmp = $this->db->prepare("SELECT * FROM exam WHERE id = :id LIMIT 1");
         $stmp->bindValue(':id', $id, \PDO::PARAM_INT);
         if($stmp->execute()){
             $result = $stmp->fetch();

@@ -36,7 +36,16 @@ class Exam extends Controller{
         $this->display('exam_add.tpl');
     }
 
-    public function edit(){
+    public function edit($id){
+        try{
+            $exam = new Model\Exam();
+            $data = $exam->query($id);
+            $this->smarty->assign('exam_types', $exam->getExamTypes());
+            $this->smarty->assign('data', $data);
+
+        }catch(\Exception $e){
+            $this->error($e->getMessage(), $e->getCode());
+        }
         $this->display('exam_edit.tpl');
     }
 }

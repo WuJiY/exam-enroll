@@ -92,4 +92,37 @@ function request(){
             });
         }
     });
+
+    $('#exam-edit-btn').click(function(){
+        if($('#exam-edit').valid()){
+            var id = $(this).attr('data-exam-id');
+            var name = $('#name').val();
+            var type = $('#type').val();
+            var exam_time = $('#datetimepicker').val();
+            var title = $('#title').val();
+            $('input').attr('disabled', 'disabled');
+            var index = layer.load(1, {
+                shade: [0.1,'#fff'] //0.1透明度的白色背景
+            });
+            $.post("/api.php/exam/edit", {
+                id : id,
+                name : name,
+                type : type,
+                exam_time : exam_time,
+                title : title
+            }, function(data, status){
+                layer.close(index);
+                $('input').removeAttr('disabled');
+                if(status == 'success'){
+                    if(data.status == 201){
+                        layer.alert(data.data.desc, {}, function(){
+                            window.location.href=data.data.uri;
+                        });
+                    }else{
+                        layer.msg(data.status + " : " + data.data);
+                    }
+                }
+            });
+        }
+    });
 }

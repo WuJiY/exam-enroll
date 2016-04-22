@@ -48,6 +48,7 @@ class Auth {
             '/\/api.php\/exam\/add/',
             '/\/api.php\/exam\/info/',
             '/\/api.php\/exam\/edit/',
+            '/\/index.php\/exam\/edit/',
             '/\/api.php\/exam\/delete/'
         ],
         'auth'  =>  [
