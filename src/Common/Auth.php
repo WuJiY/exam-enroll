@@ -20,7 +20,8 @@ class Auth {
             '/\/index.php\/enroll$/',
             '/\/index.php\/enroll_info/',
             '/\/index.php\/score/',
-            '/\/api.php\/enroll/'
+            '/\/api.php\/enroll$/',
+            '/\/api.php\/enroll\/cancle/'
         ],
         'teacher'   =>  [
             '/\/index.php\/user/',

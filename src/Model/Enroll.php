@@ -55,7 +55,7 @@ class Enroll extends Model{
         if($stmp->execute()){
             return true;
         }else{
-            throw new \Exception('未知原因导致的新增考试失败', 500);
+            throw new \Exception('未知原因导致的新增报名信息失败', 500);
         }
     }
 
@@ -67,6 +67,59 @@ class Enroll extends Model{
             return true;
         }else{
             throw new \Exception('未知原因导致的设置报名状态失败', 500);
+        }
+    }
+
+    public function setEnrollStatusStudent($id, $status, $uid){
+        $stmp = $this->db->prepare("UPDATE enroll, exam SET enroll.enroll_status = :enroll_status WHERE enroll.id = :id AND enroll.exam_id = exam.id AND enroll.uid = :uid AND exam.enroll_status = 1");
+        $stmp->bindParam(':id', $id);
+        $stmp->bindParam(':enroll_status', $status);
+        $stmp->bindParam(':uid', $uid);
+        if($stmp->execute()){
+            if($stmp->rowCount() == 0){
+                throw new \Exception('取消失败，可能是由于当前不在报名期', 403);
+            }else{
+                return true;
+            }
+
+        }else{
+            throw new \Exception('未知原因导致的设置报名状态失败', 500);
+        }
+    }
+
+    public function queryAllUserLimit($uid, $start, $num){
+        $stmp = $this->db->prepare("SELECT a.*, b.name, b.exam_time FROM enroll a LEFT JOIN exam b ON b.id = a.exam_id WHERE a.uid = :uid AND a.status = :status AND a.enroll_status = :enroll_status LIMIT :start, :num");
+        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
+        $stmp->bindValue(':start', $start, \PDO::PARAM_INT);
+        $stmp->bindValue(':num', $num, \PDO::PARAM_INT);
+        $stmp->bindParam(':uid', $uid);
+        $stmp->bindValue(':enroll_status', self::ENROLLED, \PDO::PARAM_INT);
+        if($stmp->execute()){
+            $result = $stmp->fetchAll();
+            if($result === false){
+                throw new \Exception('数据库查询失败', 500);
+            }else{
+                return $result;
+            }
+        }else{
+            throw new \Exception('数据库查询失败', 500);
+        }
+    }
+
+    public function getCountUser($uid){
+        $stmp = $this->db->prepare("SELECT COUNT(*) FROM enroll WHERE uid = :uid AND status = :status AND enroll_status = :enroll_status");
+        $stmp->bindParam(':uid', $uid);
+        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
+        $stmp->bindValue(':enroll_status', self::ENROLLED, \PDO::PARAM_INT);
+        if($stmp->execute()){
+            $result = $stmp->fetch();
+            if($result === false){
+                throw new \Exception('数据库查询失败', 500);
+            }else{
+                return $result[0];
+            }
+        }else{
+            throw new \Exception('数据库查询失败', 500);
         }
     }
 }

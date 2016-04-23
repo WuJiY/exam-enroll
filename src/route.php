@@ -60,6 +60,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('POST', '/api.php/exam/enroll/state', 'api\\Exam\\set_enroll_state');
     $r->addRoute('POST', '/api.php/exam/score/state', 'api\\Exam\\set_score_state');
     $r->addRoute('POST', '/api.php/enroll', 'api\\Enroll\\enroll');
+    $r->addRoute('POST', '/api.php/enroll/cancle', 'api\\Enroll\\cancle');
 
 
 });

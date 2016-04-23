@@ -10,47 +10,40 @@
     </div>
 
     <div class="block-content collapse in">
-    <legend>查看报名信息</legend>
+        <legend>查看报名信息</legend>
         <div class="span12">
             <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>报名项目</th>
-                  <th>报名时间</th>
-                  <th>考试时间</th>
-                  <th>缴费情况</th>
-                  <th>取消报名</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td>@mdo</td>
-                  <td><button class="btn btn-primary btn-mini">取消报名</button></td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                  <td>@mdo</td>
-                  <td><button class="btn btn-primary btn-mini">取消报名</button></td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                  <td>@mdo</td>
-                  <td><button class="btn btn-primary btn-mini">取消报名</button></td>
-                </tr>
-              </tbody>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>报名项目</th>
+                        <th>报名时间</th>
+                        <th>考试时间</th>
+                        <th>缴费情况</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {foreach $data as $v}
+                    <tr>
+                        <td>{$v['id']}</td>
+                        <td>{$v['name']}</td>
+                        <td>{$v['create_time']}</td>
+                        <td>{$v['exam_time']}</td>
+                        <td>{if $v['pay_status'] eq 1}已缴费{else}未缴费{/if}</td>
+                        <td>
+                            <button class="btn btn-primary btn-mini btn-cancle-enroll" data-enroll-id="{$v['id']}">取消报名</button>
+                        </td>
+                    </tr>
+                    {/foreach}
+                </tbody>
             </table>
+            {include 'components/pagination.tpl'}
         </div>
     </div>
 </div>
+{/block}
+{block name=footeraddtion}
+<script src="/vendors/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+<script src="/js/enroll.js"></script>
 {/block}

@@ -31,4 +31,22 @@ class Enroll extends Api{
         }
         $this->sendJson();
     }
+
+    public function cancle(){
+        $id = isset($_POST['id']) ? intval($_POST['id']) : null;
+        $uid = $_SESSION['uid'];
+        if(is_null($id)){
+            $this->invalid_request();
+        }
+        try{
+            $enroll = new Model\Enroll();
+            $enroll->setEnrollStatusStudent($id, Model\Enroll::NOT_ENROLLED, $uid);
+            $this->result['status'] = parent::CREATED;
+            $this->result['data'] = '取消报名成功';
+        }catch(\Exception $e){
+            $this->result['status'] = $e->getCode();
+            $this->result['data'] = $e->getMessage();
+        }
+        $this->sendJson();
+    }
 }
