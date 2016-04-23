@@ -58,4 +58,46 @@ function validate(){
             title : "必须填写考试说明"
         }
     });
+
+    $('#building-add').validate({
+        rules : {
+            name : "required",
+            code : {
+                required : true,
+                digits:true,
+                range:[1,99]
+            },
+            title : "required"
+        },
+        messages : {
+            name : "必须输入教学楼的名称",
+            code : {
+                required : "必须输入教学楼的编码",
+                digits : "必须输入整数",
+                range : "编码必须介于1~99之间"
+            },
+            title : "必须输入教学楼的备注"
+        }
+    });
+
+    $('#building-edit').validate({
+        rules : {
+            name : "required",
+            code : {
+                required : true,
+                digits:true,
+                range:[1,99]
+            },
+            title : "required"
+        },
+        messages : {
+            name : "必须输入教学楼的名称",
+            code : {
+                required : "必须输入教学楼的编码",
+                digits : "必须输入整数",
+                range : "编码必须介于1~99之间"
+            },
+            title : "必须输入教学楼的备注"
+        }
+    });
 }

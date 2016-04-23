@@ -4,6 +4,12 @@
         <li class="{if $left_nav_active eq 'index'}active{/if}">
             <a href="/index.php/room"><i class="icon-chevron-right"></i>查看当前考场列表</a>
         </li>
+        <li class="{if $left_nav_active eq 'building'}active{/if}">
+            <a href="/index.php/building"><i class="icon-chevron-right"></i>查看教学楼列表</a>
+        </li>
+        <li class="{if $left_nav_active eq 'room_type'}active{/if}">
+            <a href="/index.php/room/type"><i class="icon-chevron-right"></i>查看考场类型列表</a>
+        </li>
         <li class="{if $left_nav_active eq 'add'}active{/if}">
            <a href="/index.php/room/add"><i class="icon-chevron-right"></i>新增考场</a>
         </li>

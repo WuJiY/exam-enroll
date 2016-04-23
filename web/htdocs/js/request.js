@@ -125,4 +125,65 @@ function request(){
             });
         }
     });
+
+    $('#building-add-btn').click(function(){
+        if($('#building-add').valid()){
+            var name = $('#name').val();
+            var code = $('#code').val();
+            var title = $('#title').val();
+            $('input').attr('disabled', 'disabled');
+            var index = layer.load(1, {
+                shade : [0.1, '#fff']
+            });
+            $.post("/api.php/building/add", {
+                name : name,
+                code : code,
+                title : title
+            }, function(data, status){
+                layer.close(index);
+                $('input').removeAttr('disabled');
+                if(status == 'success'){
+                    if(data.status == 201){
+                        layer.alert(data.data.desc, {}, function(){
+                            window.location.href=data.data.uri;
+                        });
+                    }else{
+                        layer.msg(data.status + " : " + data.data);
+                    }
+                }
+            });
+        }
+    });
+
+    $('#building-edit-btn').click(function(){
+        if($('#building-edit').valid()){
+            var name = $('#name').val();
+            var code = $('#code').val();
+            var title = $('#title').val();
+            var id = $(this).attr('data-building-id');
+            $('input').attr('disabled', 'disabled');
+            var index = layer.load(1, {
+                shade : [0.1, '#fff']
+            });
+            $.post("/api.php/building/edit", {
+                name : name,
+                code : code,
+                title : title,
+                id : id
+            }, function(data, status){
+                console.log(data);
+                layer.close(index);
+                $('input').removeAttr('disabled');
+                if(status == 'success'){
+                    if(data.status == 201){
+                        layer.alert(data.data.desc, {}, function(){
+                            window.location.href=data.data.uri;
+                        });
+                    }else{
+                        layer.msg(data.status + " : " + data.data);
+                    }
+                }
+            });
+        }
+    });
 }

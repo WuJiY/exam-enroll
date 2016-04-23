@@ -40,6 +40,7 @@ class Api {
     */
     public function __construct(){
         ob_start();
+        header('Content-type: text/json');
         $this->checkAuth();
     }
 
@@ -79,7 +80,6 @@ class Api {
     public function sendJson(){
         ob_end_clean();
         //ob_end_flush();
-        header('Content-type: text/json');
         echo json_encode($this->result);
         exit;
     }

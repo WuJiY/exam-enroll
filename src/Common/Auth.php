@@ -49,7 +49,12 @@ class Auth {
             '/\/api.php\/exam\/info/',
             '/\/api.php\/exam\/edit/',
             '/\/index.php\/exam\/edit/',
-            '/\/api.php\/exam\/delete/'
+            '/\/api.php\/exam\/delete/',
+            '/\/index.php\/room\/type/',
+            '/\/index.php\/building/',
+            '/\/api.php\/building\/add/',
+            '/\/api.php\/building\/delete/',
+            '/\/api.php\/building\/edit/'
         ],
         'auth'  =>  [
             '/\/index.php\/auth/',

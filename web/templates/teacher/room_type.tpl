@@ -8,7 +8,7 @@
     <div class="navbar navbar-inner block-header">
     </div>
     <div class="block-content collapse in">
-        <legend>当前考场列表</legend>
+        <legend>考场类型列表</legend>
         <div class="span12">
             <table class="table table-hover">
               <thead>
