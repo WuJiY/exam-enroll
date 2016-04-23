@@ -27,6 +27,30 @@ class Room extends Api{
         $this->sendJson();
     }
 
+    public function edit(){
+        $volume = isset($_POST['volume']) ? intval($_POST['volume']) : null;
+        $code = isset($_POST['code']) ? $_POST['code'] : null;
+        $title = isset($_POST['title']) ? $_POST['title'] : null;
+        $building = isset($_POST['building']) ? intval($_POST['building']) : null;
+        $id = isset($_POST['id']) ? intval($_POST['id']) : null;
+        if(is_null($volume) || is_null($code) || is_null($title) || is_null($building) || is_null($id)){
+            $this->invalid_request();
+        }
+        try{
+            $room = new Model\Room();
+            $room->update($id, $building, $code, $title, $volume);
+            $this->result['status'] = parent::CREATED;
+            $this->result['data'] = [
+                'desc'  =>  '修改教室信息成功',
+                'uri'   =>  '/index.php/room'
+            ];
+        }catch(\Exception $e){
+            $this->result['status'] = $e->getCode();
+            $this->result['data'] = $e->getMessage();
+        }
+        $this->sendJson();
+    }
+
     public function delete(){
         $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
         try{

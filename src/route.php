@@ -56,6 +56,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('POST', '/api.php/building/edit', 'api\\Room\\building_edit');
     $r->addRoute('POST', '/api.php/room/add', 'api\\Room\\add');
     $r->addRoute('POST', '/api.php/room/delete', 'api\\Room\\delete');
+    $r->addRoute('POST', '/api.php/room/edit', 'api\\Room\\edit');
 
 
 });

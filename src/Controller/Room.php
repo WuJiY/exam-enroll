@@ -58,7 +58,7 @@ class Room extends Controller{
             $this->error($e->getMessage(), $e->getCode());
         }
         $this->smarty->assign('left_nav_active', 'add');
-        $this->display('add_room.tpl');
+        $this->display('room_edit.tpl');
     }
 
     public function building_add(){

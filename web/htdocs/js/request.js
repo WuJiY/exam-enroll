@@ -217,4 +217,38 @@ function request(){
             });
         }
     });
+
+    $('#room-edit-btn').click(function(){
+        if($('#room-edit').valid()){
+            var volume = $('#volume').val();
+            var code = $('#code').val();
+            var title = $('#title').val();
+            var building = $('#building').val();
+            var id = $(this).attr('data-room-id');
+            $('input').attr('disabled', 'disabled');
+            var index = layer.load(1, {
+                shade : [0.1, '#fff']
+            });
+            $.post("/api.php/room/edit", {
+                volume : volume,
+                code : code,
+                title : title,
+                building : building,
+                id : id
+            }, function(data, status){
+                console.log(data);
+                layer.close(index);
+                $('input').removeAttr('disabled');
+                if(status == 'success'){
+                    if(data.status == 201){
+                        layer.alert(data.data.desc, {}, function(){
+                            window.location.href=data.data.uri;
+                        });
+                    }else{
+                        layer.msg(data.status + " : " + data.data);
+                    }
+                }
+            });
+        }
+    });
 }

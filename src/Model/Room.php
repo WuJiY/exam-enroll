@@ -59,6 +59,29 @@ class Room extends Model{
         }
     }
 
+    public function query($id = 0){
+        if($id == 0){
+            throw new \Exception('请求的教学楼信息不存在', 404);
+        }
+        $stmp = $this->db->prepare("SELECT * FROM room WHERE id = :id AND status = :status");
+        $stmp->bindParam(':id', $id);
+        $stmp->bindValue(':status', self::INUSE);
+        if($stmp->execute()){
+            $result = $stmp->fetch();
+            if($result != false){
+                if(!empty($result)){
+                    return $result;
+                }else{
+                    throw new \Exception('请求的教室信息不存在', 404);
+                }
+            }else{
+                throw new \Exception('数据库查询失败', 500);
+            }
+        }else{
+            throw new \Exception('数据库查询失败', 500);
+        }
+    }
+
     public function queryAllLimit($start, $num){
         $stmp = $this->db->prepare("SELECT a.id, a.code, a.title, a.volume, b.name FROM room a LEFT JOIN building b ON a.location = b.id WHERE a.status = :status LIMIT :start,:num");
         $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);

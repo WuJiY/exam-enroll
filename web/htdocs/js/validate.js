@@ -131,4 +131,35 @@ function validate(){
             building : "必须选择这个教室所在的教学楼"
         }
     });
+
+    $('#room-edit').validate({
+        rules : {
+            volume : {
+                required : true,
+                digits : true,
+                range : [0, 100]
+            },
+            code : {
+                required : true,
+                digits:true,
+                range:[1,9999]
+            },
+            title : "required",
+            building : "required"
+        },
+        messages : {
+            volume : {
+                required : '必须输入这个教室可以容纳学生的数量',
+                digits : '必须输入整数',
+                range : '必须是1~100之间的数字'
+            },
+            code : {
+                required : "必须输入教学楼的编码",
+                digits : "必须输入整数",
+                range : "编码必须介于1~9999之间"
+            },
+            title : "必须输入教学楼的备注",
+            building : "必须选择这个教室所在的教学楼"
+        }
+    });
 }
