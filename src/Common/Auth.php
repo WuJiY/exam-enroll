@@ -58,7 +58,9 @@ class Auth {
             '/\/api.php\/room\/add/',
             '/\/api.php\/room\/delete/',
             '/\/api.php\/room\/edit/',
-            '/\/index.php\/room\/edit/'
+            '/\/index.php\/room\/edit/',
+            '/\/api.php\/exam\/score\/state/',
+            '/\/api.php\/exam\/enroll\/state/'
         ],
         'auth'  =>  [
             '/\/index.php\/auth/',

@@ -1,7 +1,7 @@
 <?php
 /** 控制器 */
 namespace Kezhi\Controller;
-use Kezhi;
+use Kezhi\Model as Model;
 /**
  * User 控制器
  * 处理用户的相关操作
@@ -21,6 +21,14 @@ class User extends Controller{
      * 用户个人信息页面
     */
     public function profile(){
+        $id = isset($_SESSION['uid']) ? $_SESSION['uid'] : 0;
+        try{
+            $userinfo = new Model\UserInfo();
+            $data = $userinfo->query($id);
+            $this->smarty->assign('data', $data);
+        }catch(\Exception $e){
+            $this->error($e->getMessage(), $e->getCode());
+        }
         $this->smarty->assign('left_nav_active', 'profile');
         $this->smarty->display('profile.tpl');
     }

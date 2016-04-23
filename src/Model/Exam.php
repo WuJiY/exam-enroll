@@ -9,11 +9,13 @@ namespace Kezhi\Model;
  * id INT(8) NOT NULL PRIMARY KEY AUTO_INCREMENT,
  * name VARCHAR(45) NOT NULL COMMENT '考试名称',
  * type TINYINT NOT NULL DEFAULT 0 COMMENT '考试类型',
- * title TEXT NOT NULL DEFAULT '无' COMMENT '考试说明',
- * create_time TIMESTAMP(14) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录创建时间',
- * update_time TIMESTAMP(14) NOT NULL DEFAULT 0 ON COMMENT '最后更新时间',
- * exam_time TIMESTAMP(14) NOT NULL COMMENT '考试开始时间',
- * status TINYINT NOT NULL DEFAULT 0 COMMENT '状态'
+ * title TEXT NOT NULL COMMENT '考试说明',
+ * create_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录创建时间',
+ * update_time TIMESTAMP NOT NULL COMMENT '最后更新时间',
+ * exam_time TIMESTAMP NOT NULL COMMENT '考试开始时间',
+ * status TINYINT NOT NULL DEFAULT 0 COMMENT '状态',
+ * enroll_status TINYINT NOT NULL DEFAULT 0 COMMENT '报名开启状态',
+ * score_status TINYINT NOT NULL DEFAULT 0 COMMENT '成绩查询开启状态'
  * )DEFAULT CHARSET=utf8 COMMENT='考试信息表';
 */
 class Exam extends Model{
@@ -42,6 +44,28 @@ class Exam extends Model{
             }
         }
         return '无';
+    }
+
+    public function setEnrollState($id, $status){
+        $stmp = $this->db->prepare("UPDATE exam SET enroll_status = :enroll_status WHERE id = :id LIMIT 1");
+        $stmp->bindParam(':id', intval($id));
+        $stmp->bindValue(':enroll_status', $status == 1 ? 1 : 0, \PDO::PARAM_INT);
+        if($stmp->execute()){
+            return true;
+        }else{
+            throw new \Exception('未知原因导致的状态修改失败', 500);
+        }
+    }
+
+    public function setScoreState($id, $status){
+        $stmp = $this->db->prepare("UPDATE exam SET score_status = :score_status WHERE id = :id LIMIT 1");
+        $stmp->bindParam(':id', $id);
+        $stmp->bindValue(':score_status', $status == 1 ? 1 : 0, \PDO::PARAM_INT);
+        if($stmp->execute()){
+            return true;
+        }else{
+            throw new \Exception('未知原因导致的状态修改失败', 500);
+        }
     }
 
     public function add($name, $type, $title, $exam_time){

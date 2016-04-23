@@ -24,6 +24,7 @@ class Auth extends Api{
         }
         $user = new Model\User();
         try{
+
             $info = $user->auth($username, $password);
             if($info !== false){
                 $md5 = session_id();

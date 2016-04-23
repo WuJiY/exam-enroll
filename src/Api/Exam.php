@@ -82,5 +82,41 @@ class Exam extends Api{
         }
         $this->sendJson();
     }
+
+    public function set_enroll_state(){
+        $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+        $state = isset($_POST['enroll']) ? intval($_POST['enroll']) : 0;
+        try{
+            $exam = new Model\Exam();
+            $exam->setEnrollState($id, $state);
+            $this->result['status'] = parent::CREATED;
+            $this->result['data'] = [
+                'desc'  =>  '报名状态设置成功',
+                'status'    =>  $state
+            ];
+        }catch(\Exception $e){
+            $this->result['status'] = $e->getCode();
+            $this->result['data'] = $e->getMessage();
+        }
+        $this->sendJson();
+    }
+
+    public function set_score_state(){
+        $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+        $state = isset($_POST['enroll']) ? intval($_POST['enroll']) : 0;
+        try{
+            $exam = new Model\Exam();
+            $exam->setScoreState($id, $state);
+            $this->result['status'] = parent::CREATED;
+            $this->result['data'] = [
+                'desc'  =>  '成绩查询状态设置成功',
+                'status'    =>  $state
+            ];
+        }catch(\Exception $e){
+            $this->result['status'] = $e->getCode();
+            $this->result['data'] = $e->getMessage();
+        }
+        $this->sendJson();
+    }
 }
 ?>

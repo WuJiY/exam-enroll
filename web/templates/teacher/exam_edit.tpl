@@ -57,5 +57,6 @@
 {block name=footeraddtion}
 <script src="/vendors/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script src="/vendors/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="/vendors/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
 <script src="/js/exam.js"></script>
 {/block}

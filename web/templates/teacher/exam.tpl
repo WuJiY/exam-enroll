@@ -1,5 +1,8 @@
 {* Smarty *}
 {extends file='../layouts/teacher.tpl'}
+{block name=headaddtion}
+<link rel="stylesheet" href="/vendors/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css" >
+{/block}
 {block name=nav}
     {include 'components/teacher/nav_exam.tpl'}
 {/block}
@@ -17,6 +20,8 @@
                       <th>项目</th>
                       <th>考试时间</th>
                       <th>操作</th>
+                      <th>报名</th>
+                      <th>成绩查询</th>
                   </tr>
               </thead>
               <tbody>
@@ -29,6 +34,12 @@
                           <button class="btn btn-primary btn-mini btn-edit" data-exam-id="{$v['id']}">修改</button>
                           <button class="btn btn-danger btn-mini btn-delete" data-exam-id="{$v['id']}">删除</button>
                           <button class="btn btn-primary btn-mini btn-show" data-exam-id="{$v['id']}">查看</button>
+                      </td>
+                      <td>
+                          <input class="enroll" type="checkbox" data-exam-id="{$v['id']}" data-size="mini" data-on-color="success" data-on-text="已开启" data-off-text="已关闭" {if $v['enroll_status'] eq 1}checked{/if}>
+                      </td>
+                      <td>
+                          <input class="score" type="checkbox" data-exam-id="{$v['id']}" data-size="mini" data-on-color="success" data-on-text="已开启" data-off-text="已关闭" {if $v['score_status'] eq 1}checked{/if}>
                       </td>
                   </tr>
                   {/foreach}
@@ -45,5 +56,6 @@
 {block name=footeraddtion}
 <script src="/vendors/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script src="/vendors/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="/vendors/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
 <script src="/js/exam.js"></script>
 {/block}
