@@ -1,6 +1,8 @@
 <?php
 /** 控制器 */
 namespace Kezhi\Controller;
+
+use Kezhi\Model as Model;
 /**
  * 报名控制器
 */
@@ -21,6 +23,17 @@ class Enroll extends Controller{
      * 报名操作页面
     */
     public function enroll(){
+        try{
+            $exam = new Model\Exam();
+            $data = $exam->queryAllEnrollable();
+            foreach($data as &$v){
+                $v['type_name'] = $exam->getExamTypeName($v['type']);
+            }
+            unset($v);
+            $this->smarty->assign('data', $data);
+        }catch(\Exception $e){
+            $this->error($e->getMessage(), $e->getCode());
+        }
         $this->smarty->assign('left_nav_active', 'enroll');
         $this->smarty->display('enroll.tpl');
     }

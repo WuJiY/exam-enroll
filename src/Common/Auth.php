@@ -19,7 +19,8 @@ class Auth {
             '/\/api.php\/user\/change_password/',
             '/\/index.php\/enroll$/',
             '/\/index.php\/enroll_info/',
-            '/\/index.php\/score/'
+            '/\/index.php\/score/',
+            '/\/api.php\/enroll/'
         ],
         'teacher'   =>  [
             '/\/index.php\/user/',
@@ -60,7 +61,8 @@ class Auth {
             '/\/api.php\/room\/edit/',
             '/\/index.php\/room\/edit/',
             '/\/api.php\/exam\/score\/state/',
-            '/\/api.php\/exam\/enroll\/state/'
+            '/\/api.php\/exam\/enroll\/state/',
+
         ],
         'auth'  =>  [
             '/\/index.php\/auth/',

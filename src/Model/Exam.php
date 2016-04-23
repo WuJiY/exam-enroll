@@ -154,6 +154,25 @@ class Exam extends Model{
         }
     }
 
+    /**
+     * 查询所有可以报名的数据
+    */
+    public function queryAllEnrollable(){
+        $stmp = $this->db->prepare("SELECT a.id, a.name, a.type, a.exam_time, a.title, b.enroll_status FROM exam a LEFT JOIN enroll b ON b.exam_id = a.id WHERE a.status = :status AND a.enroll_status = :enroll_status");
+        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
+        $stmp->bindValue(':enroll_status', 1, \PDO::PARAM_INT);
+        if($stmp->execute()){
+            $result = $stmp->fetchAll();
+            if($result !== false){
+                return $result;
+            }else{
+                return [];
+            }
+        }else{
+            throw new \Exception('数据库查询失败', 500);
+        }
+    }
+
     public function delete($id = 0){
         if($id == 0){
             throw new \Exception('请求的数据不存在', 404);
