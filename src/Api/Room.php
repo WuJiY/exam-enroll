@@ -4,6 +4,43 @@ namespace Kezhi\Api;
 use Kezhi\Model as Model;
 
 class Room extends Api{
+    public function add(){
+        $volume = isset($_POST['volume']) ? intval($_POST['volume']) : null;
+        $code = isset($_POST['code']) ? $_POST['code'] : null;
+        $title = isset($_POST['title']) ? $_POST['title'] : null;
+        $building = isset($_POST['building']) ? intval($_POST['building']) : null;
+        if(is_null($volume) || is_null($code) || is_null($title) || is_null($building)){
+            $this->invalid_request();
+        }
+        try{
+            $room = new Model\Room();
+            $room->add($building, $code, $title, $volume);
+            $this->result['status'] = parent::CREATED;
+            $this->result['data'] = [
+                'desc'  =>  '新增教室信息成功',
+                'uri'   =>  '/index.php/room'
+            ];
+        }catch(\Exception $e){
+            $this->result['status'] = $e->getCode();
+            $this->result['data'] = $e->getMessage();
+        }
+        $this->sendJson();
+    }
+
+    public function delete(){
+        $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+        try{
+            $room = new Model\Room();
+            $room->delete($id);
+            $this->result['status'] = parent::NO_CONTENT;
+            $this->result['data'] = '删除教室信息成功';
+        }catch(\Exception $e){
+            $this->result['status'] = $e->getCode();
+            $this->result['data'] = $e->getMessage();
+        }
+        $this->sendJson();
+    }
+
     public function building_add(){
         $name = isset($_POST['name']) ? $_POST['name'] : null;
         $code = isset($_POST['code']) ? $_POST['code'] : null;

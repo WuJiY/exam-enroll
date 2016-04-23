@@ -49,8 +49,9 @@ class Building extends Model{
         if($id == 0){
             throw new \Exception('请求的教学楼信息不存在', 404);
         }
-        $stmp = $this->db->prepare("SELECT * FROM building WHERE id = :id");
+        $stmp = $this->db->prepare("SELECT * FROM building WHERE id = :id AND status = :status");
         $stmp->bindParam(':id', $id);
+        $stmp->bindValue(':status', self::INUSE);
         if($stmp->execute()){
             $result = $stmp->fetch();
             if($result != false){
@@ -67,8 +68,29 @@ class Building extends Model{
         }
     }
 
+    public function queryAllName(){
+        $stmp = $this->db->prepare("SELECT id, name FROM building WHERE status = :status");
+        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
+        if($stmp->execute()){
+            $result = $stmp->fetchAll();
+            if($result != false){
+                if(!empty($result)){
+                    return $result;
+                }else{
+                    throw new \Exception('请求的教学楼信息不存在', 404);
+                }
+            }else{
+                throw new \Exception('数据库查询失败', 500);
+            }
+        }else{
+            throw new \Exception('数据库查询失败', 500);
+        }
+
+    }
+
     public function delete($id){
-        $stmp = $this->db->prepare("DELETE FROM building WHERE id = :id LIMIT 1");
+        $stmp = $this->db->prepare("UPDATE building SET status = :status WHERE id = :id");
+        $stmp->bindValue(':status', self::DELETED, \PDO::PARAM_INT);
         $stmp->bindParam(':id', $id);
         if($stmp->execute()){
             return true;

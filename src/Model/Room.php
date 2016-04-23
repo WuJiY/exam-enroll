@@ -6,7 +6,7 @@ namespace Kezhi\Model;
  * CREATE TABLE room(
  * id INT(8) NOT NULL AUTO_INCREMENT PRIMARY KEY,
  * location INT(8) NOT NULL COMMENT '教学楼ID',
- * code INT(8) NOT NULL COMMENT '教室编号,自动补全为4位',
+ * code INT(8) NOT NULL COMMENT UNIQUE '教室编号,自动补全为4位',
  * title VARCHAR(45) NOT NULL COMMENT '备注',
  * volume INT(8) NOT NULL DEFAULT 0 COMMENT '可容纳学生数量',
  * status TINYINT NOT NULL DEFAULT 0 COMMENT '状态',
@@ -49,11 +49,45 @@ class Room extends Model{
     }
 
     public function delete($id){
-        $stmp = $this->db->prepare("DELETE FROM room WHERE id = :id LIMIT 1");
+        $stmp = $this->db->prepare("UPDATE room SET status = :status WHERE id = :id");
+        $stmp->bindValue(':status', self::DELETED, \PDO::PARAM_INT);
+        $stmp->bindParam(':id', $id);
         if($stmp->execute()){
             return true;
         }else{
             throw new \Exception('未知原因导致的服务器错误', 500);
+        }
+    }
+
+    public function queryAllLimit($start, $num){
+        $stmp = $this->db->prepare("SELECT a.id, a.code, a.title, a.volume, b.name FROM room a LEFT JOIN building b ON a.location = b.id WHERE a.status = :status LIMIT :start,:num");
+        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
+        $stmp->bindValue(':start', $start, \PDO::PARAM_INT);
+        $stmp->bindValue(':num', $num, \PDO::PARAM_INT);
+        if($stmp->execute()){
+            $result = $stmp->fetchAll();
+            if($result !== false){
+                return $result;
+            }else{
+                return [];
+            }
+        }else{
+            throw new \Exception('数据库查询失败', 500);
+        }
+    }
+
+    public function getCount(){
+        $result = $this
+        ->db
+        ->query("SELECT COUNT(*) FROM room WHERE status = " . self::INUSE);
+        if($result === false){
+            throw new \Exception('数据库查询失败', 500);
+        }
+        $result = $result->fetch();
+        if($result === false){
+            throw new \Exception('数据库查询失败', 500);
+        }else{
+            return intval($result[0]);
         }
     }
 

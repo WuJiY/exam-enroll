@@ -26,12 +26,11 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('GET', '/index.php/diploma', 'Diploma\\index');
     $r->addRoute('GET', '/index.php/room', 'Room\\index');
     $r->addRoute('GET', '/index.php/room/add', 'Room\\add');
+    $r->addRoute('GET', '/index.php/room/edit/{id:\d+}', 'Room\\edit');
     $r->addRoute('GET', '/index.php/room/allot', 'Room\\allot');
     $r->addRoute('GET', '/index.php/building', 'Room\\building');
     $r->addRoute('GET', '/index.php/building/add', 'Room\\building_add');
     $r->addRoute('GET', '/index.php/building/edit/{id:\d+}', 'Room\\building_edit');
-
-    $r->addRoute('GET', '/index.php/room/type', 'Room\\type');
     $r->addRoute('GET', '/index.php/student_info', 'Student\\student_info');
     $r->addRoute('GET', '/index.php/student/edit/student_info/{id:\d+}', 'Student\\edit_student_info');
     $r->addRoute('GET', '/index.php/pay_info', 'Student\\pay_info');
@@ -55,6 +54,8 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('POST', '/api.php/building/add', 'api\\Room\\building_add');
     $r->addRoute('POST', '/api.php/building/delete', 'api\\Room\\building_delete');
     $r->addRoute('POST', '/api.php/building/edit', 'api\\Room\\building_edit');
+    $r->addRoute('POST', '/api.php/room/add', 'api\\Room\\add');
+    $r->addRoute('POST', '/api.php/room/delete', 'api\\Room\\delete');
 
 
 });

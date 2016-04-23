@@ -13,6 +13,19 @@ class Room extends Controller{
      * 查看考场页面
     */
     public function index(){
+        $page_id = isset($_GET['page']) ? intval($_GET['page']) : 1;
+        try{
+            $room = new Model\Room();
+            $totle_number = $room->getCount();
+            $page = new Lib\Page($totle_number, $page_id);
+            $data = $room->queryAllLimit($page->getCurrentNum(), $page->getPerPageNum());
+            $this->smarty->assign('data', $data);
+            $this->smarty->assign('current_page', $page->getCurrentPage());
+            $this->smarty->assign('max_page_num', $page->getTotlePages());
+            $this->smarty->assign('pages', $page->getPages());
+        }catch(\Exception $e){
+            $this->error($e->getMessage(), $e->getCode());
+        }
         $this->smarty->assign('left_nav_active', 'index');
         $this->display('room.tpl');
     }
@@ -21,6 +34,29 @@ class Room extends Controller{
      * 新增考场页面
     */
     public function add(){
+        try{
+            $building = new Model\Building();
+            $data_buildings = $building->queryAllName();
+            $this->smarty->assign('buildings', $data_buildings);
+        }catch(\Exception $e){
+            $this->error($e->getMessage(), $e->getCode());
+        }
+        $this->smarty->assign('left_nav_active', 'add');
+        $this->display('add_room.tpl');
+    }
+
+    public function edit($id){
+        $id = intval($id);
+        try{
+            $building = new Model\Building();
+            $room = new Model\Room();
+            $data_buildings = $building->queryAllName();
+            $data = $room->query($id);
+            $this->smarty->assign('data', $data);
+            $this->smarty->assign('buildings', $data_buildings);
+        }catch(\Exception $e){
+            $this->error($e->getMessage(), $e->getCode());
+        }
         $this->smarty->assign('left_nav_active', 'add');
         $this->display('add_room.tpl');
     }

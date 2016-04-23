@@ -8,35 +8,42 @@
     <div class="navbar navbar-inner block-header">
     </div>
     <div class="block-content collapse in">
-     <form class="form-horizontal">
-              <fieldset>
-        <legend>新增考场</legend>
+        <form class="form-horizontal" id="room-add">
+            <fieldset>
+                <legend>新增考场</legend>
 
-        <div class="control-group">
-                  <label class="control-label" for="focusedInput">考场编号</label>
-                  <div class="controls">
-                    <input class="input-xlarge focused" id="focusedInput" type="text" value="This is focused...">
-                  </div>
+                <div class="control-group">
+                    <label class="control-label" for="code">考场编号</label>
+                    <div class="controls">
+                        <input class="input-xlarge focused" id="code" name="code" type="text" placeholder="考场编号，如203,310等">
+                    </div>
                 </div>
                 <div class="control-group">
-                  <label class="control-label" for="focusedInput">可容纳人数</label>
-                  <div class="controls">
-                    <input class="input-xlarge focused" id="focusedInput" type="text" value="This is focused...">
-                  </div>
+                    <label class="control-label" for="volume">可容纳人数</label>
+                    <div class="controls">
+                        <input class="input-xlarge focused" id="volume" name="volume" type="text" placeholder="30">
+                    </div>
                 </div>
                 <div class="control-group">
-                  <label class="control-label" for="focusedInput">考试地址</label>
-                  <div class="controls">
-                    <input class="input-xlarge focused" id="focusedInput" type="text" value="This is focused...">
-                  </div>
+                    <label class="control-label" for="building">考试地址</label>
+                    <div class="controls">
+                        <select name="building" id="building" class="chzn-select">
+                            {foreach $buildings as $building}
+                            <option value="{$building['id']}">{$building['name']}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="title">备注</label>
+                    <div class="controls">
+                    <input class="input-xlarge focused" id="title" name="title" type="text" placeholder="关于这个教室的备注">
                 </div>
 
                 <div class="form-actions" >
-
-               <button class="btn btn-primary"> &nbsp&nbsp&nbsp添加&nbsp&nbsp&nbsp </button>
-
+                    <input type="button" class="btn btn-primary" id="room-add-btn" value="添加">
                 </div>
-       </fieldset>
+            </fieldset>
        </form>
     </div>
 </div>

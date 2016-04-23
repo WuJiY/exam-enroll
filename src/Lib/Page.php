@@ -38,7 +38,8 @@ class Page
     public function __construct($totle_number, $current_page, $per_page_number = 10){
         $this->totle_number = $totle_number;
         $this->per_page_number = $per_page_number;
-        $this->totle_pages = ($totle_number % $per_page_number == 0) ? floor($totle_number / $per_page_number) : floor($totle_number / $per_page_number) + 1;
+        $this->totle_pages = $totle_number == 0 ? 1 :
+        (($totle_number % $per_page_number == 0) ? floor($totle_number / $per_page_number) : floor($totle_number / $per_page_number) + 1);
         $this->current_page = $current_page > $this->totle_pages ? $this->totle_pages : $current_page <= 0 ? 1 : $current_page;
     }
 
