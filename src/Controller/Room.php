@@ -66,10 +66,5 @@ class Room extends Controller{
         }
         $this->display('room_building_edit.tpl');
     }
-
-    public function type(){
-        $this->smarty->assign('left_nav_active', 'room_type');
-        $this->display('room_type.tpl');
-    }
 }
  ?>
