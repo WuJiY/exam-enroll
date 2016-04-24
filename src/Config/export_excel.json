@@ -45,6 +45,18 @@
                 "K" : {
                     "key" : "class",
                     "name" : "班级"
+                },
+                "L" : {
+                    "key" : "chalk",
+                    "name" : "粉笔字缴费情况"
+                },
+                "M" : {
+                    "key" : "pen",
+                    "name" : "钢笔字缴费情况"
+                },
+                "N" : {
+                    "key" : "writing_brush",
+                    "name" : "毛笔字缴费情况"
                 }
             }
         }
