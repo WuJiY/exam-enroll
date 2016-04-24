@@ -27,6 +27,7 @@ class Exam extends Controller{
         }catch(\Exception $e){
             $this->error($e->getMessage(), $e->getCode());
         }
+        $this->smarty->assign('left_nav_active', 'exam');
         $this->display('exam.tpl');
     }
 

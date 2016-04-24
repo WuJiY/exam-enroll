@@ -1,0 +1,52 @@
+{
+    "export_excel" : {
+        "export_student" : {
+            "rules" : {
+                "A" : {
+                    "key" : "id",
+                    "name" : "id"
+                },
+                "B" : {
+                    "key" : "student_number",
+                    "name" : "学号"
+                },
+                "C" : {
+                    "key" : "name",
+                    "name" : "姓名"
+                },
+                "D" : {
+                    "key" : "sex",
+                    "name" : "性别"
+                },
+                "E" : {
+                    "key" : "nation",
+                    "name" : "民族"
+                },
+                "F" : {
+                    "key" : "id_card_number",
+                    "name" : "身份证号码"
+                },
+                "G" : {
+                    "key" : "telephone_number",
+                    "name" : "电话号码"
+                },
+                "H" : {
+                    "key" : "college",
+                    "name" : "学院"
+                },
+                "I" : {
+                    "key" : "grade",
+                    "name" : "年级"
+                },
+                "J" : {
+                    "key" : "major",
+                    "name" : "专业"
+                },
+                "K" : {
+                    "key" : "class",
+                    "name" : "班级"
+                }
+            }
+        }
+    }
+}

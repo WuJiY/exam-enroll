@@ -8,3 +8,5 @@
 /web/cache
 # phpdoc path
 /docs
+# Download path
+/downloads/

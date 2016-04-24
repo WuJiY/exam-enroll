@@ -122,5 +122,21 @@ class Enroll extends Model{
             throw new \Exception('数据库查询失败', 500);
         }
     }
+
+    public function getExportData(Array $exams){
+        $stmp = $this->db->prepare("SELECT a.id, a.pay_status, b.student_number, b.name, b.sex, b.nation, b.id_card_number, b.telephone_number, b.college, b.grade, b.major, b.class, b.status FROM enroll a LEFT JOIN user_info b ON b.uid = a.uid WHERE a.exam_id IN (:exams) AND a.enroll_status = :enroll_status");
+        $stmp->bindValue(':exams', implode(',', $exams));
+        $stmp->bindValue(':enroll_status', self::ENROLLED, \PDO::PARAM_INT);
+        if($stmp->execute()){
+            $result = $stmp->fetchAll();
+            if($result === false){
+                throw new \Exception('数据库查询失败', 500);
+            }else{
+                return $result;
+            }
+        }else{
+            throw new \Exception('数据库查询失败', 500);
+        }
+    }
 }
 ?>

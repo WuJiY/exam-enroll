@@ -35,6 +35,8 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('GET', '/index.php/student/edit/student_info/{id:\d+}', 'Student\\edit_student_info');
     $r->addRoute('GET', '/index.php/pay_info', 'Student\\pay_info');
     $r->addRoute('GET', '/index.php/photos', 'Student\\photos');
+    $r->addRoute('GET', '/index.php/export', 'Export\\index');
+    $r->addRoute('GET', '/index.php/download/{filename:\w+\.\w+}', 'Download\\index');
 
     $r->addRoute('GET', '/index.php/test/{id:\d+}', 'Import\\test');
 
@@ -61,6 +63,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('POST', '/api.php/exam/score/state', 'api\\Exam\\set_score_state');
     $r->addRoute('POST', '/api.php/enroll', 'api\\Enroll\\enroll');
     $r->addRoute('POST', '/api.php/enroll/cancle', 'api\\Enroll\\cancle');
+    $r->addRoute('POST', '/api.php/export', 'api\\Export\\export');
 
 
 });

@@ -173,6 +173,21 @@ class Exam extends Model{
         }
     }
 
+    public function queryAll(){
+        $stmp = $this->db->prepare("SELECT id, name, exam_time FROM exam WHERE status = :status");
+        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
+        if($stmp->execute()){
+            $result = $stmp->fetchAll();
+            if($result !== false){
+                return $result;
+            }else{
+                return [];
+            }
+        }else{
+            throw new \Exception('数据库查询失败', 500);
+        }
+    }
+
     public function delete($id = 0){
         if($id == 0){
             throw new \Exception('请求的数据不存在', 404);

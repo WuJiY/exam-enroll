@@ -15,6 +15,8 @@ define('__CONF__', __DIR__ . '/Config');
 /** @var String __TEST__ 单元测试目录*/
 define('__TEST__', __ROOT__ . 'tests/');
 
+define('__DOWNLOAD__', __ROOT__ . 'downloads/');
+
 
 use Noodlehaus\Config;
 // error_reporting(0);

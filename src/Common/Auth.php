@@ -63,7 +63,9 @@ class Auth {
             '/\/index.php\/room\/edit/',
             '/\/api.php\/exam\/score\/state/',
             '/\/api.php\/exam\/enroll\/state/',
-
+            '/\/index.php\/export/',
+            '/\/api.php\/export/',
+            '/\/index.php\/download\//'
         ],
         'auth'  =>  [
             '/\/index.php\/auth/',
