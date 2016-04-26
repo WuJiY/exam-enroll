@@ -48,15 +48,19 @@
                 },
                 "L" : {
                     "key" : "chalk",
-                    "name" : "粉笔字缴费情况"
+                    "name" : "粉笔字"
                 },
                 "M" : {
                     "key" : "pen",
-                    "name" : "钢笔字缴费情况"
+                    "name" : "钢笔字"
                 },
                 "N" : {
                     "key" : "writing_brush",
-                    "name" : "毛笔字缴费情况"
+                    "name" : "毛笔字"
+                },
+                "O" : {
+                    "key" : "putonghua",
+                    "name" : "普通话"
                 }
             }
         }

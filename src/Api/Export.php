@@ -24,7 +24,31 @@ class Export extends Api{
     public function excel(Array $exams){
         try{
             $enroll = new Model\Enroll();
-            $data = $enroll->getExportData($exams);
+            $exam = new Model\Exam();
+            $data = $enroll->getExportDatas($exams);
+            foreach($data as $k=>&$v){
+                if($v['sex'] == 0){
+                    $v['sex'] = '男';
+                }else if($v['sex'] == 1){
+                    $v['sex'] = '女';
+                }else{
+                    $v['sex'] = '未知';
+                }
+                $v['type_name'] = $exam->getExamTypeName($v['type']);
+                $arr = explode(',', $v['enrolled']);
+                if(array_search('0', $arr)!==false){
+                    $v['writing_brush'] = '已选择';
+                }
+                if(array_search('1', $arr)!==false){
+                    $v['pen'] = '已选择';
+                }
+                if(array_search('2', $arr)!==false){
+                    $v['chalk'] = '已选择';
+                }
+                if(array_search('3', $arr)!==false){
+                    $v['putonghua'] = '已选择';
+                }
+            }
             $excel = new Lib\ExcelExport();
             $rules = $this->getConfig('export_student');
             $excel->setRules($rules['rules']);

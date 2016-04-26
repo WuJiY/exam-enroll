@@ -124,7 +124,14 @@ class Enroll extends Model{
     }
 
     public function getExportData(Array $exams){
-        $stmp = $this->db->prepare("SELECT a.id, a.pay_status, b.student_number, b.name, b.sex, b.nation, b.id_card_number, b.telephone_number, b.college, b.grade, b.major, b.class, b.status FROM enroll a LEFT JOIN user_info b ON b.uid = a.uid WHERE a.exam_id IN (:exams) AND a.enroll_status = :enroll_status");
+        $stmp = $this
+        ->db
+        ->prepare("SELECT a.id, a.pay_status, b.student_number, b.name, b.sex, b.nation, b.id_card_number, b.telephone_number, b.college, b.grade, b.major, b.class, b.status, c.type
+             FROM enroll a
+             LEFT JOIN user_info b ON b.uid = a.uid
+             LEFT JOIN exam c ON c.id = a.exam_id
+             WHERE a.exam_id IN (:exams)
+             AND a.enroll_status = :enroll_status");
         $stmp->bindValue(':exams', implode(',', $exams));
         $stmp->bindValue(':enroll_status', self::ENROLLED, \PDO::PARAM_INT);
         if($stmp->execute()){
@@ -136,6 +143,28 @@ class Enroll extends Model{
             }
         }else{
             throw new \Exception('数据库查询失败', 500);
+        }
+    }
+
+    public function getExportDatas(Array $exams){
+        $stmp = $this
+        ->db
+        ->prepare("SELECT a.id AS id, GROUP_CONCAT(b.type) AS enrolled, c.student_number, c.name, c.sex, c.nation, c.id_card_number, c.telephone_number, c.college, c.grade, c.major, c.class
+        FROM (enroll a,exam b)
+        LEFT JOIN user_info c ON c.uid = a.uid
+        WHERE a.exam_id = b.id AND a.exam_id IN (:exams) AND a.enroll_status = :enroll_status
+        GROUP BY a.uid");
+        $stmp->bindValue(':exams', implode(',', $exams));
+        $stmp->bindValue(':enroll_status', self::ENROLLED, \PDO::PARAM_INT);
+        if($stmp->execute()){
+            $result = $stmp->fetchAll();
+            if($result === false){
+                throw new \Exception('数据库查询失败', 500);
+            }else{
+                return $result;
+            }
+        }else{
+            throw new \Exception('数据库查询失败1', 500);
         }
     }
 }

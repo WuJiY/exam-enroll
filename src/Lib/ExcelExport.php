@@ -38,11 +38,7 @@ class ExcelExport{
                 if($kn == 0){
                     $this->excel->setActiveSheetIndex(0)->setCellValue($ks . ($kn + 1), $vo['name']);
                 }
-                if($vo['key'] == 'sex'){
-                    $this->excel->setActiveSheetIndex(0)->setCellValue($ks . ($kn + 2), isset($v[$vo['key']]) ? ($v[$vo['key']] == 0 ? '男' : ($v[$vo['key']] == 1 ? '女' : '未知')) : '');
-                }else{
-                    $this->excel->setActiveSheetIndex(0)->setCellValue($ks . ($kn + 2), isset($v[$vo['key']]) ? $v[$vo['key']] : '');
-                }
+                $this->excel->setActiveSheetIndex(0)->setCellValue($ks . ($kn + 2), isset($v[$vo['key']]) ? $v[$vo['key']] : '');
             }
         }
     }
