@@ -37,10 +37,14 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('GET', '/index.php/photos', 'Student\\photos');
     $r->addRoute('GET', '/index.php/export', 'Export\\index');
     $r->addRoute('GET', '/index.php/download/{filename:\w+\.\w+}', 'Download\\index');
+    $r->addRoute('GET', '/index.php/image/{filename:[A-Za-z0-9]+\.\w+}', 'Image\\show');
+    $r->addRoute('GET', '/index.php/photo/{uid:\d+}', 'Image\\getPhoto');
+    $r->addRoute('POST', '/index.php/photo', 'Image\\upload');
 
     $r->addRoute('GET', '/index.php/test/{id:\d+}', 'Import\\test');
 
     $r->addRoute('POST', '/api.php/import/student_account', 'api\\Import\\student_account');
+    $r->addRoute('POST', '/api.php/import/student_payinfo', 'api\\Import\\student_payinfo');
     $r->addRoute('POST', '/api.php/auth', 'api\\Auth\\auth');
     $r->addRoute('POST', '/api.php/user/add', 'api\\User\\add');
     $r->addRoute('POST', '/api.php/user/delete', 'api\\User\\delete');
@@ -64,6 +68,8 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('POST', '/api.php/enroll', 'api\\Enroll\\enroll');
     $r->addRoute('POST', '/api.php/enroll/cancle', 'api\\Enroll\\cancle');
     $r->addRoute('POST', '/api.php/export', 'api\\Export\\export');
+    $r->addRoute('POST', '/api.php/photo', 'api\\Photo\\upload');
+    $r->addRoute('POST', '/api.php/photo/set_user', 'api\\Photo\\setPhotoUser');
 
 
 });

@@ -17,6 +17,8 @@ define('__TEST__', __ROOT__ . 'tests/');
 
 define('__DOWNLOAD__', __ROOT__ . 'downloads/');
 
+define('__IMAGES__', __ROOT__ . 'uploads/images/');
+
 
 use Noodlehaus\Config;
 // error_reporting(0);

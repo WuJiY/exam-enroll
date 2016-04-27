@@ -30,8 +30,17 @@ class Student extends Controller{
         $id = intval($id);
         $userinfo = new Model\UserInfo();
         try{
+            $photo = new Model\Photo();
+            if($photo->checkHas($id)){
+                $info = $photo->query($id);
+            }else{
+                $info = [
+                    'name'  =>  'default.png'
+                ];
+            }
             $data = $userinfo->query($id);
             $this->smarty->assign('data', $data);
+            $this->smarty->assign('info', $info);
         }catch(\Exception $e){
             $this->error($e->getMessage(), $e->getCode());
         }

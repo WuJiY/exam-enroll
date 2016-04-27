@@ -24,8 +24,17 @@ class User extends Controller{
         $id = isset($_SESSION['uid']) ? $_SESSION['uid'] : 0;
         try{
             $userinfo = new Model\UserInfo();
+            $photo = new Model\Photo();
+            if($photo->checkHas($_SESSION['uid'])){
+                $info = $photo->query($_SESSION['uid']);
+            }else{
+                $info = [
+                    'name'  =>  'default.png'
+                ];
+            }
             $data = $userinfo->query($id);
             $this->smarty->assign('data', $data);
+            $this->smarty->assign('info', $info);
         }catch(\Exception $e){
             $this->error($e->getMessage(), $e->getCode());
         }
@@ -37,6 +46,19 @@ class User extends Controller{
      * 修改照片页面
     */
     public function modify_photo(){
+        try {
+            $photo = new Model\Photo();
+            if($photo->checkHas($_SESSION['uid'])){
+                $info = $photo->query($_SESSION['uid']);
+            }else{
+                $info = [
+                    'name'  =>  'default.png'
+                ];
+            }
+            $this->smarty->assign('info', $info);
+        } catch (\Exception $e) {
+            $this->error($e->getMessage(), $e->getCode());
+        }
         $this->smarty->assign('left_nav_active', 'modify_photo');
         $this->smarty->display('modify_photo.tpl');
     }

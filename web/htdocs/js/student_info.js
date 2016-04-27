@@ -23,7 +23,8 @@ window.onload = function(){
                         + data.data['college'] + '</td></tr><tr><td>年级</td><td>'
                         + data.data['grade'] + '</td></tr><tr><td>专业</td><td>'
                         + data.data['major'] + '</td></tr><tr><td>班级</td><td>'
-                        + data.data['class'] + '</td></tr></table>'
+                        + data.data['class'] + '</td></tr><tr><td>照片</td><td>'
+                        + '<image src="/index.php/photo/'+ data.data['uid'] + '"' + '</td></tr></table>'
                     });
                 }else{
                     layer.msg(data.status + ':' + data.data);

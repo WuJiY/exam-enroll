@@ -5,7 +5,7 @@ $(function () {
     // Change this to the location of your server-side upload handler:
     // var url = window.location.hostname === 'mao.com' ?
     //             '//jquery-file-upload.appspot.com/' : 'server/php/',
-    var url = '/api.php/photo',
+    var url = '/api.php/import/student_payinfo',
         uploadButton = $('<button/>')
             .addClass('btn btn-primary')
             .prop('disabled', true)
@@ -28,7 +28,7 @@ $(function () {
         url: url,
         dataType: 'json',
         autoUpload: false,
-        acceptFileTypes: /(\.|\/)(jpg|png|jpeg)$/i,
+        acceptFileTypes: /(\.|\/)(xls|xlsx)$/i,
         maxFileSize: 999000,
         // Enable image resizing, except for Android and Opera,
         // which actually support image resizing, but fail to
@@ -90,31 +90,17 @@ $(function () {
         //             .append(error);
         //     }
         // });
-        console.log(data);
+
         $.each(data.files, function (index) {
             var error = $('<span class="text-success"/>').text('文件上传成功。');
             $(data.context.children()[index])
                 .append('<br>')
                 .append(error);
         });
-        if(data.result.status == 201){
-            // $.post('/api.php/photo/set_user', {
-            //
-            // }, function(data, status){
-            //
-            // })
-            layer.msg(data.result.data, {
-                time: 2000, //2s后自动关闭
-                btn: ['知道了']
-            });
-        }else{
-            layer.msg(data.result.status + ':' + data.result.data);
-        }
-        // $.each(data.result.data[0], function(index, result){
-        //     console.log(result);
-        //     $('#results').append('<p>' + result.name + ":" +  result.operater_status +'</p>');
-        // });
-
+        $.each(data.result.data[0], function(index, result){
+            console.log(result);
+            $('#results').append('<p>' + result.name + ":" +  result.operater_status +'</p>');
+        });
 
     }).on('fileuploadfail', function (e, data) {
         $.each(data.files, function (index) {

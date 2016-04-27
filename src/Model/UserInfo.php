@@ -108,7 +108,7 @@ class UserInfo extends Model{
             throw new \Exception('请求的用户信息不存在', 404);
         }
         try{
-            $stmp = $this->db->prepare("SELECT * FROM user_info WHERE uid = :id");
+            $stmp = $this->db->prepare("SELECT a.* FROM user_info a LEFT JOIN photo b ON b.uid = a.uid WHERE a.uid = :id");
             $stmp->bindValue(':id', $uid, \PDO::PARAM_INT);
             if($stmp->execute()){
                 $result = $stmp->fetch();

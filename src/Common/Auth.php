@@ -21,7 +21,10 @@ class Auth {
             '/\/index.php\/enroll_info/',
             '/\/index.php\/score/',
             '/\/api.php\/enroll$/',
-            '/\/api.php\/enroll\/cancle/'
+            '/\/api.php\/enroll\/cancle/',
+            '/\/api.php\/photo/',
+            '/\/index.php\/photo/',
+            '/\/index.php\/image/'
         ],
         'teacher'   =>  [
             '/\/index.php\/user/',
@@ -65,7 +68,10 @@ class Auth {
             '/\/api.php\/exam\/enroll\/state/',
             '/\/index.php\/export/',
             '/\/api.php\/export/',
-            '/\/index.php\/download\//'
+            '/\/index.php\/download\//',
+            '/\/api.php\/photo/',
+            '/\/index.php\/photo/',
+            '/\/index.php\/image/'
         ],
         'auth'  =>  [
             '/\/index.php\/auth/',

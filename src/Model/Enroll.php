@@ -70,6 +70,10 @@ class Enroll extends Model{
         }
     }
 
+    public function importPay(){
+        $stmp = $this->db->prepare("UPDATE ");
+    }
+
     public function setEnrollStatusStudent($id, $status, $uid){
         $stmp = $this->db->prepare("UPDATE enroll, exam SET enroll.enroll_status = :enroll_status WHERE enroll.id = :id AND enroll.exam_id = exam.id AND enroll.uid = :uid AND exam.enroll_status = 1");
         $stmp->bindParam(':id', $id);
@@ -149,7 +153,7 @@ class Enroll extends Model{
     public function getExportDatas(Array $exams){
         $stmp = $this
         ->db
-        ->prepare("SELECT a.id AS id, GROUP_CONCAT(b.type) AS enrolled, c.student_number, c.name, c.sex, c.nation, c.id_card_number, c.telephone_number, c.college, c.grade, c.major, c.class
+        ->prepare("SELECT a.uid AS id, GROUP_CONCAT(b.type) AS enrolled, c.student_number, c.name, c.sex, c.nation, c.id_card_number, c.telephone_number, c.college, c.grade, c.major, c.class
         FROM (enroll a,exam b)
         LEFT JOIN user_info c ON c.uid = a.uid
         WHERE a.exam_id = b.id AND a.exam_id IN (:exams) AND a.enroll_status = :enroll_status

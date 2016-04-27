@@ -40,7 +40,7 @@ class Controller{
      *
      * @param string $url 重定向到哪里
     */
-    private function redirect($url){
+    protected function redirect($url){
         header('Location: ' . $url);
         exit;
     }

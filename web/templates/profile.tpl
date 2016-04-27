@@ -27,7 +27,7 @@
                   <label class="control-label">照片</label>
                     <div class="span3" style="width:150px;height:180px;">
                         <a href="#" class="thumbnail">
-                            <img  style="width: 150px; height: 180px;" src="images/photo.jpeg">
+                            <img  style="width: 150px; height: 180px;" src="/index.php/image/{$info['name']}">
                         </a>
                     </div>
                 </div>

@@ -11,28 +11,10 @@
     <div class="navbar navbar-inner block-header">
     </div>
     <div class="block-content collapse in">
-    <legend>个人信息</legend>
-        <div class="span12">
+        <legend>个人信息</legend>
+        <div class="span6">
              <form class="form-horizontal">
                  <fieldset>
-                     <div class="control-group">
-                         <!-- The fileinput-button span is used to style the file input field as button -->
-                         <span class="btn btn-success fileinput-button">
-                             <i class="glyphicon glyphicon-plus"></i>
-                             <span>选择文件</span>
-                             <!-- The file input field used as target for the file upload widget -->
-                             <input id="fileupload" type="file" name="student_account_file">
-                         </span>
-                         <br>
-                         <br>
-                         <!-- The global progress bar -->
-                         <div id="progress" class="progress">
-                             <div class="progress-bar progress-bar-success"></div>
-                         </div>
-                         <!-- The container for the uploaded files -->
-                         <div id="files" class="files"></div>
-                     </div>
-
                      <div class="control-group">
                          <label class="control-label" for="student_number">学号</label>
                          <div class="controls">
@@ -99,13 +81,35 @@
                      </div>
 
                      <div class="form-actions" >
-                         <button class="btn btn-primary"> &nbsp&nbsp&nbsp保存&nbsp&nbsp&nbsp </button>
-                         <button class="btn"> &nbsp&nbsp&nbsp返回&nbsp&nbsp&nbsp </button>
+                         <input class="btn btn-primary" type="button" value="保存">
+                         <input class="btn" type="button" value="返回">
                      </div>
 
                 </fieldset>
             </form>
 
+        </div>
+        <div class="span5">
+            <form class="form-horizontal" method="post" action="/index.php/photo" enctype="multipart/form-data">
+                <div class="control-group">
+                    <label class="control-label"></label>
+                    <div class="span3" style="width:150px;height:180px;">
+                        <a href="#" class="thumbnail">
+                            <img  style="width: 150px; height: 180px;" src="/index.php/image/{$info['name']}">
+                        </a>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="photo">选择照片</label>
+                    <div class="controls">
+                        <input class="input-file uniform_on" name="photo" id="photo" type="file">
+                    </div>
+                    <input type="hidden" name="uid" value="{$data['uid']}">
+                </div>
+                <div class="form-actions" >
+                    <input class="btn" type="submit" name="submit" value="保存">
+                </div>
+            </form>
         </div>
     </div>
 </div>
