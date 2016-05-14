@@ -71,7 +71,8 @@ class Auth {
             '/\/index.php\/download\//',
             '/\/api.php\/photo/',
             '/\/index.php\/photo/',
-            '/\/index.php\/image/'
+            '/\/index.php\/image/',
+            '/\/index.php\/zip/'
         ],
         'auth'  =>  [
             '/\/index.php\/auth/',

@@ -21,7 +21,7 @@ define('__IMAGES__', __ROOT__ . 'uploads/images/');
 
 
 use Noodlehaus\Config;
-// error_reporting(0);
+error_reporting(0);
 $loader = require(__VENDOR__ . 'autoload.php');
 $loader->add('Kezhi\\Controller\\', __DIR__ . '/Controller');
 $conf = new Config(__CONF__);

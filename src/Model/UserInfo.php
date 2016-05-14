@@ -31,6 +31,7 @@ class UserInfo extends Model{
         parent::__construct();
         $this->_user = new User();
     }
+    
     /**
      * 新增一条记录
      *
@@ -100,6 +101,42 @@ class UserInfo extends Model{
             }
         }catch(\Exception $e){
             throw $e;
+        }
+    }
+    
+    public function findUserIdByIdCardNumber($idcardnumber){
+        $stmp = $this->db->prepare("SELECT uid FROM user_info
+            WHERE id_card_number = :idcardnumber LIMIT 1
+            ");
+        $stmp->bindParam(':idcardnumber', $idcardnumber);
+        if($stmp->execute()){
+            $result = $stmp->fetch();
+            if($result != false){
+                if(!empty($result)){
+                    return $result['uid'];
+                }
+            }
+            return false;
+        }else{
+            throw new \Exception('数据库错误');
+        }
+    }
+    
+    public function findUserIdByStudentNumber($studentnumber){
+        $stmp = $this->db->prepare("SELECT uid FROM user_info
+            WHERE student_number = :studentnumber LIMIT 1
+            ");
+        $stmp->bindParam(':studentnumber', $studentnumber);
+        if($stmp->execute()){
+            $result = $stmp->fetch();
+            if($result != false){
+                if(!empty($result)){
+                    return $result['uid'];
+                }
+            }
+            return false;
+        }else{
+            throw new \Exception('数据库错误');
         }
     }
 

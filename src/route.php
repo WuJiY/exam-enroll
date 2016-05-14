@@ -40,6 +40,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('GET', '/index.php/image/{filename:[A-Za-z0-9]+\.\w+}', 'Image\\show');
     $r->addRoute('GET', '/index.php/photo/{uid:\d+}', 'Image\\getPhoto');
     $r->addRoute('POST', '/index.php/photo', 'Image\\upload');
+    $r->addRoute('POST', '/index.php/zip', 'Zip\\upload');
 
     $r->addRoute('GET', '/index.php/test/{id:\d+}', 'Import\\test');
 
