@@ -10,3 +10,6 @@
 /docs
 # Download path
 /downloads/
+# zend studio file
+.project
+/.settings/
