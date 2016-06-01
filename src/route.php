@@ -69,8 +69,10 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('POST', '/api.php/enroll', 'api\\Enroll\\enroll');
     $r->addRoute('POST', '/api.php/enroll/cancle', 'api\\Enroll\\cancle');
     $r->addRoute('POST', '/api.php/export', 'api\\Export\\export');
+    $r->addRoute('POST', '/api.php/export/photos', 'api\\Export\\photos');
     $r->addRoute('POST', '/api.php/photo', 'api\\Photo\\upload');
     $r->addRoute('POST', '/api.php/photo/set_user', 'api\\Photo\\setPhotoUser');
+    $r->addRoute('POST', '/api.php/enroll/pay_status', 'api\\Enroll\\setPayStatus');
 
 
 });

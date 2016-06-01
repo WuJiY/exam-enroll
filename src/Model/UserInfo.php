@@ -35,29 +35,31 @@ class UserInfo extends Model{
     /**
      * 新增一条记录
      *
-     * @param integer $id user_id
-     * @param Array $data 用户的个人信息
+     * @param Int $id user_id
+     * @param array $data 用户的个人信息
+     * @return Boolean
+     * @throws \Exception
     */
     public function add($id, Array $data){
         try{
             is_null($data['student_number']) ? "" : $this->validate_student_number($data['student_number']);
             is_null($data['id_card_number']) ? "" : $this->validate_id_card_number($data['id_card_number']);
             is_null($data['telephone_number']) ? "" : $this->validate_telephone_number($data['telephone_number']);
-            $stmp = $this
+            $stmt = $this
             ->db
             ->prepare("INSERT INTO user_info (uid, student_number, name, sex, nation, id_card_number, telephone_number, college, grade, major, class, status) VALUES (:id, :student_number, :name, :sex, :nation, :id_card_number, :telephone_number, :college, :grade, :major, :class, :status)");
-            $stmp->bindParam(':id', $id);
-            $stmp->bindParam(':student_number', $student_number);
-            $stmp->bindParam(':name', $name);
-            $stmp->bindParam(':sex', $sex);
-            $stmp->bindParam(':nation', $nation);
-            $stmp->bindParam(':id_card_number', $id_card_number);
-            $stmp->bindParam(':telephone_number', $telephone_number);
-            $stmp->bindParam(':college', $college);
-            $stmp->bindParam(':grade', $grade);
-            $stmp->bindParam(':major', $major);
-            $stmp->bindParam(':class', $class);
-            $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
+            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':student_number', $student_number);
+            $stmt->bindParam(':name', $name);
+            $stmt->bindParam(':sex', $sex);
+            $stmt->bindParam(':nation', $nation);
+            $stmt->bindParam(':id_card_number', $id_card_number);
+            $stmt->bindParam(':telephone_number', $telephone_number);
+            $stmt->bindParam(':college', $college);
+            $stmt->bindParam(':grade', $grade);
+            $stmt->bindParam(':major', $major);
+            $stmt->bindParam(':class', $class);
+            $stmt->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
             $id = $id;
             $student_number = $data['student_number'];
             $name = $data['name'];
@@ -69,7 +71,7 @@ class UserInfo extends Model{
             $grade = $data['grade'];
             $major = $data['major'];
             $class = $data['class'];
-            if($stmp->execute()){
+            if($stmt->execute()){
                 return true;
             }else{
                 return false;
@@ -91,10 +93,10 @@ class UserInfo extends Model{
             throw new \Exception('请求的数据不存在', 404);
         }
         try{
-            $stmp = $this->db->prepare("UPDATE user_info SET status = :status WHERE uid = :id");
-            $stmp->bindValue(':status', self::DELETED, \PDO::PARAM_INT);
-            $stmp->bindParam(':id', $id);
-            if($stmp->execute()){
+            $stmt = $this->db->prepare("UPDATE user_info SET status = :status WHERE uid = :id");
+            $stmt->bindValue(':status', self::DELETED, \PDO::PARAM_INT);
+            $stmt->bindParam(':id', $id);
+            if($stmt->execute()){
                 return true;
             }else{
                 return false;
@@ -105,12 +107,12 @@ class UserInfo extends Model{
     }
     
     public function findUserIdByIdCardNumber($idcardnumber){
-        $stmp = $this->db->prepare("SELECT uid FROM user_info
+        $stmt = $this->db->prepare("SELECT uid FROM user_info
             WHERE id_card_number = :idcardnumber LIMIT 1
             ");
-        $stmp->bindParam(':idcardnumber', $idcardnumber);
-        if($stmp->execute()){
-            $result = $stmp->fetch();
+        $stmt->bindParam(':idcardnumber', $idcardnumber);
+        if($stmt->execute()){
+            $result = $stmt->fetch();
             if($result != false){
                 if(!empty($result)){
                     return $result['uid'];
@@ -123,12 +125,12 @@ class UserInfo extends Model{
     }
     
     public function findUserIdByStudentNumber($studentnumber){
-        $stmp = $this->db->prepare("SELECT uid FROM user_info
+        $stmt = $this->db->prepare("SELECT uid FROM user_info
             WHERE student_number = :studentnumber LIMIT 1
             ");
-        $stmp->bindParam(':studentnumber', $studentnumber);
-        if($stmp->execute()){
-            $result = $stmp->fetch();
+        $stmt->bindParam(':studentnumber', $studentnumber);
+        if($stmt->execute()){
+            $result = $stmt->fetch();
             if($result != false){
                 if(!empty($result)){
                     return $result['uid'];
@@ -145,10 +147,10 @@ class UserInfo extends Model{
             throw new \Exception('请求的用户信息不存在', 404);
         }
         try{
-            $stmp = $this->db->prepare("SELECT a.* FROM user_info a LEFT JOIN photo b ON b.uid = a.uid WHERE a.uid = :id");
-            $stmp->bindValue(':id', $uid, \PDO::PARAM_INT);
-            if($stmp->execute()){
-                $result = $stmp->fetch();
+            $stmt = $this->db->prepare("SELECT a.* FROM user_info a LEFT JOIN photo b ON b.uid = a.uid WHERE a.uid = :id");
+            $stmt->bindValue(':id', $uid, \PDO::PARAM_INT);
+            if($stmt->execute()){
+                $result = $stmt->fetch();
                 if($result != false){
                     if(!empty($result)){
                         return $result;
@@ -167,12 +169,12 @@ class UserInfo extends Model{
     }
 
     public function queryAllLimit($start, $num){
-        $stmp = $this->db->prepare("SELECT * FROM user_info WHERE status = :status LIMIT :start,:num");
-        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
-        $stmp->bindValue(':start', $start, \PDO::PARAM_INT);
-        $stmp->bindValue(':num', $num, \PDO::PARAM_INT);
-        if($stmp->execute()){
-            $result = $stmp->fetchAll();
+        $stmt = $this->db->prepare("SELECT * FROM user_info WHERE status = :status LIMIT :start,:num");
+        $stmt->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
+        $stmt->bindValue(':start', $start, \PDO::PARAM_INT);
+        $stmt->bindValue(':num', $num, \PDO::PARAM_INT);
+        if($stmt->execute()){
+            $result = $stmt->fetchAll();
             if($result !== false){
                 return $result;
             }else{
@@ -207,24 +209,24 @@ class UserInfo extends Model{
     /**
      * 导入操作
      *
-     * @param Reference $data Array 要导入的数据，二维数组，是一个引用，导入结果将在$data中修改
+     * @param array &$data 要导入的数据，二维数组，是一个引用，导入结果将在$data中修改
     */
     public function import(Array &$data){
-        $stmp = $this
+        $stmt = $this
         ->db
         ->prepare("INSERT INTO user_info (uid, student_number, name, sex, nation, id_card_number, telephone_number, college, grade, major, class, status) VALUES (:id, :student_number, :name, :sex, :nation, :id_card_number, :telephone_number, :college, :grade, :major, :class, :status)");
-        $stmp->bindParam(':id', $id);
-        $stmp->bindParam(':student_number', $student_number);
-        $stmp->bindParam(':name', $name);
-        $stmp->bindParam(':sex', $sex);
-        $stmp->bindParam(':nation', $nation);
-        $stmp->bindParam(':id_card_number', $id_card_number);
-        $stmp->bindParam(':telephone_number', $telephone_number);
-        $stmp->bindParam(':college', $college);
-        $stmp->bindParam(':grade', $grade);
-        $stmp->bindParam(':major', $major);
-        $stmp->bindParam(':class', $class);
-        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':student_number', $student_number);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':sex', $sex);
+        $stmt->bindParam(':nation', $nation);
+        $stmt->bindParam(':id_card_number', $id_card_number);
+        $stmt->bindParam(':telephone_number', $telephone_number);
+        $stmt->bindParam(':college', $college);
+        $stmt->bindParam(':grade', $grade);
+        $stmt->bindParam(':major', $major);
+        $stmt->bindParam(':class', $class);
+        $stmt->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
         foreach($this->filter($data) as $v){
             try{
                 $id = $v['id'];
@@ -238,7 +240,7 @@ class UserInfo extends Model{
                 $grade = $v['grade'];
                 $major = $v['major'];
                 $class = $v['class'];
-                if($stmp->execute()){
+                if($stmt->execute()){
                     $data[$v['k']]['operater_status'] = '操作成功';
                 }else{
                     $data[$v['k']]['operater_status'] = '操作失败';
@@ -252,7 +254,7 @@ class UserInfo extends Model{
     /**
      * 数据过滤器
      *
-     * @param Reference $data Array 需要过滤的数据
+     * @param array $data 需要过滤的数据
      * @return Array 每次调用将返回一条记录
     */
     private function filter(Array &$data){
@@ -302,7 +304,8 @@ class UserInfo extends Model{
      * Validate student Number
      * min_length : 3
      * max_length : 13
-     * @param Reference $student_number 学号
+     * @param Int $student_number 学号
+     * @throws \Exception
     */
     public function validate_student_number(&$student_number){
         $student_number = $this->trimStr($student_number);
@@ -315,7 +318,8 @@ class UserInfo extends Model{
     /**
      * Validate id card number
      *
-     * @param Reference $id_card_number 身份证号
+     * @param Int $id_card_number 身份证号
+     * @throws \Exception
     */
     public function validate_id_card_number(&$id_card_number){
         $id_card_number = $this->trimStr($id_card_number);
@@ -328,7 +332,8 @@ class UserInfo extends Model{
     /**
      * Validate telephone_number
      *
-     * @param Reference $telephone_number 手机号码
+     * @param string $telephone_number 手机号码
+     * @throws \Exception
     */
     public function validate_telephone_number(&$telephone_number){
         $telephone_number = $this->trimStr($telephone_number);

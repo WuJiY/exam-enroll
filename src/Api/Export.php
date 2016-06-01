@@ -3,6 +3,7 @@ namespace Kezhi\Api;
 
 use Kezhi\Model as Model;
 use Kezhi\Lib as Lib;
+use Alchemy\Zippy as Zippy;
 
 class Export extends Api{
     use \Kezhi\Traits\ExportExcel;
@@ -35,19 +36,6 @@ class Export extends Api{
                     $v['sex'] = '未知';
                 }
                 $v['type_name'] = $exam->getExamTypeName($v['type']);
-                $arr = explode(',', $v['enrolled']);
-                if(array_search('0', $arr)!==false){
-                    $v['writing_brush'] = '已选择';
-                }
-                if(array_search('1', $arr)!==false){
-                    $v['pen'] = '已选择';
-                }
-                if(array_search('2', $arr)!==false){
-                    $v['chalk'] = '已选择';
-                }
-                if(array_search('3', $arr)!==false){
-                    $v['putonghua'] = '已选择';
-                }
             }
             $excel = new Lib\ExcelExport();
             $rules = $this->getConfig('export_student');
@@ -64,6 +52,31 @@ class Export extends Api{
             $this->result['status'] = $e->getCode();
             $this->result['data'] = $e->getMessage();
         }
+        $this->sendJson();
+    }
+
+    public function photos(){
+        $name = isset($_POST['name']) ? $_POST['name'] : null;
+        if(is_null($name)){
+            $this->invalid_request();
+        }
+        @mkdir(__DOWNLOAD__ . 'photos');
+        $zip = Zippy\Zippy::load();
+        $archive = $zip->create('photos.zip', [
+            'folder'    =>  __DOWNLOAD__ . 'photos'
+        ], true);
+        $photo = new Model\Photo();
+        foreach ($photo->getAll() as $photo){
+            try{
+                $archive->addMembers([
+                    'photos/' . $photo[$name]   =>  $photo['dir'] . $photo['name']
+                ]);
+            }catch (\Exception $e){
+                // TODO 记录到日志中
+            }
+        }
+        $this->result['status'] = '导出成功';
+        $this->result['data'] = '/index.php/download/' . 'photos.zip';
         $this->sendJson();
     }
 }

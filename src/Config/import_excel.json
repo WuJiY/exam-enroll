@@ -37,9 +37,8 @@
                     "grade" : "I",
                     "major" : "J",
                     "class" : "K",
-                    "chalk" : "L",
-                    "pen" : "M",
-                    "writing_brush" : "N"
+                    "type_name" : "L",
+                    "ispay" : "M"
                 }
             },
             "import_score_information" : {

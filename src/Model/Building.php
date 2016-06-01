@@ -17,13 +17,13 @@ class Building extends Model{
 
     public function add($name, $code, $title, $status = self::INUSE){
         $this->validateCode($code);
-        $stmp = $this->db->prepare("INSERT INTO building (name, code, title, status) VALUES (:name, :code, :title, :status)");
-        $stmp->bindParam(':name', $name);
-        $stmp->bindParam(':code', $code);
-        $stmp->bindParam(':title', $title);
-        $stmp->bindValue(':status', $status, \PDO::PARAM_INT);
+        $stmt = $this->db->prepare("INSERT INTO building (name, code, title, status) VALUES (:name, :code, :title, :status)");
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':code', $code);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindValue(':status', $status, \PDO::PARAM_INT);
 
-        if($stmp->execute()){
+        if($stmt->execute()){
             return true;
         }else{
             throw new \Exception('未知原因导致的服务器错误', 500);
@@ -32,13 +32,13 @@ class Building extends Model{
 
     public function update($id, $name, $code, $title, $status = self::INUSE){
         $this->validateCode($code);
-        $stmp = $this->db->prepare("UPDATE building SET name=:name, code=:code, title=:title, status=:status WHERE id = :id LIMIT 1");
-        $stmp->bindParam(':id', $id);
-        $stmp->bindParam(':name', $name);
-        $stmp->bindParam(':code', $code);
-        $stmp->bindParam(':title', $title);
-        $stmp->bindValue(':status', $status, \PDO::PARAM_INT);
-        if($stmp->execute()){
+        $stmt = $this->db->prepare("UPDATE building SET name=:name, code=:code, title=:title, status=:status WHERE id = :id LIMIT 1");
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':code', $code);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindValue(':status', $status, \PDO::PARAM_INT);
+        if($stmt->execute()){
             return true;
         }else{
             throw new \Exception('未知原因导致的服务器错误', 500);
@@ -49,11 +49,11 @@ class Building extends Model{
         if($id == 0){
             throw new \Exception('请求的教学楼信息不存在', 404);
         }
-        $stmp = $this->db->prepare("SELECT * FROM building WHERE id = :id AND status = :status");
-        $stmp->bindParam(':id', $id);
-        $stmp->bindValue(':status', self::INUSE);
-        if($stmp->execute()){
-            $result = $stmp->fetch();
+        $stmt = $this->db->prepare("SELECT * FROM building WHERE id = :id AND status = :status");
+        $stmt->bindParam(':id', $id);
+        $stmt->bindValue(':status', self::INUSE);
+        if($stmt->execute()){
+            $result = $stmt->fetch();
             if($result != false){
                 if(!empty($result)){
                     return $result;
@@ -69,10 +69,10 @@ class Building extends Model{
     }
 
     public function queryAllName(){
-        $stmp = $this->db->prepare("SELECT id, name FROM building WHERE status = :status");
-        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
-        if($stmp->execute()){
-            $result = $stmp->fetchAll();
+        $stmt = $this->db->prepare("SELECT id, name FROM building WHERE status = :status");
+        $stmt->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
+        if($stmt->execute()){
+            $result = $stmt->fetchAll();
             if($result != false){
                 if(!empty($result)){
                     return $result;
@@ -89,10 +89,10 @@ class Building extends Model{
     }
 
     public function delete($id){
-        $stmp = $this->db->prepare("UPDATE building SET status = :status WHERE id = :id");
-        $stmp->bindValue(':status', self::DELETED, \PDO::PARAM_INT);
-        $stmp->bindParam(':id', $id);
-        if($stmp->execute()){
+        $stmt = $this->db->prepare("UPDATE building SET status = :status WHERE id = :id");
+        $stmt->bindValue(':status', self::DELETED, \PDO::PARAM_INT);
+        $stmt->bindParam(':id', $id);
+        if($stmt->execute()){
             return true;
         }else{
             throw new \Exception('未知原因导致的服务器错误', 500);
@@ -115,12 +115,12 @@ class Building extends Model{
     }
 
     public function queryAllLimit($start, $num){
-        $stmp = $this->db->prepare("SELECT * FROM building WHERE status = :status LIMIT :start,:num");
-        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
-        $stmp->bindValue(':start', $start, \PDO::PARAM_INT);
-        $stmp->bindValue(':num', $num, \PDO::PARAM_INT);
-        if($stmp->execute()){
-            $result = $stmp->fetchAll();
+        $stmt = $this->db->prepare("SELECT * FROM building WHERE status = :status LIMIT :start,:num");
+        $stmt->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
+        $stmt->bindValue(':start', $start, \PDO::PARAM_INT);
+        $stmt->bindValue(':num', $num, \PDO::PARAM_INT);
+        if($stmt->execute()){
+            $result = $stmt->fetchAll();
             if($result !== false){
                 return $result;
             }else{

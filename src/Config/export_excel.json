@@ -47,20 +47,12 @@
                     "name" : "班级"
                 },
                 "L" : {
-                    "key" : "chalk",
-                    "name" : "粉笔字"
+                    "key" : "type_name",
+                    "name" : "项目类别"
                 },
                 "M" : {
-                    "key" : "pen",
-                    "name" : "钢笔字"
-                },
-                "N" : {
-                    "key" : "writing_brush",
-                    "name" : "毛笔字"
-                },
-                "O" : {
-                    "key" : "putonghua",
-                    "name" : "普通话"
+                    "key" : "ispay",
+                    "name" : "是否缴费"
                 }
             }
         }

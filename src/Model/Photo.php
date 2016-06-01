@@ -18,10 +18,31 @@ class Photo extends Model{
         if($uid == 0){
             throw new \Exception('数据库查询失败', 500);
         }
-        $stmp = $this->db->prepare("SELECT * FROM photo WHERE uid = :uid LIMIT 1");
-        $stmp->bindParam(':uid', $uid);
-        if($stmp->execute()){
-            $result = $stmp->fetch();
+        $stmt = $this->db->prepare("SELECT * FROM photo WHERE uid = :uid LIMIT 1");
+        $stmt->bindParam(':uid', $uid);
+        if($stmt->execute()){
+            $result = $stmt->fetch();
+            if($result !== false){
+                return $result;
+            }else{
+                throw new \Exception('数据库查询成功但获取数据失败', 500);
+            }
+        }else{
+            throw new \Exception('数据库查询失败', 500);
+        }
+    }
+
+    /**
+     * @return array 取得的所有数据
+     * @throws \Exception
+     */
+    public function getAll()
+    {
+        $stmt = $this->db->prepare("SELECT a.*, b.student_number, b.name AS username 
+                                FROM photo a , user_info b
+                                GROUP BY a.uid");
+        if($stmt->execute()){
+            $result = $stmt->fetchAll();
             if($result !== false){
                 return $result;
             }else{
@@ -33,21 +54,21 @@ class Photo extends Model{
     }
 
     public function add($data, $uid = 0){
-        $stmp = $this->db->prepare("INSERT INTO photo (uid, name, extension, mime, size, md5, dir) VALUES (:uid, :name, :extension, :mime, :size, :md5, :dir)");
-        $stmp->bindParam(':uid', $uid);
-        $stmp->bindParam(':name', $name);
-        $stmp->bindParam(':extension', $extension);
-        $stmp->bindParam(':mime', $mime);
-        $stmp->bindParam(':size', $size);
-        $stmp->bindParam(':md5', $md5);
-        $stmp->bindParam(':dir', $dir);
+        $stmt = $this->db->prepare("INSERT INTO photo (uid, name, extension, mime, size, md5, dir) VALUES (:uid, :name, :extension, :mime, :size, :md5, :dir)");
+        $stmt->bindParam(':uid', $uid);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':extension', $extension);
+        $stmt->bindParam(':mime', $mime);
+        $stmt->bindParam(':size', $size);
+        $stmt->bindParam(':md5', $md5);
+        $stmt->bindParam(':dir', $dir);
         $name = $data['name'];
         $extension = $data['extension'];
         $mime = $data['mime'];
         $size = $data['size'];
         $md5 = $data['md5'];
         $dir = $data['dir'];
-        if($stmp->execute()){
+        if($stmt->execute()){
             return true;
         }else{
             throw new \Exception('数据库操作失败', 500);
@@ -55,21 +76,21 @@ class Photo extends Model{
     }
 
     public function update($uid, $data){
-        $stmp = $this->db->prepare("UPDATE photo SET name = :name, extension = :extension, mime = :mime, size = :size, md5 = :md5, dir = :dir WHERE uid = :uid LIMIT 1");
-        $stmp->bindParam(':uid', $uid);
-        $stmp->bindParam(':name', $name);
-        $stmp->bindParam(':extension', $extension);
-        $stmp->bindParam(':mime', $mime);
-        $stmp->bindParam(':size', $size);
-        $stmp->bindParam(':md5', $md5);
-        $stmp->bindParam(':dir', $dir);
+        $stmt = $this->db->prepare("UPDATE photo SET name = :name, extension = :extension, mime = :mime, size = :size, md5 = :md5, dir = :dir WHERE uid = :uid LIMIT 1");
+        $stmt->bindParam(':uid', $uid);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':extension', $extension);
+        $stmt->bindParam(':mime', $mime);
+        $stmt->bindParam(':size', $size);
+        $stmt->bindParam(':md5', $md5);
+        $stmt->bindParam(':dir', $dir);
         $name = $data['name'];
         $extension = $data['extension'];
         $mime = $data['mime'];
         $size = $data['size'];
         $md5 = $data['md5'];
         $dir = $data['dir'];
-        if($stmp->execute()){
+        if($stmt->execute()){
             return true;
         }else{
             throw new \Exception('数据库查询失败', 500);
@@ -77,10 +98,10 @@ class Photo extends Model{
     }
 
     public function setUser($id, $uid){
-        $stmp = $this->db->prepare("UPDATE photo SET uid = :uid WHERE id = :id LIMIT 1");
-        $stmp->bindParam(':id', $id);
-        $stmp->bindParam(':uid', $uid);
-        if($stmp->execute()){
+        $stmt = $this->db->prepare("UPDATE photo SET uid = :uid WHERE id = :id LIMIT 1");
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':uid', $uid);
+        if($stmt->execute()){
             return true;
         }else{
             throw new \Exception('数据库查询失败', 500);
@@ -88,10 +109,10 @@ class Photo extends Model{
     }
 
     public function checkHas($uid){
-        $stmp = $this->db->prepare("SELECT COUNT(*) FROM photo WHERE uid = :uid LIMIT 1");
-        $stmp->bindParam(':uid', $uid);
-        if($stmp->execute()){
-            $result = $stmp->fetch();
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM photo WHERE uid = :uid LIMIT 1");
+        $stmt->bindParam(':uid', $uid);
+        if($stmt->execute()){
+            $result = $stmt->fetch();
             if($result !== false){
                 if($result[0] > 0){
                     return true;

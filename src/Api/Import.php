@@ -56,8 +56,6 @@ class Import extends Api{
                 ->worksheet(0)
                 ->area(1)
                 ->getValue();
-                // $userinfo = new Model\UserInfo;
-                // $userinfo->import($result[0]);
                 $enroll = new Model\Enroll();
                 $enroll->importPay($result[0]);
                 $this->result['status'] = 201;

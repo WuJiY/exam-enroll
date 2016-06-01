@@ -49,4 +49,32 @@ class Enroll extends Api{
         }
         $this->sendJson();
     }
+
+    /**
+     * @api
+     */
+    public function setPayStatus()
+    {
+        $id = $_POST['id'] ? : null;
+        $pay_status = isset($_POST['pay_status']) ? intval($_POST['pay_status']) : null;
+        if(is_null($id) || is_null($pay_status)){
+            $this->invalid_request();
+        }
+        try{
+            $enroll = new Model\Enroll();
+            if(Model\Enroll::PAYED == $pay_status){
+                $enroll->setPayStatus($id, Model\Enroll::PAYED);
+            }elseif(Model\Enroll::NOT_PAYED == $pay_status){
+                $enroll->setPayStatus($id, Model\Enroll::PAYED);
+            }else{
+                $this->invalid_request();
+            }
+            $this->result['status'] = parent::CREATED;
+            $this->result['data'] = '修改缴费状态成功';
+        }catch(\Exception $e){
+            $this->result['status'] = $e->getCode();
+            $this->result['data'] = $e->getMessage();
+        }
+        $this->sendJson();
+    }
 }

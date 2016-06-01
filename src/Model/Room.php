@@ -19,13 +19,13 @@ class Room extends Model{
 
     public function add($location, $code, $title, $volume, $status = self::INUSE){
         $this->validateCode($code);
-        $stmp = $this->db->prepare("INSERT INTO room (location, code, title, volume, status) VALUES (:location, :code, :title, :volume, :status)");
-        $stmp->bindParam(':location', $location);
-        $stmp->bindParam(':code', $code);
-        $stmp->bindParam(':title', $title);
-        $stmp->bindParam(':volume', $volume);
-        $stmp->bindValue(':status', $status);
-        if($stmp->execute()){
+        $stmt = $this->db->prepare("INSERT INTO room (location, code, title, volume, status) VALUES (:location, :code, :title, :volume, :status)");
+        $stmt->bindParam(':location', $location);
+        $stmt->bindParam(':code', $code);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':volume', $volume);
+        $stmt->bindValue(':status', $status);
+        if($stmt->execute()){
             return true;
         }else{
             throw new \Exception('未知原因导致的服务器错误', 500);
@@ -34,14 +34,14 @@ class Room extends Model{
 
     public function update($id, $location, $code, $title, $volume, $status = self::INUSE){
         $this->validateCode($code);
-        $stmp = $this->db->prepare("UPDATE room SET location=:location, code=:code, title=:title, volume=:volume, status=:status WHERE id = :id LIMIT 1");
-        $stmp->bindParam(':id', $id);
-        $stmp->bindParam(':location', $location);
-        $stmp->bindParam(':code', $code);
-        $stmp->bindParam(':title', $title);
-        $stmp->bindParam(':volume', $volume);
-        $stmp->bindValue(':status', $status);
-        if($stmp->execute()){
+        $stmt = $this->db->prepare("UPDATE room SET location=:location, code=:code, title=:title, volume=:volume, status=:status WHERE id = :id LIMIT 1");
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':location', $location);
+        $stmt->bindParam(':code', $code);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':volume', $volume);
+        $stmt->bindValue(':status', $status);
+        if($stmt->execute()){
             return true;
         }else{
             throw new \Exception('未知原因导致的服务器错误', 500);
@@ -49,10 +49,10 @@ class Room extends Model{
     }
 
     public function delete($id){
-        $stmp = $this->db->prepare("UPDATE room SET status = :status WHERE id = :id");
-        $stmp->bindValue(':status', self::DELETED, \PDO::PARAM_INT);
-        $stmp->bindParam(':id', $id);
-        if($stmp->execute()){
+        $stmt = $this->db->prepare("UPDATE room SET status = :status WHERE id = :id");
+        $stmt->bindValue(':status', self::DELETED, \PDO::PARAM_INT);
+        $stmt->bindParam(':id', $id);
+        if($stmt->execute()){
             return true;
         }else{
             throw new \Exception('未知原因导致的服务器错误', 500);
@@ -63,11 +63,11 @@ class Room extends Model{
         if($id == 0){
             throw new \Exception('请求的教学楼信息不存在', 404);
         }
-        $stmp = $this->db->prepare("SELECT * FROM room WHERE id = :id AND status = :status");
-        $stmp->bindParam(':id', $id);
-        $stmp->bindValue(':status', self::INUSE);
-        if($stmp->execute()){
-            $result = $stmp->fetch();
+        $stmt = $this->db->prepare("SELECT * FROM room WHERE id = :id AND status = :status");
+        $stmt->bindParam(':id', $id);
+        $stmt->bindValue(':status', self::INUSE);
+        if($stmt->execute()){
+            $result = $stmt->fetch();
             if($result != false){
                 if(!empty($result)){
                     return $result;
@@ -83,12 +83,12 @@ class Room extends Model{
     }
 
     public function queryAllLimit($start, $num){
-        $stmp = $this->db->prepare("SELECT a.id, a.code, a.title, a.volume, b.name FROM room a LEFT JOIN building b ON a.location = b.id WHERE a.status = :status LIMIT :start,:num");
-        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
-        $stmp->bindValue(':start', $start, \PDO::PARAM_INT);
-        $stmp->bindValue(':num', $num, \PDO::PARAM_INT);
-        if($stmp->execute()){
-            $result = $stmp->fetchAll();
+        $stmt = $this->db->prepare("SELECT a.id, a.code, a.title, a.volume, b.name FROM room a LEFT JOIN building b ON a.location = b.id WHERE a.status = :status LIMIT :start,:num");
+        $stmt->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
+        $stmt->bindValue(':start', $start, \PDO::PARAM_INT);
+        $stmt->bindValue(':num', $num, \PDO::PARAM_INT);
+        if($stmt->execute()){
+            $result = $stmt->fetchAll();
             if($result !== false){
                 return $result;
             }else{

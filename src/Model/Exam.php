@@ -47,10 +47,10 @@ class Exam extends Model{
     }
 
     public function setEnrollState($id, $status){
-        $stmp = $this->db->prepare("UPDATE exam SET enroll_status = :enroll_status WHERE id = :id LIMIT 1");
-        $stmp->bindParam(':id', intval($id));
-        $stmp->bindValue(':enroll_status', $status == 1 ? 1 : 0, \PDO::PARAM_INT);
-        if($stmp->execute()){
+        $stmt = $this->db->prepare("UPDATE exam SET enroll_status = :enroll_status WHERE id = :id LIMIT 1");
+        $stmt->bindParam(':id', intval($id));
+        $stmt->bindValue(':enroll_status', $status == 1 ? 1 : 0, \PDO::PARAM_INT);
+        if($stmt->execute()){
             return true;
         }else{
             throw new \Exception('未知原因导致的状态修改失败', 500);
@@ -58,10 +58,10 @@ class Exam extends Model{
     }
 
     public function setScoreState($id, $status){
-        $stmp = $this->db->prepare("UPDATE exam SET score_status = :score_status WHERE id = :id LIMIT 1");
-        $stmp->bindParam(':id', $id);
-        $stmp->bindValue(':score_status', $status == 1 ? 1 : 0, \PDO::PARAM_INT);
-        if($stmp->execute()){
+        $stmt = $this->db->prepare("UPDATE exam SET score_status = :score_status WHERE id = :id LIMIT 1");
+        $stmt->bindParam(':id', $id);
+        $stmt->bindValue(':score_status', $status == 1 ? 1 : 0, \PDO::PARAM_INT);
+        if($stmt->execute()){
             return true;
         }else{
             throw new \Exception('未知原因导致的状态修改失败', 500);
@@ -70,14 +70,14 @@ class Exam extends Model{
 
     public function add($name, $type, $title, $exam_time){
         $this->checkType($type);
-        $stmp = $this->db->prepare("INSERT INTO exam (name, type, title, update_time, exam_time, status) VALUES (:name, :type, :title, :update_time, :exam_time, :status)");
-        $stmp->bindParam(':name', $name);
-        $stmp->bindParam(':type', $type);
-        $stmp->bindParam(':title', $title);
-        $stmp->bindValue(':update_time', date('YmdHis', time()));
-        $stmp->bindParam(':exam_time', $exam_time);
-        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
-        if($stmp->execute()){
+        $stmt = $this->db->prepare("INSERT INTO exam (name, type, title, update_time, exam_time, status) VALUES (:name, :type, :title, :update_time, :exam_time, :status)");
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':type', $type);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindValue(':update_time', date('YmdHis', time()));
+        $stmt->bindParam(':exam_time', $exam_time);
+        $stmt->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
+        if($stmt->execute()){
             return true;
         }else{
             throw new \Exception('未知原因导致的新增考试失败', 500);
@@ -86,14 +86,14 @@ class Exam extends Model{
 
     public function update($id, $name, $type, $title, $exam_time){
         $this->checkType($type);
-        $stmp = $this->db->prepare("UPDATE exam SET name = :name, type = :type, title = :title, update_time = :update_time, exam_time = :exam_time WHERE id = :id LIMIT 1");
-        $stmp->bindParam(':name', $name);
-        $stmp->bindParam(':type', $type);
-        $stmp->bindParam(':title', $title);
-        $stmp->bindValue(':update_time', date('YmdHis', time()));
-        $stmp->bindParam(':exam_time', $exam_time);
-        $stmp->bindValue(':id', $id, \PDO::PARAM_INT);
-        if($stmp->execute()){
+        $stmt = $this->db->prepare("UPDATE exam SET name = :name, type = :type, title = :title, update_time = :update_time, exam_time = :exam_time WHERE id = :id LIMIT 1");
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':type', $type);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindValue(':update_time', date('YmdHis', time()));
+        $stmt->bindParam(':exam_time', $exam_time);
+        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+        if($stmt->execute()){
             return true;
         }else{
             throw new \Exception('未知原因导致的新增考试失败', 500);
@@ -119,10 +119,10 @@ class Exam extends Model{
         if($id == 0){
             throw new \Exception('请求的考试信息不存在', 404);
         }
-        $stmp = $this->db->prepare("SELECT * FROM exam WHERE id = :id LIMIT 1");
-        $stmp->bindValue(':id', $id, \PDO::PARAM_INT);
-        if($stmp->execute()){
-            $result = $stmp->fetch();
+        $stmt = $this->db->prepare("SELECT * FROM exam WHERE id = :id LIMIT 1");
+        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+        if($stmt->execute()){
+            $result = $stmt->fetch();
             if($result != false){
                 if(!empty($result)){
                     return $result;
@@ -138,12 +138,12 @@ class Exam extends Model{
     }
 
     public function queryAllLimit($start, $num){
-        $stmp = $this->db->prepare("SELECT * FROM exam WHERE status = :status LIMIT :start,:num");
-        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
-        $stmp->bindValue(':start', $start, \PDO::PARAM_INT);
-        $stmp->bindValue(':num', $num, \PDO::PARAM_INT);
-        if($stmp->execute()){
-            $result = $stmp->fetchAll();
+        $stmt = $this->db->prepare("SELECT * FROM exam WHERE status = :status LIMIT :start,:num");
+        $stmt->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
+        $stmt->bindValue(':start', $start, \PDO::PARAM_INT);
+        $stmt->bindValue(':num', $num, \PDO::PARAM_INT);
+        if($stmt->execute()){
+            $result = $stmt->fetchAll();
             if($result !== false){
                 return $result;
             }else{
@@ -158,11 +158,11 @@ class Exam extends Model{
      * 查询所有可以报名的数据
     */
     public function queryAllEnrollable(){
-        $stmp = $this->db->prepare("SELECT a.id, a.name, a.type, a.exam_time, a.title, b.enroll_status FROM exam a LEFT JOIN enroll b ON b.exam_id = a.id WHERE a.status = :status AND a.enroll_status = :enroll_status");
-        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
-        $stmp->bindValue(':enroll_status', 1, \PDO::PARAM_INT);
-        if($stmp->execute()){
-            $result = $stmp->fetchAll();
+        $stmt = $this->db->prepare("SELECT a.id, a.name, a.type, a.exam_time, a.title, b.enroll_status FROM exam a LEFT JOIN enroll b ON b.exam_id = a.id WHERE a.status = :status AND a.enroll_status = :enroll_status");
+        $stmt->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
+        $stmt->bindValue(':enroll_status', 1, \PDO::PARAM_INT);
+        if($stmt->execute()){
+            $result = $stmt->fetchAll();
             if($result !== false){
                 return $result;
             }else{
@@ -174,10 +174,10 @@ class Exam extends Model{
     }
 
     public function queryAll(){
-        $stmp = $this->db->prepare("SELECT id, name, exam_time FROM exam WHERE status = :status");
-        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
-        if($stmp->execute()){
-            $result = $stmp->fetchAll();
+        $stmt = $this->db->prepare("SELECT id, name, exam_time FROM exam WHERE status = :status");
+        $stmt->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
+        if($stmt->execute()){
+            $result = $stmt->fetchAll();
             if($result !== false){
                 return $result;
             }else{
@@ -192,10 +192,10 @@ class Exam extends Model{
         if($id == 0){
             throw new \Exception('请求的数据不存在', 404);
         }
-        $stmp = $this->db->prepare("UPDATE exam SET status = :status WHERE id = :id");
-        $stmp->bindValue(':status', self::DELETED, \PDO::PARAM_INT);
-        $stmp->bindParam(':id', $id);
-        if($stmp->execute()){
+        $stmt = $this->db->prepare("UPDATE exam SET status = :status WHERE id = :id");
+        $stmt->bindValue(':status', self::DELETED, \PDO::PARAM_INT);
+        $stmt->bindParam(':id', $id);
+        if($stmt->execute()){
             return true;
         }else{
             return false;

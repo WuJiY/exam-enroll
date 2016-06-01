@@ -76,30 +76,16 @@ $(function () {
             progress + '%'
         );
     }).on('fileuploaddone', function (e, data) {
-        // $.each(data.result.data, function (index, file) {
-        //     if (file.url) {
-        //         var link = $('<a>')
-        //             .attr('target', '_blank')
-        //             .prop('href', file.url);
-        //         $(data.context.children()[index])
-        //             .wrap(link);
-        //     } else if (file.error) {
-        //         var error = $('<span class="text-error"/>').text(file.error);
-        //         $(data.context.children()[index])
-        //             .append('<br>')
-        //             .append(error);
-        //     }
-        // });
-
         $.each(data.files, function (index) {
             var error = $('<span class="text-success"/>').text('文件上传成功。');
             $(data.context.children()[index])
                 .append('<br>')
                 .append(error);
         });
+        console.log(data.result);
         $.each(data.result.data[0], function(index, result){
             console.log(result);
-            $('#results').append('<p>' + result.name + ":" +  result.operater_status +'</p>');
+            $('#results').append('<p>' + result.name + ":" +  result.opstatus +'</p>');
         });
 
     }).on('fileuploadfail', function (e, data) {

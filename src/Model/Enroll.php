@@ -26,14 +26,14 @@ class Enroll extends Model{
     const NOT_PAYED = 0;
 
     public function checkHave($exam_id, $uid){
-        $stmp = $this->db->prepare("SELECT id FROM enroll WHERE exam_id=:exam_id AND uid=:uid");
-        $stmp->bindParam(':uid', $uid);
-        $stmp->bindParam(':exam_id', $exam_id);
-        if($stmp->execute()){
-            if($stmp->rowCount() == 0){
+        $stmt = $this->db->prepare("SELECT id FROM enroll WHERE exam_id=:exam_id AND uid=:uid");
+        $stmt->bindParam(':uid', $uid);
+        $stmt->bindParam(':exam_id', $exam_id);
+        if($stmt->execute()){
+            if($stmt->rowCount() == 0){
                 return false;   // 表示没有该记录
             }
-            $result = $stmp->fetch();
+            $result = $stmt->fetch();
             if($result === false){
                 throw new \Exception('数据库查询失败', 500);
             }else{
@@ -45,14 +45,14 @@ class Enroll extends Model{
     }
 
     public function add($exam_id, $uid, $enroll_status = self::ENROLLED, $pay_status = self::NOT_PAYED, $status = self::INUSE){
-        $stmp = $this->db->prepare("INSERT INTO enroll (exam_id, uid, update_time, status, enroll_status, pay_status) VALUES (:exam_id, :uid, :update_time, :status, :enroll_status, :pay_status)");
-        $stmp->bindParam(':exam_id', $exam_id);
-        $stmp->bindParam(':uid', $uid);
-        $stmp->bindValue(':update_time', time());
-        $stmp->bindParam(':status', $status);
-        $stmp->bindParam(':enroll_status', $enroll_status);
-        $stmp->bindParam(':pay_status', $pay_status);
-        if($stmp->execute()){
+        $stmt = $this->db->prepare("INSERT INTO enroll (exam_id, uid, update_time, status, enroll_status, pay_status) VALUES (:exam_id, :uid, :update_time, :status, :enroll_status, :pay_status)");
+        $stmt->bindParam(':exam_id', $exam_id);
+        $stmt->bindParam(':uid', $uid);
+        $stmt->bindValue(':update_time', time());
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':enroll_status', $enroll_status);
+        $stmt->bindParam(':pay_status', $pay_status);
+        if($stmt->execute()){
             return true;
         }else{
             throw new \Exception('未知原因导致的新增报名信息失败', 500);
@@ -60,27 +60,41 @@ class Enroll extends Model{
     }
 
     public function setEnrollStatus($id, $status){
-        $stmp = $this->db->prepare("UPDATE enroll SET enroll_status = :enroll_status WHERE id = :id LIMIT 1");
-        $stmp->bindParam(':id', $id);
-        $stmp->bindParam(':enroll_status', $status);
-        if($stmp->execute()){
+        $stmt = $this->db->prepare("UPDATE enroll SET enroll_status = :enroll_status WHERE id = :id LIMIT 1");
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':enroll_status', $status);
+        if($stmt->execute()){
             return true;
         }else{
             throw new \Exception('未知原因导致的设置报名状态失败', 500);
         }
     }
 
-    public function importPay(){
-        $stmp = $this->db->prepare("UPDATE ");
+    public function importPay(&$data){
+        $stmt = $this->db->prepare("UPDATE enroll SET pay_status = :paystatus WHERE id = :id LIMIT 1");
+        foreach ($data as &$value){
+            if($value['ispay'] == '是' || $value['ispay'] == '已缴费'){
+                $stmt->bindValue('paystatus', self::PAYED);
+            }else{
+                $stmt->bindValue('paystatus', self::NOT_PAYED);
+            }
+            $stmt->bindValue('id', $value['id']);
+            if($stmt->execute()){
+                $value['opstatus'] = 'success';
+            }else{
+                $value['opstatus'] = 'error';
+            }
+        }
+        unset($value);
     }
 
     public function setEnrollStatusStudent($id, $status, $uid){
-        $stmp = $this->db->prepare("UPDATE enroll, exam SET enroll.enroll_status = :enroll_status WHERE enroll.id = :id AND enroll.exam_id = exam.id AND enroll.uid = :uid AND exam.enroll_status = 1");
-        $stmp->bindParam(':id', $id);
-        $stmp->bindParam(':enroll_status', $status);
-        $stmp->bindParam(':uid', $uid);
-        if($stmp->execute()){
-            if($stmp->rowCount() == 0){
+        $stmt = $this->db->prepare("UPDATE enroll, exam SET enroll.enroll_status = :enroll_status WHERE enroll.id = :id AND enroll.exam_id = exam.id AND enroll.uid = :uid AND exam.enroll_status = 1");
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':enroll_status', $status);
+        $stmt->bindParam(':uid', $uid);
+        if($stmt->execute()){
+            if($stmt->rowCount() == 0){
                 throw new \Exception('取消失败，可能是由于当前不在报名期', 403);
             }else{
                 return true;
@@ -91,15 +105,31 @@ class Enroll extends Model{
         }
     }
 
+    /**
+     * @param Int $pay_status
+     * @param Int $id
+     */
+    public function setPayStatus($id, $pay_status)
+    {
+        $stmt = $this->db->prepare("UPDATE enroll SET pay_status = :pay_status WHERE id = :id LIMIT 1");
+        $stmt->bindParam('pay_status', $pay_status);
+        $stmt->bindParam('id', $id);
+        if($stmt->execute()){
+            return true;
+        }else{
+            throw new \Exception('未知原因导致的设置报名状态失败', 500);
+        }
+    }
+
     public function queryAllUserLimit($uid, $start, $num){
-        $stmp = $this->db->prepare("SELECT a.*, b.name, b.exam_time FROM enroll a LEFT JOIN exam b ON b.id = a.exam_id WHERE a.uid = :uid AND a.status = :status AND a.enroll_status = :enroll_status LIMIT :start, :num");
-        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
-        $stmp->bindValue(':start', $start, \PDO::PARAM_INT);
-        $stmp->bindValue(':num', $num, \PDO::PARAM_INT);
-        $stmp->bindParam(':uid', $uid);
-        $stmp->bindValue(':enroll_status', self::ENROLLED, \PDO::PARAM_INT);
-        if($stmp->execute()){
-            $result = $stmp->fetchAll();
+        $stmt = $this->db->prepare("SELECT a.*, b.name, b.exam_time FROM enroll a LEFT JOIN exam b ON b.id = a.exam_id WHERE a.uid = :uid AND a.status = :status AND a.enroll_status = :enroll_status LIMIT :start, :num");
+        $stmt->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
+        $stmt->bindValue(':start', $start, \PDO::PARAM_INT);
+        $stmt->bindValue(':num', $num, \PDO::PARAM_INT);
+        $stmt->bindParam(':uid', $uid);
+        $stmt->bindValue(':enroll_status', self::ENROLLED, \PDO::PARAM_INT);
+        if($stmt->execute()){
+            $result = $stmt->fetchAll();
             if($result === false){
                 throw new \Exception('数据库查询失败', 500);
             }else{
@@ -110,13 +140,17 @@ class Enroll extends Model{
         }
     }
 
-    public function getCountUser($uid){
-        $stmp = $this->db->prepare("SELECT COUNT(*) FROM enroll WHERE uid = :uid AND status = :status AND enroll_status = :enroll_status");
-        $stmp->bindParam(':uid', $uid);
-        $stmp->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
-        $stmp->bindValue(':enroll_status', self::ENROLLED, \PDO::PARAM_INT);
-        if($stmp->execute()){
-            $result = $stmp->fetch();
+    public function getCountUser($uid = 0){
+        if ($uid == 0){
+            $stmt = $this->db->prepare("SELECT COUNT(*) FROM enroll WHERE status = :status AND enroll_status = :enroll_status");
+        }else{
+            $stmt = $this->db->prepare("SELECT COUNT(*) FROM enroll WHERE uid = :uid AND status = :status AND enroll_status = :enroll_status");
+            $stmt->bindParam(':uid', $uid);
+        }
+        $stmt->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
+        $stmt->bindValue(':enroll_status', self::ENROLLED, \PDO::PARAM_INT);
+        if($stmt->execute()){
+            $result = $stmt->fetch();
             if($result === false){
                 throw new \Exception('数据库查询失败', 500);
             }else{
@@ -127,8 +161,12 @@ class Enroll extends Model{
         }
     }
 
+    public function getCount(){
+        return $this->getCountUser(0);
+    }
+
     public function getExportData(Array $exams){
-        $stmp = $this
+        $stmt = $this
         ->db
         ->prepare("SELECT a.id, a.pay_status, b.student_number, b.name, b.sex, b.nation, b.id_card_number, b.telephone_number, b.college, b.grade, b.major, b.class, b.status, c.type
              FROM enroll a
@@ -136,10 +174,10 @@ class Enroll extends Model{
              LEFT JOIN exam c ON c.id = a.exam_id
              WHERE a.exam_id IN (:exams)
              AND a.enroll_status = :enroll_status");
-        $stmp->bindValue(':exams', implode(',', $exams));
-        $stmp->bindValue(':enroll_status', self::ENROLLED, \PDO::PARAM_INT);
-        if($stmp->execute()){
-            $result = $stmp->fetchAll();
+        $stmt->bindValue(':exams', implode(',', $exams));
+        $stmt->bindValue(':enroll_status', self::ENROLLED, \PDO::PARAM_INT);
+        if($stmt->execute()){
+            $result = $stmt->fetchAll();
             if($result === false){
                 throw new \Exception('数据库查询失败', 500);
             }else{
@@ -151,17 +189,43 @@ class Enroll extends Model{
     }
 
     public function getExportDatas(Array $exams){
-        $stmp = $this
+        $stmt = $this
         ->db
-        ->prepare("SELECT a.uid AS id, GROUP_CONCAT(b.type) AS enrolled, c.student_number, c.name, c.sex, c.nation, c.id_card_number, c.telephone_number, c.college, c.grade, c.major, c.class
+        ->prepare("SELECT a.id AS id, b.type AS type, c.student_number, c.name, c.sex, c.nation, c.id_card_number, c.telephone_number, c.college, c.grade, c.major, c.class
         FROM (enroll a,exam b)
         LEFT JOIN user_info c ON c.uid = a.uid
         WHERE a.exam_id = b.id AND a.exam_id IN (:exams) AND a.enroll_status = :enroll_status
-        GROUP BY a.uid");
-        $stmp->bindValue(':exams', implode(',', $exams));
-        $stmp->bindValue(':enroll_status', self::ENROLLED, \PDO::PARAM_INT);
-        if($stmp->execute()){
-            $result = $stmp->fetchAll();
+        ORDER BY a.uid");
+        $stmt->bindValue(':exams', implode(',', $exams));
+        $stmt->bindValue(':enroll_status', self::ENROLLED, \PDO::PARAM_INT);
+        if($stmt->execute()){
+            $result = $stmt->fetchAll();
+            if($result === false){
+                throw new \Exception('数据库查询失败', 500);
+            }else{
+                return $result;
+            }
+        }else{
+            throw new \Exception('数据库查询失败1', 500);
+        }
+    }
+
+    /**
+     * @return Object
+     */
+    public function getPayInfoLimit($start, $num)
+    {
+        $stmt = $this->db->prepare("SELECT a.pay_status, a.id, a.uid, b.name, b.student_number, b.id_card_number, b.telephone_number, b.college, b.grade, b.major, b.class
+                  FROM enroll a
+                  LEFT JOIN user_info b ON a.uid = b.uid
+                  WHERE a.status = :status AND a.enroll_status = :enroll_status
+                  LIMIT :start, :num");
+        $stmt->bindValue('status', self::INUSE);
+        $stmt->bindParam(':start', $start, \PDO::PARAM_INT);
+        $stmt->bindParam(':num', $num, \PDO::PARAM_INT);
+        $stmt->bindValue(':enroll_status', self::ENROLLED, \PDO::PARAM_INT);
+        if($stmt->execute()){
+            $result = $stmt->fetchAll();
             if($result === false){
                 throw new \Exception('数据库查询失败', 500);
             }else{

@@ -29,11 +29,11 @@ class User extends Model{
         $this->validate_username($username);
         $this->validate_password($password);
         $this->encrypt($password);
-        $stmp = $this->db->prepare("INSERT INTO user (username, password, role) VALUES (:username, :password, :role)");
-        $stmp->bindParam(':username', $username);
-        $stmp->bindParam(':password', $password);
-        $stmp->bindParam(':role', $role);
-        if($stmp->execute()){
+        $stmt = $this->db->prepare("INSERT INTO user (username, password, role) VALUES (:username, :password, :role)");
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':role', $role);
+        if($stmt->execute()){
             return true;
         }else{
             return false;
@@ -55,12 +55,12 @@ class User extends Model{
         $this->validate_username($username);
         $this->validate_password($password);
         $this->encrypt($password);
-        $stmp = $this->db->prepare("UPDATE user SET username=:username , password=:password, role=:role WHERE id=:id");
-        $stmp->bindParam(':username', $username);
-        $stmp->bindParam(':password', $password);
-        $stmp->bindParam(':role', $role);
-        $stmp->bindParam(':id', $id);
-        if($stmp->execute()){
+        $stmt = $this->db->prepare("UPDATE user SET username=:username , password=:password, role=:role WHERE id=:id");
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':role', $role);
+        $stmt->bindParam(':id', $id);
+        if($stmt->execute()){
             return true;
         }else{
             return false;
@@ -80,14 +80,14 @@ class User extends Model{
         }
         if($id == 0){
             // Delete row by $username
-            $stmp = $this->db->prepare("DELETE FROM user WHERE username=:username");
-            $stmp->bindParam(':username', $username);
+            $stmt = $this->db->prepare("DELETE FROM user WHERE username=:username");
+            $stmt->bindParam(':username', $username);
         }else{
             // Delete row by $id
-            $stmp = $this->db->prepare("DELETE FROM user WHERE id=:id");
-            $stmp->bindParam(':id', $id);
+            $stmt = $this->db->prepare("DELETE FROM user WHERE id=:id");
+            $stmt->bindParam(':id', $id);
         }
-        if($stmp->execute()){
+        if($stmt->execute()){
             return true;
         }else{
             return false;
@@ -107,15 +107,15 @@ class User extends Model{
         }
         if($id == 0){
             // Query row by $username
-            $stmp = $this->db->prepare("SELECT * FROM user WHERE username=:username");
-            $stmp->bindParam(':username', $username);
+            $stmt = $this->db->prepare("SELECT * FROM user WHERE username=:username");
+            $stmt->bindParam(':username', $username);
         }else{
             // Query row by $id
-            $stmp = $this->db->prepare("SELECT * FROM user WHERE id=:id");
-            $stmp->bindParam(':id', $id);
+            $stmt = $this->db->prepare("SELECT * FROM user WHERE id=:id");
+            $stmt->bindParam(':id', $id);
         }
-        if($stmp->execute()){
-            return $stmp->fetch();
+        if($stmt->execute()){
+            return $stmt->fetch();
         }else{
             return false;
         }
@@ -132,16 +132,16 @@ class User extends Model{
         if(!is_numeric($id) || $id < 0){
             return false;
         }
-        $stmp = null;
+        $stmt = null;
         if($id == 0){
-            $stmp = $this->db->prepare("SELECT password FROM user WHERE username=:username");
-            $stmp->bindParam(':username', $username, \PDO::PARAM_STR);
+            $stmt = $this->db->prepare("SELECT password FROM user WHERE username=:username");
+            $stmt->bindParam(':username', $username, \PDO::PARAM_STR);
         }else{
-            $stmp = $this->db->prepare("SELECT password FROM user WHERE id=:id");
-            $stmp->bindParam(':id', $id);
+            $stmt = $this->db->prepare("SELECT password FROM user WHERE id=:id");
+            $stmt->bindParam(':id', $id);
         }
-        if($stmp->execute()){
-            return $stmp->fetch();
+        if($stmt->execute()){
+            return $stmt->fetch();
         }else{
             return false;
         }
