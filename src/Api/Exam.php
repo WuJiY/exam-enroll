@@ -118,5 +118,25 @@ class Exam extends Api{
         }
         $this->sendJson();
     }
+
+    /**
+     * 获取所有的考试项目
+     */
+    public function all_exams()
+    {
+        try{
+            $exam = new Model\Exam();
+            $result = $exam->queryAll();
+            $this->result['status'] = parent::OK;
+            $this->result['data'] = [
+                'desc'  =>  '考场信息获取成功',
+                'status'    =>  $result
+            ];
+        }catch(\Exception $e){
+            $this->result['status'] = $e->getCode();
+            $this->result['data'] = $e->getMessage();
+        }
+        $this->sendJson();
+    }
 }
 ?>

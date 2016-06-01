@@ -8,6 +8,7 @@
     <div class="navbar navbar-inner block-header">
     </div>
     <div class="block-content collapse in">
+        <!-- TODO 获取考场信息以及考试信息 -->
      <form class="form-horizontal">
               <fieldset>
         <legend>分配考场</legend>

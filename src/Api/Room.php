@@ -123,5 +123,55 @@ class Room extends Api{
         }
         $this->sendJson();
     }
+
+    /**
+     * 获取所有的考场信息
+     */
+    public function all_rooms(){
+        try{
+            $room = new Model\Room();
+            $result = $room->queryAll();
+            $this->result['status'] = parent::OK;
+            $this->result['data'] = [
+                'message'   =>  '成功获取到考场信息',
+                'data'  =>  $result
+            ];
+        }catch(\Exception $e){
+            $this->result['status'] = $e->getCode();
+            $this->result['data'] = $e->getMessage();
+        }
+        $this->sendJson();
+    }
+
+    /**
+     * 考场分配操作
+     */
+    public function allot()
+    {
+        $exams = isset($_POST['exams']) ? $_POST['exams'] : null;
+        $rooms = isset($_POST['rooms']) ? $_POST['rooms'] : null;
+        if(is_null($exams) || is_null($rooms)){
+            $this->invalid_request();
+        }
+        // TODO 获取报名且缴费的学生信息及总数。对学生根据学号排序
+
+        // TODO 获取考场信息及可容纳学生总数
+
+        // TODO 检测是否足够容纳这么多学生
+
+        // TODO 开始进行分配，考号规则为2016 0/1 25 0304 08 ,分别对应年份，每年的考次，教学楼编号，教室编号，座位流水号。
+    }
+
+    /**
+     * 导出准考证
+     * 可以传入学生uid导出一个学生，也可以传入学生uid数组导出多个学生，也可以传入考试项目id导出某个考试项目的学生，也可以传入考试项目数组导出多个考试项目的学生
+     */
+    public function export_tickets()
+    {
+        // TODO 获取输入信息并进行判断
+        // TODO 获取需要导出的学生信息的数组
+        // TODO 将数组传递给PDF操作类生成PDF文件
+        // TODO 返回文件下载链接
+    }
 }
 ?>

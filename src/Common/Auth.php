@@ -74,7 +74,10 @@ class Auth {
             '/\/index.php\/image/',
             '/\/index.php\/zip/',
             '/\/api.php\/import\/student_payinfo/',
-            '/\/api.php\/enroll\/pay_status/'
+            '/\/api.php\/enroll\/pay_status/',
+            '/\/api.php\/room\/all/',
+            '/\/api.php\/exam\/all/',
+            '/\/api.php\/exam\/allot/'
         ],
         'auth'  =>  [
             '/\/index.php\/auth/',

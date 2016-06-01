@@ -79,5 +79,7 @@ class Export extends Api{
         $this->result['data'] = '/index.php/download/' . 'photos.zip';
         $this->sendJson();
     }
+
+
 }
 ?>

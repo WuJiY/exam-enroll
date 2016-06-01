@@ -82,6 +82,28 @@ class Room extends Model{
         }
     }
 
+    /**
+     * 查询所有的教室信息
+     */
+    public function queryAll(){
+        $stmt = $this->db->prepare("SELECT a.id, a.code, a.title, a.volume, b.name, b.code AS building_code, b.title AS building_title
+            FROM room a
+            LEFT JOIN building b ON a.location = b.id
+            WHERE status = :status");
+        $stmt->bindValue(':status', self::INUSE);
+        if($stmt->execute()){
+            $result = $stmt->fetchAll();
+            if($result != false){
+                return $result;
+            }else{
+                throw new \Exception('数据库查询失败', 500);
+            }
+        }else {
+            throw new \Exception('数据库查询失败', 500);
+        }
+
+    }
+
     public function queryAllLimit($start, $num){
         $stmt = $this->db->prepare("SELECT a.id, a.code, a.title, a.volume, b.name FROM room a LEFT JOIN building b ON a.location = b.id WHERE a.status = :status LIMIT :start,:num");
         $stmt->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
