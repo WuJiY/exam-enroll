@@ -17,6 +17,15 @@ class Room extends Model{
     const INUSE = 0;
     const DELETED = 1;
 
+    /**
+     * @param $location
+     * @param $code
+     * @param $title
+     * @param $volume
+     * @param int $status
+     * @return bool
+     * @throws \Exception
+     */
     public function add($location, $code, $title, $volume, $status = self::INUSE){
         $this->validateCode($code);
         $stmt = $this->db->prepare("INSERT INTO room (location, code, title, volume, status) VALUES (:location, :code, :title, :volume, :status)");
@@ -32,6 +41,16 @@ class Room extends Model{
         }
     }
 
+    /**
+     * @param $id
+     * @param $location
+     * @param $code
+     * @param $title
+     * @param $volume
+     * @param int $status
+     * @return bool
+     * @throws \Exception
+     */
     public function update($id, $location, $code, $title, $volume, $status = self::INUSE){
         $this->validateCode($code);
         $stmt = $this->db->prepare("UPDATE room SET location=:location, code=:code, title=:title, volume=:volume, status=:status WHERE id = :id LIMIT 1");
@@ -48,6 +67,11 @@ class Room extends Model{
         }
     }
 
+    /**
+     * @param $id
+     * @return bool
+     * @throws \Exception
+     */
     public function delete($id){
         $stmt = $this->db->prepare("UPDATE room SET status = :status WHERE id = :id");
         $stmt->bindValue(':status', self::DELETED, \PDO::PARAM_INT);
@@ -59,6 +83,11 @@ class Room extends Model{
         }
     }
 
+    /**
+     * @param int $id
+     * @return mixed
+     * @throws \Exception
+     */
     public function query($id = 0){
         if($id == 0){
             throw new \Exception('请求的教学楼信息不存在', 404);
@@ -89,7 +118,7 @@ class Room extends Model{
         $stmt = $this->db->prepare("SELECT a.id, a.code, a.title, a.volume, b.name, b.code AS building_code, b.title AS building_title
             FROM room a
             LEFT JOIN building b ON a.location = b.id
-            WHERE status = :status");
+            WHERE a.status = :status");
         $stmt->bindValue(':status', self::INUSE);
         if($stmt->execute()){
             $result = $stmt->fetchAll();
@@ -104,6 +133,12 @@ class Room extends Model{
 
     }
 
+    /**
+     * @param $start
+     * @param $num
+     * @return array
+     * @throws \Exception
+     */
     public function queryAllLimit($start, $num){
         $stmt = $this->db->prepare("SELECT a.id, a.code, a.title, a.volume, b.name FROM room a LEFT JOIN building b ON a.location = b.id WHERE a.status = :status LIMIT :start,:num");
         $stmt->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
@@ -121,6 +156,10 @@ class Room extends Model{
         }
     }
 
+    /**
+     * @return int
+     * @throws \Exception
+     */
     public function getCount(){
         $result = $this
         ->db
@@ -136,10 +175,60 @@ class Room extends Model{
         }
     }
 
+    /**
+     * @param $code
+     * @throws \Exception
+     */
     private function validateCode(&$code){
         $code = intval($code);
         if($code > 9999 || $code < 1){
             throw new \Exception('教学楼编号必须在1~9999之间,前两位数表示楼层，后两位数表示教室流水号', 400);
+        }
+    }
+
+    /**
+     * @param array $rooms
+     * @return array
+     * @throws \Exception
+     */
+    public function queryRooms(array $rooms)
+    {
+        $stmt = $this->db->prepare("SELECT a.*, b.code AS building_code FROM room a
+ LEFT JOIN building b ON a.location = b.id
+ WHERE a.id IN (:rooms) AND status = :status ORDER BY a.location ASC, a.code");
+        $stmt->bindValue('rooms', explode(',', $rooms));
+        $stmt->bindValue('status', self::INUSE);
+        if($stmt->execute()){
+            if($result = $stmt->fetchAll()){
+                return $result;
+            }else{
+                throw new \Exception('获取数据错误', 500);
+            }
+        }else{
+            throw new \Exception('数据库错误', 500);
+        }
+    }
+
+    /**
+     * @param array $rooms
+     * @return mixed
+     * @throws \Exception
+     */
+    public function queryVolumes(array $rooms)
+    {
+        $stmt = $this->db->prepare("SELECT count(volume) AS volumes FROM room
+ WHERE id IN (:rooms) AND ststus = :status
+ LIMIT 1");
+        $stmt->bindValue('rooms', explode(',', $rooms));
+        $stmt->bindValue('status', self::INUSE);
+        if($stmt->execute()){
+            $result = $stmt->fetch();
+            if($result === false){
+                throw new \Exception('获取数据错误');
+            }
+            return $result;
+        }else{
+            throw new \Exception('数据库错误', 500);
         }
     }
 }

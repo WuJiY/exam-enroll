@@ -25,6 +25,12 @@ class Enroll extends Model{
     const PAYED = 1;
     const NOT_PAYED = 0;
 
+    /**
+     * @param $exam_id
+     * @param $uid
+     * @return bool
+     * @throws \Exception
+     */
     public function checkHave($exam_id, $uid){
         $stmt = $this->db->prepare("SELECT id FROM enroll WHERE exam_id=:exam_id AND uid=:uid");
         $stmt->bindParam(':uid', $uid);
@@ -44,6 +50,15 @@ class Enroll extends Model{
         }
     }
 
+    /**
+     * @param $exam_id
+     * @param $uid
+     * @param int $enroll_status
+     * @param int $pay_status
+     * @param int $status
+     * @return bool
+     * @throws \Exception
+     */
     public function add($exam_id, $uid, $enroll_status = self::ENROLLED, $pay_status = self::NOT_PAYED, $status = self::INUSE){
         $stmt = $this->db->prepare("INSERT INTO enroll (exam_id, uid, update_time, status, enroll_status, pay_status) VALUES (:exam_id, :uid, :update_time, :status, :enroll_status, :pay_status)");
         $stmt->bindParam(':exam_id', $exam_id);
@@ -59,6 +74,12 @@ class Enroll extends Model{
         }
     }
 
+    /**
+     * @param $id
+     * @param $status
+     * @return bool
+     * @throws \Exception
+     */
     public function setEnrollStatus($id, $status){
         $stmt = $this->db->prepare("UPDATE enroll SET enroll_status = :enroll_status WHERE id = :id LIMIT 1");
         $stmt->bindParam(':id', $id);
@@ -70,6 +91,9 @@ class Enroll extends Model{
         }
     }
 
+    /**
+     * @param $data
+     */
     public function importPay(&$data){
         $stmt = $this->db->prepare("UPDATE enroll SET pay_status = :paystatus WHERE id = :id LIMIT 1");
         foreach ($data as &$value){
@@ -88,6 +112,13 @@ class Enroll extends Model{
         unset($value);
     }
 
+    /**
+     * @param $id
+     * @param $status
+     * @param $uid
+     * @return bool
+     * @throws \Exception
+     */
     public function setEnrollStatusStudent($id, $status, $uid){
         $stmt = $this->db->prepare("UPDATE enroll, exam SET enroll.enroll_status = :enroll_status WHERE enroll.id = :id AND enroll.exam_id = exam.id AND enroll.uid = :uid AND exam.enroll_status = 1");
         $stmt->bindParam(':id', $id);
@@ -106,8 +137,10 @@ class Enroll extends Model{
     }
 
     /**
-     * @param Int $pay_status
      * @param Int $id
+     * @param Int $pay_status
+     * @return bool
+     * @throws \Exception
      */
     public function setPayStatus($id, $pay_status)
     {
@@ -121,6 +154,13 @@ class Enroll extends Model{
         }
     }
 
+    /**
+     * @param $uid
+     * @param $start
+     * @param $num
+     * @return array
+     * @throws \Exception
+     */
     public function queryAllUserLimit($uid, $start, $num){
         $stmt = $this->db->prepare("SELECT a.*, b.name, b.exam_time FROM enroll a LEFT JOIN exam b ON b.id = a.exam_id WHERE a.uid = :uid AND a.status = :status AND a.enroll_status = :enroll_status LIMIT :start, :num");
         $stmt->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
@@ -140,6 +180,11 @@ class Enroll extends Model{
         }
     }
 
+    /**
+     * @param int $uid
+     * @return mixed
+     * @throws \Exception
+     */
     public function getCountUser($uid = 0){
         if ($uid == 0){
             $stmt = $this->db->prepare("SELECT COUNT(*) FROM enroll WHERE status = :status AND enroll_status = :enroll_status");
@@ -161,10 +206,19 @@ class Enroll extends Model{
         }
     }
 
+    /**
+     * @return mixed
+     * @throws \Exception
+     */
     public function getCount(){
         return $this->getCountUser(0);
     }
 
+    /**
+     * @param array $exams
+     * @return array
+     * @throws \Exception
+     */
     public function getExportData(Array $exams){
         $stmt = $this
         ->db
@@ -188,6 +242,11 @@ class Enroll extends Model{
         }
     }
 
+    /**
+     * @param array $exams
+     * @return array
+     * @throws \Exception
+     */
     public function getExportDatas(Array $exams){
         $stmt = $this
         ->db
@@ -212,6 +271,7 @@ class Enroll extends Model{
 
     /**
      * @return Object
+     * @throws \Exception
      */
     public function getPayInfoLimit($start, $num)
     {
@@ -233,6 +293,33 @@ class Enroll extends Model{
             }
         }else{
             throw new \Exception('数据库查询失败1', 500);
+        }
+    }
+
+    /**
+     * 获取所有报名且缴费成功的用户信息，根据传入的参数决定
+     * @param $exams array
+     * @throws \Exception
+     * @return array 获取到的结果
+     */
+    public function queryPayUserInfo($exams)
+    {
+        $stmt = $this->db->prepare("SELECT a.*, b.student_number FROM enroll a
+            LEFT JOIN user_info b ON a.uid = b.uid 
+            WHERE exam_id IN (:exams) AND enroll_status = :enroll_status AND pay_status = :pay_status
+            ORDER BY b.student_number");
+        $stmt->bindValue('exams', explode(',', $exams));
+        $stmt->bindValue('enroll_status', self::ENROLLED);
+        $stmt->bindValue('pay_status', self::PAYED);
+        if($stmt->execute()){
+            $result = $stmt->fetchAll();
+            if($result === false){
+                throw new \Exception('获取数据集失败', 500);
+            }else{
+                return $result;
+            }
+        }else{
+            throw new \Exception('数据库查询失败', 500);
         }
     }
 }

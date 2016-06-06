@@ -174,7 +174,7 @@ class Exam extends Model{
     }
 
     public function queryAll(){
-        $stmt = $this->db->prepare("SELECT id, name, exam_time FROM exam WHERE status = :status");
+        $stmt = $this->db->prepare("SELECT id, name, exam_time, type FROM exam WHERE status = :status");
         $stmt->bindValue(':status', self::INUSE, \PDO::PARAM_INT);
         if($stmt->execute()){
             $result = $stmt->fetchAll();

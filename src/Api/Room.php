@@ -130,11 +130,11 @@ class Room extends Api{
     public function all_rooms(){
         try{
             $room = new Model\Room();
-            $result = $room->queryAll();
+            $results = $room->queryAll();
             $this->result['status'] = parent::OK;
             $this->result['data'] = [
-                'message'   =>  '成功获取到考场信息',
-                'data'  =>  $result
+                'message'   =>  '成功获取到考试项目信息',
+                'data'  =>  $results
             ];
         }catch(\Exception $e){
             $this->result['status'] = $e->getCode();
@@ -154,12 +154,51 @@ class Room extends Api{
             $this->invalid_request();
         }
         // TODO 获取报名且缴费的学生信息及总数。对学生根据学号排序
-
+        $enroll = new Model\Enroll();
+        $students = $enroll->queryPayUserInfo($exams);
         // TODO 获取考场信息及可容纳学生总数
-
+        $room = new Model\Room();
+        $room_list = $room->queryRooms($rooms);
+        $volume = $room->queryVolumes($rooms);
         // TODO 检测是否足够容纳这么多学生
-
+        if($volume < $students){
+            // 放不下这么多学生
+            $this->result['status'] = parent::OK;
+            $this->result['data'] = '选择的考场容纳不下这么多学生';
+            $this->sendJson();
+        }
         // TODO 开始进行分配，考号规则为2016 0/1 25 0304 08 ,分别对应年份，每年的考次，教学楼编号，教室编号，座位流水号。
+        $date = getdate();
+        $year = $date['year'];  // 考号的年份
+        $times = $date['mon'] > 6 ? '1' : '0';    // 考号的考次，根据月份决定
+        $exam_info = new Model\ExamInfo();
+        $result = [];
+        foreach ($room_list as $v){
+            list($building_code) = sscanf($v['building_code'], "%'02d");
+            list($room_code) = sscanf($v['code'], "%'04d");
+            for($i = 1; $i <= $v['volume']; $i++){
+                list($seat_number) = sscanf($i, "%'02d");
+                $exam_number = $year . $times . $building_code . $room_code . $seat_number;
+                $student = array_shift($students);
+                if(is_null($student)){
+                    // 学生已经全部分配完毕，跳出循环
+                    break 2;    // 跳出两层循环
+                }
+                try{
+                    $exam_info->add($exam_number, $student['uid'], $student['exam_id']);
+                    $result[$exam_number] = [
+                        $student,$v
+                    ];
+                }catch (\Exception $e){
+                    // 不继续抛出，忽略掉此学生继续进行分配
+                    // TODO 记录下情况
+                }
+            }
+        }
+        // 到此为止 终于分配完毕了，返回分配的数据给前台。
+        $this->result['status'] = parent::CREATED;
+        $this->result['data'] = $result;
+        $this->sendJson();
     }
 
     /**

@@ -130,7 +130,7 @@ class Exam extends Api{
             $this->result['status'] = parent::OK;
             $this->result['data'] = [
                 'desc'  =>  '考场信息获取成功',
-                'status'    =>  $result
+                'data'    =>  $result
             ];
         }catch(\Exception $e){
             $this->result['status'] = $e->getCode();
