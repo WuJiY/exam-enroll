@@ -13,6 +13,9 @@
         <li class="{if $left_nav_active eq 'allot'}active{/if}">
            <a href="/index.php/room/allot"><i class="icon-chevron-right"></i>分配考场</a>
         </li>
+        <li class="{if $left_nav_active eq 'allot_info'}active{/if}">
+            <a href="/index.php/allot_info"><i class="icon-chevron-right"></i>查看分配情况</a>
+        </li>
         <li>
           &nbsp
         </li>

@@ -77,7 +77,8 @@ class Auth {
             '/\/api.php\/enroll\/pay_status/',
             '/\/api.php\/room\/all/',
             '/\/api.php\/exam\/all/',
-            '/\/api.php\/exam\/allot/'
+            '/\/api.php\/exam\/allot/',
+            '/\/index.php\/allot_info/'
         ],
         'auth'  =>  [
             '/\/index.php\/auth/',

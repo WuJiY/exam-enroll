@@ -195,8 +195,8 @@ class Room extends Model{
     {
         $stmt = $this->db->prepare("SELECT a.*, b.code AS building_code FROM room a
  LEFT JOIN building b ON a.location = b.id
- WHERE a.id IN (:rooms) AND status = :status ORDER BY a.location ASC, a.code");
-        $stmt->bindValue('rooms', explode(',', $rooms));
+ WHERE a.id IN (:rooms) AND a.status = :status ORDER BY a.location ASC, a.code");
+        $stmt->bindValue('rooms', implode(',', $rooms));
         $stmt->bindValue('status', self::INUSE);
         if($stmt->execute()){
             if($result = $stmt->fetchAll()){
@@ -217,7 +217,7 @@ class Room extends Model{
     public function queryVolumes(array $rooms)
     {
         $stmt = $this->db->prepare("SELECT count(volume) AS volumes FROM room
- WHERE id IN (:rooms) AND ststus = :status
+ WHERE id IN (:rooms) AND status = :status
  LIMIT 1");
         $stmt->bindValue('rooms', explode(',', $rooms));
         $stmt->bindValue('status', self::INUSE);
@@ -228,7 +228,7 @@ class Room extends Model{
             }
             return $result;
         }else{
-            throw new \Exception('数据库错误', 500);
+            throw new \Exception('数据库错误1', 500);
         }
     }
 }

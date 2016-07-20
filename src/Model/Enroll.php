@@ -305,10 +305,10 @@ class Enroll extends Model{
     public function queryPayUserInfo($exams)
     {
         $stmt = $this->db->prepare("SELECT a.*, b.student_number FROM enroll a
-            LEFT JOIN user_info b ON a.uid = b.uid 
+            LEFT JOIN user_info b ON a.uid = b.uid
             WHERE exam_id IN (:exams) AND enroll_status = :enroll_status AND pay_status = :pay_status
             ORDER BY b.student_number");
-        $stmt->bindValue('exams', explode(',', $exams));
+        $stmt->bindValue('exams', implode(',', $exams));
         $stmt->bindValue('enroll_status', self::ENROLLED);
         $stmt->bindValue('pay_status', self::PAYED);
         if($stmt->execute()){

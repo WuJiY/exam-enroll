@@ -27,7 +27,6 @@ class Enroll extends Controller{
             $this->smarty->assign('current_page', $page->getCurrentPage());
             $this->smarty->assign('max_page_num', $page->getTotlePages());
             $this->smarty->assign('pages', $page->getPages());
-            $this->smarty->assign('data', $data);
         }catch(\Exception $e){
             $this->error($e->getMessage(), $e->getCode());
         }

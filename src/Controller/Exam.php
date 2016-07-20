@@ -4,6 +4,7 @@ namespace Kezhi\Controller;
 
 use Kezhi\Model as Model;
 use Kezhi\Lib as Lib;
+use Kezhi\Lib\Page as Page;
 /**
  * 考试控制器
 */
@@ -48,6 +49,25 @@ class Exam extends Controller{
             $this->error($e->getMessage(), $e->getCode());
         }
         $this->display('exam_edit.tpl');
+    }
+
+    public function allot_info()
+    {
+        try{
+            $current_page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+            $exam_info = new Model\ExamInfo();
+            $page = new Page($exam_info->getCount(), $current_page);
+            $result = $exam_info->queryLimit($page->getCurrentNum(), $page->getPerPageNum());
+            $this->smarty->assign('data', $result);
+            $this->smarty->assign('current_page', $page->getCurrentPage());
+            $this->smarty->assign('max_page_num', $page->getTotlePages());
+            $this->smarty->assign('pages', $page->getPages());
+            $this->smarty->assign('left_nav_active', 'allot_info');
+            $this->display('allot_info.tpl');
+        }catch(\Exception $e){
+            throw $e;
+            $this->error($e->getMessage(), $e->getCode());
+        }
     }
 }
 ?>

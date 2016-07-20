@@ -41,6 +41,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('GET', '/index.php/photo/{uid:\d+}', 'Image\\getPhoto');
     $r->addRoute('POST', '/index.php/photo', 'Image\\upload');
     $r->addRoute('POST', '/index.php/zip', 'Zip\\upload');
+    $r->addRoute('GET', '/index.php/allot_info', 'Exam\\allot_info');
 
     $r->addRoute('GET', '/index.php/test/{id:\d+}', 'Import\\test');
 
@@ -75,8 +76,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r){
     $r->addRoute('POST', '/api.php/enroll/pay_status', 'api\\Enroll\\setPayStatus');
     $r->addRoute('POST', '/api.php/room/all', 'api\\Room\\all_rooms');  // 所有的考场信息从这里获取
     $r->addRoute('POST', '/api.php/exam/all', 'api\\Exam\\all_exams');  // 所有的考试项目从这里获取
-    $r->addRoute('POST', '/api.php/exam/allot', 'api\\Exam\\allot');    // 考场分配操作
-
+    $r->addRoute('POST', '/api.php/exam/allot', 'api\\Room\\allot');    // 考场分配操作
 
 });
 
